@@ -1,0 +1,20 @@
+<div class="page container">
+  <h1 class="page-title">{{ i18n.t('archive.title') }}</h1>
+  <p class="page-lead">{{ i18n.t('archive.lead') }}</p>
+
+  <div class="archive-grid">
+    <section class="card">
+      <h2>{{ i18n.t('archive.what.title') }}</h2>
+      <p class="muted">{{ i18n.t('archive.what.text') }}</p>
+      <p class="note muted">ℹ️ {{ i18n.t('archive.note') }}</p>
+      <div class="actions">
+        <a href="/archive/index.html" target="_blank" rel="noopener" class="btn primary">{{ i18n.t('archive.open') }} ↗</a>
+        <a href="/archive/playground/index.html" target="_blank" rel="noopener" class="btn">{{ i18n.t('archive.playground') }} ↗</a>
+      </div>
+    </section>
+
+    <a class="card preview" href="/archive/index.html" target="_blank" rel="noopener" aria-label="Old website preview">
+      <img src="/archive/public/images/homepage.png" alt="Screenshot of the old daniel-zaiser.de homepage" loading="lazy" />
+    </a>
+  </div>
+</div>

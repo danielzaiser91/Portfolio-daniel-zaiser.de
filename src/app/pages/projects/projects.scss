@@ -1,0 +1,98 @@
+.section-title {
+  margin: 2.2rem 0 1.2rem;
+  font-size: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1.1rem;
+}
+
+.project {
+  display: flex;
+  flex-direction: column;
+
+  &.highlight {
+    border-color: rgba(53, 208, 186, 0.45);
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-family: var(--mono);
+      word-break: break-word;
+    }
+
+    .commits {
+      color: var(--text-2);
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+  }
+
+  .desc {
+    margin: 0.6rem 0 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    margin: 0 0 0.9rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+
+    dt {
+      color: var(--text-2);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    dd {
+      margin: 0;
+      font-size: 0.88rem;
+      font-family: var(--mono);
+    }
+  }
+
+  .knowledge {
+    flex: 1;
+    margin: 0 0 1rem;
+    font-size: 0.88rem;
+    color: var(--text-2);
+
+    strong {
+      color: var(--text-1);
+    }
+  }
+
+  footer {
+    display: flex;
+    gap: 1.2rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .project .facts {
+    grid-template-columns: 1fr 1fr;
+  }
+}

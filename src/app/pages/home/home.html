@@ -1,0 +1,55 @@
+<div class="page container">
+  <section class="hero">
+    <p class="hello">{{ i18n.t('home.hello') }}</p>
+    <h1>Daniel <span class="accent">Zaiser</span></h1>
+    <h2 class="role">{{ i18n.t('home.role') }}</h2>
+    <p class="tagline">{{ i18n.t('home.tagline') }}</p>
+    <p class="pitch muted">{{ i18n.t('home.pitch') }}</p>
+
+    <div class="hero-actions">
+      <a routerLink="/projects" class="btn primary">{{ i18n.t('home.visitor.cta') }}</a>
+      <a routerLink="/for-recruiters" class="btn">{{ i18n.t('home.recruiter.cta') }}</a>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat glass">
+      <span class="num">{{ yearsOfAngular }}+</span>
+      <span class="label">{{ i18n.t('home.stat.years') }}</span>
+    </div>
+    <div class="stat glass">
+      <span class="num">{{ repoCount }}+</span>
+      <span class="label">{{ i18n.t('home.stat.repos') }}</span>
+    </div>
+    <div class="stat glass">
+      <span class="num">3</span>
+      <span class="label">{{ i18n.t('home.stat.companies') }}</span>
+    </div>
+    <div class="stat glass">
+      <span class="num">🏅</span>
+      <span class="label">{{ i18n.t('home.stat.cert') }}</span>
+    </div>
+  </section>
+
+  <section class="audience">
+    <a routerLink="/projects" class="card audience-card">
+      <h3>{{ i18n.t('home.visitor.title') }}</h3>
+      <p class="muted">{{ i18n.t('home.visitor.text') }}</p>
+      <span class="go">{{ i18n.t('home.visitor.cta') }} →</span>
+    </a>
+    <a routerLink="/for-recruiters" class="card audience-card">
+      <h3>{{ i18n.t('home.recruiter.title') }}</h3>
+      <p class="muted">{{ i18n.t('home.recruiter.text') }}</p>
+      <span class="go">{{ i18n.t('home.recruiter.cta') }} →</span>
+    </a>
+  </section>
+
+  <section class="tech">
+    <h3>{{ i18n.t('home.tech.title') }}</h3>
+    <div class="tech-tags">
+      @for (t of techStack; track t) {
+        <span class="tag">{{ t }}</span>
+      }
+    </div>
+  </section>
+</div>
