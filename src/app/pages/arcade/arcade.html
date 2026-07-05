@@ -1,0 +1,86 @@
+<div class="page container arcade">
+  <header class="arcade-head">
+    <h1 class="page-title">🎮 DZ&nbsp;Arcade</h1>
+    <p class="page-lead">
+      Psst — geheime Spielesammlung, nur für Freunde. Such dir was aus, worauf du gerade Lust hast:
+      kurzer Klick-Snack, langer Idle-Grind oder Partyspiel für den Abend. Viel Spaß! 🕹️
+    </p>
+  </header>
+
+  @if (featured.length > 0 && !search() && activeCategory() === 'alle') {
+    <section class="featured">
+      <h2>⭐ Empfohlen</h2>
+      <div class="featured-grid">
+        @for (g of featured; track g.title) {
+          <a class="featured-card" [href]="g.url" target="_blank" rel="noopener" [style.background]="capsuleStyle(g)">
+            <span class="femoji">{{ g.emoji }}</span>
+            <div class="finfo">
+              <h3>{{ g.title }}</h3>
+              <p>{{ g.situation }}</p>
+              <div class="fmeta">
+                <span>👥 {{ g.players }}</span>
+                <span>⏱️ {{ g.playtime }}</span>
+              </div>
+            </div>
+            <span class="play-hint">▶ Spielen</span>
+          </a>
+        }
+      </div>
+    </section>
+  }
+
+  <section class="browse glass">
+    <input
+      class="search"
+      type="search"
+      placeholder="🔍 Suchen … (z. B. „Party“, „Idle“, „malen“)"
+      [value]="search()"
+      (input)="search.set($any($event.target).value)"
+    />
+    <div class="chips">
+      <button type="button" class="chip" [class.active]="activeCategory() === 'alle'" (click)="activeCategory.set('alle')">
+        Alle
+      </button>
+      @for (cat of categories; track cat) {
+        <button type="button" class="chip" [class.active]="activeCategory() === cat" (click)="activeCategory.set(cat)">
+          {{ label(cat) }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <p class="count muted">{{ resultCount() }} {{ resultCount() === 1 ? 'Treffer' : 'Treffer' }}</p>
+
+  <section class="library">
+    @for (g of filtered(); track g.title) {
+      <article class="game card">
+        <a class="capsule" [href]="g.url" target="_blank" rel="noopener" [style.background]="capsuleStyle(g)">
+          @if (g.image) {
+            <img [src]="g.image" [alt]="g.title" loading="lazy" />
+          } @else {
+            <span class="cemoji">{{ g.emoji }}</span>
+          }
+        </a>
+        <div class="body">
+          <h3>{{ g.emoji }} {{ g.title }}</h3>
+          <div class="tags">
+            @for (t of g.tags; track t) {
+              <span class="tag">{{ t }}</span>
+            }
+          </div>
+          <dl class="meta">
+            <div><dt>👥 Spieler</dt><dd>{{ g.players }}</dd></div>
+            <div><dt>⏱️ Spielspaß</dt><dd>{{ g.playtime }}</dd></div>
+          </dl>
+          <p class="situation">📍 {{ g.situation }}</p>
+          <p class="desc muted">{{ g.description }}</p>
+          <a class="btn primary play" [href]="g.url" target="_blank" rel="noopener">
+            {{ g.repoOnly ? '📦 Zum Repo' : '▶ Spielen' }}
+          </a>
+        </div>
+      </article>
+    } @empty {
+      <p class="empty muted">Nichts gefunden 😢 — probier einen anderen Begriff oder eine andere Kategorie.</p>
+    }
+  </section>
+</div>
