@@ -1,0 +1,4 @@
+# SPA-Fallback für die Angular-App:
+# Alle Pfade, die keine echte Datei/kein echtes Verzeichnis sind (z. B. /arcade,
+# /projects, /for-recruiters), liefern index.html aus — das Routing übernimmt Angular.
+FallbackResource /index.html
