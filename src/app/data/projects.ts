@@ -31,7 +31,7 @@ export const LANGUAGES: Record<string, string> = {
   'bubble-notifications': 'JavaScript',
   'best_posts': 'TypeScript',
   'ng-abschlussprojekt-reisekarte': 'TypeScript',
-  'daniel-zaiser.de': 'HTML',
+  'daniel-zaiser.de': 'TypeScript',
   'calendarApp': 'TypeScript',
   'custom-scrollbars': 'HTML',
   'arturs-webseite': 'HTML',
@@ -225,19 +225,21 @@ export const PROJECTS: Project[] = [
   {
     name: 'daniel-zaiser.de',
     category: 'serious',
-    tech: ['HTML', 'CSS', 'Vanilla JS'],
+    tech: ['Angular 21', 'TypeScript', 'SCSS', 'Signals'],
     description: {
-      en: 'The source of my previous personal website — hand-crafted without any framework, including a playground of games and pure tech demos (Design-It, CSS challenges, 3D art, a hand-built clock). Fully preserved in the archive section of this site.',
-      de: 'Der Quellcode meiner vorherigen persönlichen Webseite — komplett ohne Framework von Hand gebaut, inklusive Playground aus Spielen und reinen Tech-Demos (Design-It, CSS-Challenges, 3D-Art, handgebaute Uhr). Vollständig erhalten im Archiv-Bereich dieser Seite.',
+      en: 'The repository behind this very website: bilingual Angular 21 portfolio (signals, zoneless, lazy routes) — including the complete hand-crafted predecessor site, preserved under /archive.',
+      de: 'Das Repository hinter genau dieser Webseite: zweisprachiges Angular-21-Portfolio (Signals, zoneless, Lazy Routes) — inklusive der komplett erhaltenen handgebauten Vorgänger-Seite unter /archive.',
     },
     knowledge: {
-      en: 'What frameworks actually solve — by not using one: routing, state, animation and structure by hand.',
-      de: 'Was Frameworks wirklich lösen — indem ich keins benutzt habe: Routing, State, Animation und Struktur von Hand.',
+      en: 'Modern Angular 21 in practice — and how to give a legacy site a dignified home inside its successor.',
+      de: 'Modernes Angular 21 in der Praxis — und wie man einer alten Webseite ein würdiges Zuhause im Nachfolger gibt.',
     },
-    commits: 2,
+    commits: 12,
     started: '2021-02',
-    lastTouched: '2021-02',
-    estHours: 80,
+    lastTouched: '2026-07',
+    estHours: 100,
+    demo: 'https://daniel-zaiser.de',
+    highlight: true,
   },
 
   // ===== Fun =====
