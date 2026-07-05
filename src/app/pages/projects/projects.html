@@ -24,9 +24,17 @@
   @for (section of sections; track section.id) {
     <section>
       <h2 class="section-title">{{ section.icon }} {{ i18n.t(section.titleKey) }} <span class="count">({{ section.items.length }})</span></h2>
+      @if (section.hintKey) {
+        <p class="section-hint muted">{{ i18n.t(section.hintKey) }}</p>
+      }
       <div class="grid">
         @for (p of section.items; track p.name) {
-          <article class="card project" [class.highlight]="p.highlight" [class.fun]="section.id === 'fun'">
+          <article
+            class="card project"
+            [class.highlight]="p.highlight"
+            [class.fun]="section.id === 'fun'"
+            [class.abandoned]="section.id === 'abandoned'"
+          >
             <header>
               <h3>{{ p.name }}</h3>
               <span class="lang" [title]="langOf(p)">

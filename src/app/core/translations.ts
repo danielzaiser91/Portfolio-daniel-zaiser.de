@@ -39,6 +39,9 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Time invested is an honest estimate; the stats come straight from the repositories.',
     'projects.serious': 'Serious projects',
     'projects.fun': 'Fun & experiments',
+    'projects.abandoned': 'Unfinished & abandoned',
+    'projects.abandoned.hint':
+      'Honest building sites: started, learned from, moved on. Kept public because unfinished code tells its own story.',
     'projects.commits': 'commits',
     'projects.span': 'Development span',
     'projects.lastTouched': 'Last touched',
@@ -157,6 +160,9 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Der Zeitaufwand ist eine ehrliche Schätzung, die Statistiken kommen direkt aus den Repositories.',
     'projects.serious': 'Ernsthafte Projekte',
     'projects.fun': 'Spaß & Experimente',
+    'projects.abandoned': 'Unfertig & aufgegeben',
+    'projects.abandoned.hint':
+      'Ehrliche Baustellen: angefangen, daraus gelernt, weitergezogen. Bleiben öffentlich, weil auch unfertiger Code eine Geschichte erzählt.',
     'projects.commits': 'Commits',
     'projects.span': 'Entwicklungszeitraum',
     'projects.lastTouched': 'Zuletzt angefasst',

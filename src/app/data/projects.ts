@@ -3,7 +3,7 @@ import { LText } from '../core/i18n';
 export interface Project {
   /** Repository name on GitHub. */
   name: string;
-  category: 'serious' | 'fun';
+  category: 'serious' | 'fun' | 'abandoned';
   tech: string[];
   description: LText;
   knowledge: LText;
@@ -353,11 +353,11 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'revolution-idle-clone',
-    category: 'fun',
+    category: 'abandoned',
     tech: ['JavaScript'],
     description: {
-      en: 'A quick clone of the idle game Revolution Idle — reverse-engineering mechanics I enjoyed as a player.',
-      de: 'Ein schneller Klon des Idle-Games Revolution Idle — Reverse Engineering von Mechaniken, die mir als Spieler Spaß gemacht haben.',
+      en: 'Started clone of the idle game Revolution Idle — a mechanics study. Unfinished and currently not really playable.',
+      de: 'Begonnener Klon des Idle-Games Revolution Idle — eine Mechanik-Studie. Unfertig und aktuell nicht wirklich spielbar.',
     },
     knowledge: {
       en: 'Deconstructing game mechanics, rapid prototyping.',
@@ -388,11 +388,11 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'incremental_adventure__dirty',
-    category: 'fun',
+    category: 'abandoned',
     tech: ['JavaScript', 'break_eternity.js'],
     description: {
-      en: 'Second attempt at the incremental adventure — intentionally less architecture, more shipping.',
-      de: 'Zweiter Anlauf für das Incremental-Adventure — bewusst weniger Architektur, mehr Machen.',
+      en: 'Second attempt at the incremental adventure — intentionally less architecture, more shipping. A playable prototype, later superseded by the 2026 remake.',
+      de: 'Zweiter Anlauf für das Incremental-Adventure — bewusst weniger Architektur, mehr Machen. Ein spielbarer Prototyp, später vom 2026er-Remake abgelöst.',
     },
     knowledge: {
       en: 'When to drop perfectionism: architecture vs. momentum in hobby projects.',
@@ -405,11 +405,11 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'incremental_adventure',
-    category: 'fun',
+    category: 'abandoned',
     tech: ['JavaScript'],
     description: {
-      en: 'First attempt at my incremental idle game — where the whole journey started.',
-      de: 'Erster Versuch meines Incremental-Idle-Games — hier begann die ganze Reise.',
+      en: 'First attempt at my incremental idle game — never made it past the architecture skeleton, but the whole journey started here.',
+      de: 'Erster Versuch meines Incremental-Idle-Games — kam nie über das Architektur-Gerüst hinaus, aber hier begann die ganze Reise.',
     },
     knowledge: {
       en: 'Over-engineering as a learning experience — the architecture outgrew the game.',
@@ -439,7 +439,7 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'QuizCheater',
-    category: 'fun',
+    category: 'abandoned',
     tech: ['TypeScript'],
     description: {
       en: 'Unfinished quiz tool inspired by the German “WER LÜGT HIER?” show format by Vlesk, built for Twitch streamer umut_rre. Never completed — kept public as a project snapshot.',
