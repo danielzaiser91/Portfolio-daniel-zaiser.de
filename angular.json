@@ -29,6 +29,10 @@
                 "input": "public"
               },
               {
+                "glob": ".htaccess",
+                "input": "public"
+              },
+              {
                 "glob": "**/*",
                 "input": "website",
                 "output": "archive",
