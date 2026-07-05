@@ -47,3 +47,6 @@ Thumbs.db
 
 # Local backup zip of the old site (archive itself is committed in /website)
 /website/zaiserde.zip
+
+# Local deployment zips of the built site
+/*.zip
