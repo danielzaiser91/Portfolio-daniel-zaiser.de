@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conways Game of Life - Lebenssimulation</title>
+  <style>
+    #field .grid > div {
+      width: 20px; height: 20px;
+    }
+    #field .grid {
+      display: flex; flex-wrap: wrap; user-select: none;
+    }
+    #inputCols { width: 46px }
+    #start, #start2 { min-width: 100px; background-color: rgb(125, 173, 125); }
+    #start.stop, #start2.stop { background-color: rgb(221, 149, 149); }
+    .border { display: inline-block; border: 1px solid black; padding: 1px; margin: 2px}
+    .border div { display: inline-block; min-width: 80px; }
+    table td:nth-child(1) { text-align: center; min-width: 251px; }
+    table td { padding: .1em .5em; }
+    table tr { border-bottom: 1px solid black; display: block; }
+    table tr:nth-child(1) { border-top: 1px solid black; display: block; }
+  </style>
+</head>
+<body>
+  <h2 class="title">Conways Game of Life</h2>
+  <button id="start">start</button>
+  <button id="random">random</button>
+  <button id="clear">clear</button>
+  <div class="border">
+    <label for="inputCols">Anzahl Zellen:</label>
+    <input type="number" min="1" max="100" value="10" id="inputCols">
+    x
+    <span id="times">10</span>
+    <button id="create">create</button>
+  </div>
+  <div class="border">
+    <div><span>speed: x</span><span id="speed">2</span></div>
+    <button id="minus">minus</button>
+    <button id="plus">plus</button>
+  </div>
+  <div class="border">
+    <div>Frame By Frame:</div>
+    <button id="prev"><</button>
+    <button id="plus">></button>
+  </div>
+  <div id="field"></div>
+  <div class="description">Conways Game of Life ist eine Lebenssimulation. Zellen sterben, Zellen vermehren sich, Zellen bleiben wie sie sind. Alles abhängig von ihrer Umgebung. Dies führt zu coolen Animationen und Bewegungsmustern. 👾👾 Mehr Infos auf: <a href="https://de.wikipedia.org/wiki/Conways_Spiel_des_Lebens">Wikipedia</a></div>
+  <h2>Spielregeln</h2>
+  <ul>
+    <li>1. Eine lebende Zelle mit 2 oder 3 lebenden Nachbarzellen überlebt</li>
+    <li>2. Eine tote Zelle mit genau 3 lebenden Nachbarzellen wird wiederbelebt</li>
+    <li>3. Alle anderen lebenden Zellen, sterben in der nächsten Generation. Alle anderen toten Zellen, bleiben tot.</li>
+  </ul>
+  <h2>Legende</h2>
+  <table>
+    <tr>
+      <td><button id="start2">start</button></td>
+      <td>Mit diesem Button wird das Spiel gestartet bzw gestoppt.</td>
+    </tr>
+    <tr>
+      <td><button id="random">random</button></td>
+      <td>Mit diesem Button wird das Spielfeld zufällig mit lebenden Zellen gefüllt.</td>
+    </tr>
+    <tr>
+      <td><button id="clear">clear</button></td>
+      <td>Mit diesem Button wird das Spielfeld zurückgesetzt</td>
+    </tr>
+    <tr>
+      <td>
+        <div class="border">
+          <label for="inputCols">Anzahl Zellen:</label>
+          <input type="number" min="1" max="100" value="10" id="inputCols">
+          x
+          <span id="times">10</span>
+          <button id="create">create</button>
+        </div>
+      </td>
+      <td>Mit der Eingabe eines Wertes hier, wird die Größe des Spielfelds bestimmt, nachdem bestätigt wurde mit einem Klick auf "create" oder dem Drücken der Enter-Taste.</td>
+    </tr>
+    <tr>
+      <td>
+        <div class="border">
+          <div><span>speed: x</span><span id="speed">2</span></div>
+          <button id="minus">minus</button>
+          <button id="plus">plus</button>
+        </div>
+      </td>
+      <td>Beschreibung</td>
+    </tr>
+  </table>
+  <script>
+
+    /**
+     * extending Number Class, because why not 🙈
+     * returns number in array that is closest to number called from
+     * 50..closerTo(10,100) = 10
+     */
+    Number.prototype.closerTo = function(...nrArgs) {
+        if (!nrArgs.every(Number)) return NaN;
+        let smallestDif = 1000, closestNr = 0;
+        const val = this.valueOf();
+        nrArgs.forEach((nr) => {
+          if (nr-val < smallestDif) {
+            smallestDif = Math.abs(nr-val);
+            closestNr = nr;
+          }
+        });
+        return closestNr;
+      };
+    /**
+     * returns number if in bounds, otherwise returns closest bound
+     * 50..numberOrBounds(10,100) = 50
+     * 1000..numberOrBounds(10,100) = 100
+     */
+    Number.prototype.numberOrBounds = function(a, b) {
+        const val = this.valueOf();
+        const bot = a > b ? b : a;
+        const ceil = a > b ? a : b;
+        const bound = val.closerTo(a,b);
+      return val > bot && val < ceil ? val : bound;
+    }
+
+
+    const field = document.getElementById('field'), startBtn = document.getElementById('start'), createBtn = document.getElementById('create'), speed = [100,200,500,1000,2000,10000], speedEl = document.getElementById('speed'),
+          clearBtn = document.getElementById('clear'), randomBtn = document.getElementById('random'), inputCols = document.getElementById('inputCols'), times = document.getElementById('times'),
+          plusBtn = document.getElementById('plus'), minusBtn = document.getElementById('minus'), startBtn2 = document.getElementById('start2');
+    startBtn2Toggle = false;
+    startBtn2.addEventListener('click', () => {startBtn2.classList.toggle('stop'); startBtn2.textContent = startBtn2Toggle ? 'start' : 'stop'; startBtn2Toggle = !startBtn2Toggle });
+    inputCols.addEventListener('change', () => times.textContent = inputCols.value);
+    inputCols.addEventListener('keydown', () => times.textContent = inputCols.value);
+    inputCols.addEventListener('keydown', e => { if(e.key === 'Enter') setNumRows()});
+    startBtn.addEventListener('click', () => { running = !running; startText(); startSimulation() });
+    clearBtn.addEventListener('click', () => { createGrid() });
+    createBtn.addEventListener('click', () => setNumRows());
+    plusBtn.addEventListener('click', () => { adjustSpeed(-1) });
+    minusBtn.addEventListener('click', () => { adjustSpeed(1) });
+    randomBtn.addEventListener('click', () => createGrid(true));
+    field.addEventListener('mousedown', () => mouseDown = true);
+    field.addEventListener('mouseup', () => mouseDown = false);
+    let block = false;
+    field.addEventListener('touchmove', (touch) => {
+      touch1 = touch.targetTouches[0];
+      const target = document.elementFromPoint(touch1.clientX, touch1.clientY);
+      if (target.toggleCell) { event.preventDefault(); }
+      if (block || !target.toggleCell) return;
+
+      block = true;
+      setTimeout(() => { block = false }, 16);
+      if (target !== lastTarget) {
+        target.toggleCell();
+        lastTarget = target;
+      }
+    });
+    function adjustSpeed(sp) {
+      if(sp === 1) {
+        speedId = speedId>4 ? 5 : speedId+sp;
+      } else {
+        speedId = speedId<1 ? 0 : speedId+sp;
+      }
+      speedEl.textContent = ['10','5','2','1','0.5','0.1'][speedId];
+      if (running) {
+        clearTimeout(nextIteration);
+        running = true; startText(); startSimulation();
+      }
+    }
+    function setNumRows() {
+      const val = (+inputCols.value).numberOrBounds(inputCols.min, inputCols.max);
+      inputCols.value = val;
+      numRows = Number(val);
+      numCols = Number(val);
+      createGrid();
+    }
+    const startText = () => {
+      if (!running) {
+        startBtn.classList.remove('stop');
+        startBtn.textContent = 'start';
+      } else {
+        startBtn.classList.add('stop');
+        startBtn.textContent = 'stop';
+      }
+    }
+    let numRows, numCols, nextIteration, cells, lastTarget;
+    let running = false, speedId = 2, mouseDown = false;
+    setNumRows();
+    function getArray(rnd) {
+      return Array.from(Array(numRows),() => Array.from(Array(numCols),()=> rnd ? (Math.random()<0.7 ? 0 : 1) : 0));
+    }
+    function createGrid(rnd = false) {
+      running = false; startText();
+      if(field.firstElementChild) field.firstElementChild.remove();
+      const grid = document.createElement('div');
+      grid.classList.add('grid');
+      grid.style.width = (numCols * 20) + 'px';
+      getArray(rnd).forEach((y,i)=> {
+        y.forEach((x,j)=> {
+          const node = document.createElement('div');
+          node.value = x;
+          node.style = `border: 1px solid black; background-color: ${ x ? 'pink' : 'none'}; box-sizing: border-box;`;
+          const toggleCell = () => {
+            running = false; startText();
+            x = x ? 0 : 1; node.style.backgroundColor = x ? 'pink' : 'initial'; node.value = x;
+          }
+          node.toggleCell = toggleCell;
+          node.addEventListener('mousedown', toggleCell);
+          node.addEventListener('mouseenter', (ev) => {
+            if (mouseDown) toggleCell();
+          });
+          grid.appendChild(node)
+        });
+      });
+      field.appendChild(grid);
+      cells = field.querySelectorAll('.grid > div');
+    }
+    createGrid();
+
+    function startSimulation() {
+      if(!running) return;
+
+      const copyArr = Array.from(cells).map(n=>n.value);
+      cells.forEach((n,i) => {
+        const neighbours = [
+          cells[i-1-numCols], cells[i-numCols], cells[i+1-numCols],
+          cells[i-1],                           cells[i+1],
+          cells[i-1+numCols], cells[i+numCols], cells[i+1+numCols]
+        ].filter(v=> v).filter(v=>v.value).length;
+        if (
+          (n.value === 0 && neighbours === 3) ||
+          (n.value === 1 && neighbours === 2) ||
+          (n.value === 1 && neighbours === 3)
+        ) {
+          copyArr[i] = 1;
+        } else {
+          copyArr[i] = 0;
+        }
+        n.style.backgroundColor = copyArr[i] ? 'pink' : 'initial';
+      });
+      Array.from(cells).map((n,i) => n.value = copyArr[i]);
+      nextIteration = setTimeout(() => { startSimulation() }, speed[speedId]);
+    }
+  </script>
+</body>
+</html>

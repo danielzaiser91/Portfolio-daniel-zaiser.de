@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS-Challenges</title>
+  <style>
+    * { margin: 0 }
+    html,body { min-height: 100vh; }
+    .section { height: 100vh; display: flex; position: relative; font-size: 2em; justify-content: center; align-items: center; }
+    .section:nth-child(2n+1) { background-color: #a3ddff; color: rgb(110, 68, 68); }
+    .section:nth-child(2n) { background-color: rgb(22, 112, 165); color: white; }
+    .section .challenge { position: absolute; top: 1em; left: 0; text-decoration: underline; font-size: .8em; }
+    .section .challenge::before { content: 'Challenge:'; position: absolute; top: -1em; }
+    .section .solution { display: flex; }
+    ::-webkit-scrollbar { display: none; }
+    #rotate-text.solution { display: inline-flex; gap: 0.3em; }
+    #rotate-text .wrapper { height: 1.2em; overflow: hidden; }
+    #rotate-text .wrapper > div { animation: rotate-text 8s linear infinite alternate }
+    @keyframes rotate-text {
+      0%,30% { transform: translateY(0%) }
+      35%,65% { transform: translateY(-100%) }
+      70%,100% { transform: translateY(-200%) }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="section">
+      <div class="challenge">Text-Spinner</div>
+      <div class="solution" id="rotate-text">
+        I'm a 
+        <div class="wrapper">
+          <div>Panther</div>
+          <div>Tiger</div>
+          <div>Jaguar</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="challenge">Future Challenge</div>
+      <div class="solution"></div>
+    </div>
+  </main>
+</body>
+</html>

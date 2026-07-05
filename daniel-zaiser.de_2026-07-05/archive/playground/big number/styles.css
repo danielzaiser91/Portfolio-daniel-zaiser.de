@@ -1,0 +1,68 @@
+.str-color { 
+  --dark: rgb(204, 9, 9);
+  --light: rgb(255, 186, 146);
+  --lighter: rgb(255, 197, 197);
+}
+.magic-color {
+  --dark: rgb(9, 116, 204);
+  --light:rgb(9, 87, 204);
+  --lighter: rgb(184, 214, 255);
+}
+* { user-select: none; box-sizing: border-box; }
+.flex-x-y { display: flex; justify-content: center; align-items: center; }
+.flex-col { flex-direction: column; }
+.d-none { display: none !important }
+.space-between { justify-content: space-between; }
+body { margin: 0; height: 100vh; width: 100vw; background-color: var(--lighter); overflow:hidden; }
+#str-score { background-color: var(--light); color: var(--dark); border: 5px solid var(--dark); border-radius: 50%; font-size: 4rem; font-weight: bold; 
+    min-width: 200px;
+    min-height: 200px;
+    padding: 16px; }
+.all-container { display: flex; width: 100%; height: 100%; flex-direction: column; }
+.central-part { flex: 1; display: flex; flex-direction: row; }
+.bottom-part { display: flex; min-height:100px; border-top: 1px solid var(--dark); }
+.btn {
+  cursor: pointer;
+}
+.btn, .unbtn {
+  background: var(--light); color: var(--dark); font-weight: bold; font-size: 1.5rem; padding: 2px 8px; border: 2px solid var(--dark);
+}
+.btn:active { background: var(--dark) }
+.str { }
+.central-part .center-left {}
+.central-part .center-mid { flex: 1 }
+.score-container { gap: 15px }
+.central-part .center-right { height: 100%; }
+.central-part .center-right > div { border-left: 1px solid var(--dark); height: 100%; min-width:100px }
+body:not(.upgrades_unlocked) #upgrades { display: none; }
+body:not(.milestones_unlocked) #milestones { display: none; }
+body:not(.auto_upgrades_unlocked) .upgrade .auto { display: none }
+body:not(.prestige_unlocked) #prestige { display: none }
+#milestones .milestone:not(.denied_btn) .goal { display: none }
+#milestones .milestone.denied_btn .effect { display: none }
+#milestones .milestone {
+  border-top: 6px solid var(--dark);
+  border-bottom: 6px solid var(--dark);
+  line-height: 1.3;
+}
+.denied_btn {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--dark),
+    var(--dark) 10px,
+    var(--light) 10px,
+    var(--light) 20px
+  );
+}
+#prestige .goal { gap: 10px }
+#prestige .goal > :nth-child(n+2) { border-left: 2px dashed; padding-left: 10px; }
+.denied_btn .goal {
+  background: var(--light); color: var(--dark); font-weight: bold; font-size: 1.5rem; padding: 2px 8px; border: 2px solid var(--dark);
+}
+.upgrade {
+  margin: 5px;
+}
+.upgrade .btn > :nth-child(n+2) {
+  border-top: 1px dashed var(--dark);
+}
+.upgrade:not(.unlocked) { display: none }

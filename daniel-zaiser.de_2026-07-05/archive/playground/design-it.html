@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design it yourself! :)</title>
+  <style>
+    #options { z-index: 2; position: fixed; bottom: 5px; right: 5px; }
+     #options > button { padding: 0.1em 0.4em; font-size: 1.8em; border-radius: 0.6em; background: transparent; color: green; border: 1px solid; }
+     #accept, #cancel { display: none }
+     .toggled #pinsel, .toggled #plus { display: none }
+     .toggled #accept, .toggled #cancel { display: inline-block; }
+    #pinselOverlay { transform: translateX(100%); transition: 1s all; opacity: 0; position: fixed; height: 100%; width: 100%; top: 0; left: 0; background-color: yellow;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1em; }
+    #pinselOverlay.show { transform: translateX(0); opacity: 1; z-index: 1; }
+    #area { width: 100%; height: 70vh; border: 1px solid aqua; position: relative; }
+    #area > div { position: absolute; }
+    #area .movable { cursor: grab }
+    #area .movable.grabbing { cursor: grabbing; z-index: 2; }
+    #area.painting, #area.painting .movable { cursor: url('../public/icons/brush.cur'), auto }
+    #area.inserting, #area.inserting .movable { cursor: cell }
+    @media (max-width: 430px) { #area {height: 56vh}}
+  </style>
+</head>
+<body>
+  <div class="intro">
+    <h1 class="title">Design it yourself!</h1>
+    <h4 class="description">Klick auf das Plus um Elemente hinzuzufügen! 👨‍🔧 Klick auf die Farbpalette unten und dann auf ein Element um es zu verändern! 👨‍🎨</h4>
+    <div id="options">
+      <button id="pinsel">🎨</button>
+      <button id="plus">➕</button>
+      <button id="accept">✔</button>
+      <button id="cancel">❌</button>
+    </div>
+    <div id="pinselOverlay">
+      <label for="background-color">Hintergrund-Farbe:</label>
+      <input type="color" name="background-color" id="background-color">
+      <label for="width">Breite</label>
+      <input type="range" name="width" id="width" max="100" min="0" value="100">
+      <label for="height">Höhe</label>
+      <input type="range" name="height" id="height" max="100" min="0" value="100">
+      <label for="delete">Löschen</label>
+      <button id="delete">🗑</button>
+    </div>
+    <div id="area"></div>
+  </div>
+  <script>
+    const optionsEl = document.getElementById('options'), pinselEl = optionsEl.querySelector('#pinsel'), pinselOverlayEl = document.getElementById('pinselOverlay'), areaEl = document.getElementById('area'),
+          acceptEl = optionsEl.querySelector('#accept'), cancelEl = optionsEl.querySelector('#cancel'), plusEl = optionsEl.querySelector('#plus'), plusOverlay = document.querySelector('#plus'),
+          deleteEl = pinselOverlayEl.querySelector('#delete'), 
+          toggle = { pinsel: false, plus: false, grabbed: false };
+    let clickedEl;
+    pinselEl.addEventListener('click', () => { togglePinsel(); });
+    acceptEl.addEventListener('click', e => { acceptOverlay(); });
+    cancelEl.addEventListener('click', () => { cancelOverlay(); });
+    plusEl.addEventListener('click', () => { togglePlus(); });
+    areaEl.addEventListener('click', e => { areaClicked(e); });
+
+    function togglePinsel() {
+      event.preventDefault();
+      event.stopPropagation();
+      areaEl.classList.toggle('painting');
+      toggle.pinsel = !toggle.pinsel;
+    }
+    function togglePlus() {
+      event.preventDefault();
+      event.stopPropagation();
+      areaEl.classList.toggle('inserting');
+      toggle.plus = !toggle.plus;
+    }
+    function cancelCursor() {
+      areaEl.classList.remove('painting', 'inserting');
+      toggle.pinsel = false;
+      toggle.plus = false;
+    }
+    function addElement() {
+      const el = document.createElement('div');
+      areaEl.appendChild(el)
+    }
+    function closePinselOverlay() {
+      cancelCursor();
+      pinselOverlayEl.classList.remove('show', 'pinsel');
+      optionsEl.classList.remove('toggled');
+    }
+    function cancelOverlay() {
+      closePinselOverlay();
+    }
+    function startGrabbing(e) {
+      if (toggle.pinsel || toggle.plus) return;
+      e.target.classList.add('grabbing');
+      toggle.grabbed = true;
+    }
+    function stopGrabbing(e) {
+      e.target.classList.remove('grabbing');
+      toggle.grabbed = false;
+    }
+    function moveGrabbing(e) {
+      if (!toggle.grabbed) return;
+      const top = e.pageY - areaEl.offsetTop, left = e.pageX - areaEl.offsetLeft, el = e.target, c = getComputedStyle(el), w = Number(c.width.replace('px','')), h = Number(c.height.replace('px',''));
+      el.style.top = `${top-(h/2)}px`; el.style.left = `${left-(w/2)}px`;
+    }
+    function insertElement(e) {
+      const top = e.pageY - areaEl.offsetTop, left = e.pageX - areaEl.offsetLeft, el = document.createElement('div');
+      el.classList.add('movable');
+      el.style = `background-color: yellow; width: 150px; height: 90px; border: 1px solid black; box-sizing: border-box; top: ${top}px; left: ${left}px`;
+      el.addEventListener('mousedown', startGrabbing);
+      el.addEventListener('mousemove', moveGrabbing);
+      el.addEventListener('mouseup', stopGrabbing);
+      areaEl.appendChild(el);
+      cancelCursor();
+    }
+    function areaClicked(e) {
+      if (toggle.plus) return insertElement(e);
+      if (!toggle.pinsel) return;
+      clickedEl = e.target;
+      pinselOverlayEl.classList.add('show', 'pinsel'); optionsEl.classList.toggle('toggled');
+      cancelCursor();
+    }
+    function acceptOverlay() {
+      const style = Array.from(pinselOverlayEl.querySelectorAll('input'), v=>v).map(v=>`${v.id}: ${v.value}`+(['width','height'].includes(v.id) ? 'px':'')).join('; '),
+            el = clickedEl, c = getComputedStyle(el);
+      clickedEl.style = style + `; left: ${c.left}px; top: ${c.top}px;`;
+      console.log(style, `; left: ${c.left}; top: ${c.top};`);
+      closePinselOverlay();
+    }
+  </script>
+</body>
+</html>

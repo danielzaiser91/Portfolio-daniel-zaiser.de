@@ -34,6 +34,12 @@
   }
 }
 
+.section-hint {
+  margin: -0.8rem 0 1.2rem;
+  font-size: 0.9rem;
+  max-width: 46rem;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -60,6 +66,19 @@
 
   &.fun::before {
     background: linear-gradient(90deg, var(--accent-2), transparent 70%);
+  }
+
+  &.abandoned {
+    border-style: dashed;
+    opacity: 0.88;
+
+    &::before {
+      background: linear-gradient(90deg, #fbbf24, transparent 70%);
+    }
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   &.highlight {

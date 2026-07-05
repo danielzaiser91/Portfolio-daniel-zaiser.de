@@ -1,0 +1,44 @@
+:root {
+  --c-light: #5d3333;
+  --c-dark: #2b1e1e;
+}
+h1 {
+  margin-block-start: 1.5rem;
+  margin-block-end: 2.5rem;
+}
+h2,h3,h4,p {
+  margin-block-start: 1.1rem;
+  margin-block-end: 1rem;
+}
+body {
+  font-family: Arial;
+  font-size: 16px;
+  line-height: 1;
+}
+#popover {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background-color: #0000004f;
+}
+#popover .popover-container {
+  padding: 15px 45px 25px;
+  border: 5px solid var(--c-light);
+  background: var(--c-dark);
+  color: white;
+}
+#popover .interaction-container {
+
+}
+.btn {
+  font-size: 1.3rem;
+  padding: .5rem 1rem;
+  border-radius: 11px;
+  border: 4px solid var(--c-light);
+}
+.pre {
+  white-space: pre-line;
+}
