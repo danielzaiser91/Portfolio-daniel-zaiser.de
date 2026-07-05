@@ -54,6 +54,9 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.summary.commits': 'commits total',
     'projects.summary.hours': 'estimated hours',
     'projects.summary.years': 'years of side projects',
+    'projects.archive.title': 'The old website',
+    'projects.archive.text': 'My previous hand-crafted site (2020–2023) is fully preserved — playground games, experiments and all.',
+    'projects.archive.cta': 'Visit the archive',
 
     // Recruiters
     'rec.title': 'For Recruiters & Headhunters',
@@ -175,6 +178,9 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.summary.commits': 'Commits gesamt',
     'projects.summary.hours': 'geschätzte Stunden',
     'projects.summary.years': 'Jahre Nebenprojekte',
+    'projects.archive.title': 'Die alte Webseite',
+    'projects.archive.text': 'Meine frühere handgebaute Seite (2020–2023) ist vollständig erhalten — mit Playground-Spielen, Experimenten und allem.',
+    'projects.archive.cta': 'Zum Archiv',
 
     // Recruiters
     'rec.title': 'Für Recruiter & Headhunter',

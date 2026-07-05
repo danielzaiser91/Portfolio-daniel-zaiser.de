@@ -18,11 +18,12 @@ export class App {
   protected readonly github = GITHUB_URL;
   protected readonly year = new Date().getFullYear();
 
+  // The old-website archive is deliberately not in the main nav — it's
+  // linked unobtrusively at the end of the projects page instead.
   protected readonly navLinks = [
     { path: '/', key: 'nav.home', exact: true },
     { path: '/projects', key: 'nav.projects', exact: false },
     { path: '/for-recruiters', key: 'nav.recruiters', exact: false },
-    { path: '/archive', key: 'nav.archive', exact: false },
     { path: '/contact', key: 'nav.contact', exact: false },
   ];
 }

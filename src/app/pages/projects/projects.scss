@@ -332,3 +332,25 @@
     gap: 0.6rem;
   }
 }
+
+/* ===== Unobtrusive old-website teaser at the very end ===== */
+.archive-teaser {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 2.6rem;
+  padding: 1.1rem 1.4rem;
+  opacity: 0.85;
+
+  h3 {
+    margin: 0 0 0.2rem;
+    font-size: 1.05rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.88rem;
+  }
+}
