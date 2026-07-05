@@ -133,13 +133,13 @@ ul > .nav-card {
 }
 .bg {
   flex: 1 1 260px;
-  background: url('/public/images/draw.png');
+  background: url('public/images/draw.png');
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
 }
-.navigation > .nav-card:nth-child(1) .bg { background: url('/public/images/dev.jpeg') 50%/contain no-repeat }
-.navigation > .nav-card:nth-child(2) .bg { background: url('/public/images/dev2.jpeg') 50%/contain no-repeat }
+.navigation > .nav-card:nth-child(1) .bg { background: url('public/images/dev.jpeg') 50%/contain no-repeat }
+.navigation > .nav-card:nth-child(2) .bg { background: url('public/images/dev2.jpeg') 50%/contain no-repeat }
 .portfolio-link {
   outline: none;
   border: none;
