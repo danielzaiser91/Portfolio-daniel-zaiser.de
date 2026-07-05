@@ -50,3 +50,6 @@ Thumbs.db
 
 # Local deployment zips of the built site
 /*.zip
+
+# Extracted deployment folders
+/daniel-zaiser.de_*/
