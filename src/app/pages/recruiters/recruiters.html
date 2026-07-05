@@ -1,0 +1,61 @@
+<div class="page container">
+  <h1 class="page-title">{{ i18n.t('rec.title') }}</h1>
+  <p class="page-lead">{{ i18n.t('rec.lead') }}</p>
+
+  <section class="card summary">
+    <h2>{{ i18n.t('rec.summary.title') }}</h2>
+    <p>{{ i18n.t('rec.summary.text') }}</p>
+    <a [href]="linkedin" target="_blank" rel="noopener" class="btn">{{ i18n.t('rec.linkedin') }} ↗</a>
+  </section>
+
+  <section>
+    <h2 class="section-title">{{ i18n.t('rec.experience') }}</h2>
+    <div class="timeline">
+      @for (s of stations; track s.company) {
+        <article class="card station">
+          <div class="when">
+            {{ s.from }} – {{ s.to || i18n.t('rec.today') }}
+          </div>
+          <h3>{{ i18n.pick(s.role) }}</h3>
+          <p class="company">{{ s.company }} · {{ s.location }}</p>
+          <p class="about muted">{{ i18n.pick(s.about) }}</p>
+          <ul>
+            @for (point of s.points; track $index) {
+              <li>{{ i18n.pick(point) }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">{{ i18n.t('rec.skills') }}</h2>
+    <div class="skill-tags">
+      @for (skill of skills; track skill) {
+        <span class="tag">{{ skill }}</span>
+      }
+    </div>
+  </section>
+
+  <div class="two-col">
+    <section class="card">
+      <h2>{{ i18n.t('rec.certs') }}</h2>
+      <p>🏅 {{ i18n.t('rec.cert.angular') }}</p>
+    </section>
+
+    <section class="card">
+      <h2>{{ i18n.t('rec.langs') }}</h2>
+      <ul class="langs">
+        <li><strong>{{ i18n.t('rec.lang.de') }}</strong> — {{ i18n.t('rec.lang.de.level') }}</li>
+        <li><strong>{{ i18n.t('rec.lang.en') }}</strong> — {{ i18n.t('rec.lang.en.level') }}</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="card cv-box">
+    <h2>{{ i18n.t('rec.cv.title') }}</h2>
+    <p class="muted">{{ i18n.t('rec.cv.text') }}</p>
+    <a routerLink="/contact" class="btn primary">{{ i18n.t('rec.cv.cta') }}</a>
+  </section>
+</div>

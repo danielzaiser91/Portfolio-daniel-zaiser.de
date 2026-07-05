@@ -1,0 +1,86 @@
+<div class="page container">
+  <h1 class="page-title">{{ i18n.t('projects.title') }}</h1>
+  <p class="page-lead">{{ i18n.t('projects.lead') }}</p>
+
+  <section>
+    <h2 class="section-title">💼 {{ i18n.t('projects.serious') }}</h2>
+    <div class="grid">
+      @for (p of serious; track p.name) {
+        <article class="card project" [class.highlight]="p.highlight">
+          <header>
+            <h3>{{ p.name }}</h3>
+            <span class="commits" title="Commits">{{ p.commits }} {{ i18n.t('projects.commits') }}</span>
+          </header>
+          <p class="desc">{{ i18n.pick(p.description) }}</p>
+          <div class="tech-tags">
+            @for (t of p.tech; track t) {
+              <span class="tag">{{ t }}</span>
+            }
+          </div>
+          <dl class="facts">
+            <div>
+              <dt>{{ i18n.t('projects.span') }}</dt>
+              <dd>{{ span(p) }}</dd>
+            </div>
+            <div>
+              <dt>{{ i18n.t('projects.lastTouched') }}</dt>
+              <dd>{{ month(p.lastTouched) }}</dd>
+            </div>
+            <div>
+              <dt>{{ i18n.t('projects.estTime') }}</dt>
+              <dd>~{{ p.estHours }} {{ i18n.t('projects.hours') }}</dd>
+            </div>
+          </dl>
+          <p class="knowledge"><strong>{{ i18n.t('projects.knowledge') }}:</strong> {{ i18n.pick(p.knowledge) }}</p>
+          <footer>
+            <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.repo') }} ↗</a>
+            @if (p.demo) {
+              <a [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.demo') }} ↗</a>
+            }
+          </footer>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">🎮 {{ i18n.t('projects.fun') }}</h2>
+    <div class="grid">
+      @for (p of fun; track p.name) {
+        <article class="card project" [class.highlight]="p.highlight">
+          <header>
+            <h3>{{ p.name }}</h3>
+            <span class="commits" title="Commits">{{ p.commits }} {{ i18n.t('projects.commits') }}</span>
+          </header>
+          <p class="desc">{{ i18n.pick(p.description) }}</p>
+          <div class="tech-tags">
+            @for (t of p.tech; track t) {
+              <span class="tag">{{ t }}</span>
+            }
+          </div>
+          <dl class="facts">
+            <div>
+              <dt>{{ i18n.t('projects.span') }}</dt>
+              <dd>{{ span(p) }}</dd>
+            </div>
+            <div>
+              <dt>{{ i18n.t('projects.lastTouched') }}</dt>
+              <dd>{{ month(p.lastTouched) }}</dd>
+            </div>
+            <div>
+              <dt>{{ i18n.t('projects.estTime') }}</dt>
+              <dd>~{{ p.estHours }} {{ i18n.t('projects.hours') }}</dd>
+            </div>
+          </dl>
+          <p class="knowledge"><strong>{{ i18n.t('projects.knowledge') }}:</strong> {{ i18n.pick(p.knowledge) }}</p>
+          <footer>
+            <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.repo') }} ↗</a>
+            @if (p.demo) {
+              <a [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.demo') }} ↗</a>
+            }
+          </footer>
+        </article>
+      }
+    </div>
+  </section>
+</div>

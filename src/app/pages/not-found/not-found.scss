@@ -1,0 +1,20 @@
+.nf {
+  text-align: center;
+  padding-top: 5rem;
+
+  h1 {
+    font-size: 6rem;
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--mono);
+    text-shadow: 0 0 40px rgba(53, 208, 186, 0.4);
+  }
+
+  h2 {
+    margin: 0 0 0.5rem;
+  }
+
+  p {
+    margin: 0 0 1.8rem;
+  }
+}
