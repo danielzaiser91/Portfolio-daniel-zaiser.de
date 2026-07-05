@@ -2,85 +2,106 @@
   <h1 class="page-title">{{ i18n.t('projects.title') }}</h1>
   <p class="page-lead">{{ i18n.t('projects.lead') }}</p>
 
-  <section>
-    <h2 class="section-title">💼 {{ i18n.t('projects.serious') }}</h2>
-    <div class="grid">
-      @for (p of serious; track p.name) {
-        <article class="card project" [class.highlight]="p.highlight">
-          <header>
-            <h3>{{ p.name }}</h3>
-            <span class="commits" title="Commits">{{ p.commits }} {{ i18n.t('projects.commits') }}</span>
-          </header>
-          <p class="desc">{{ i18n.pick(p.description) }}</p>
-          <div class="tech-tags">
-            @for (t of p.tech; track t) {
-              <span class="tag">{{ t }}</span>
-            }
-          </div>
-          <dl class="facts">
-            <div>
-              <dt>{{ i18n.t('projects.span') }}</dt>
-              <dd>{{ span(p) }}</dd>
-            </div>
-            <div>
-              <dt>{{ i18n.t('projects.lastTouched') }}</dt>
-              <dd>{{ month(p.lastTouched) }}</dd>
-            </div>
-            <div>
-              <dt>{{ i18n.t('projects.estTime') }}</dt>
-              <dd>~{{ p.estHours }} {{ i18n.t('projects.hours') }}</dd>
-            </div>
-          </dl>
-          <p class="knowledge"><strong>{{ i18n.t('projects.knowledge') }}:</strong> {{ i18n.pick(p.knowledge) }}</p>
-          <footer>
-            <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.repo') }} ↗</a>
-            @if (p.demo) {
-              <a [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.demo') }} ↗</a>
-            }
-          </footer>
-        </article>
-      }
+  <div class="summary glass">
+    <div class="sum">
+      <span class="num">{{ projectCount }}</span>
+      <span class="lbl">{{ i18n.t('projects.summary.projects') }}</span>
     </div>
-  </section>
+    <div class="sum">
+      <span class="num">{{ totalCommits }}</span>
+      <span class="lbl">{{ i18n.t('projects.summary.commits') }}</span>
+    </div>
+    <div class="sum">
+      <span class="num">~{{ totalHours }}</span>
+      <span class="lbl">{{ i18n.t('projects.summary.hours') }}</span>
+    </div>
+    <div class="sum">
+      <span class="num">{{ yearsActive }}</span>
+      <span class="lbl">{{ i18n.t('projects.summary.years') }}</span>
+    </div>
+  </div>
 
-  <section>
-    <h2 class="section-title">🎮 {{ i18n.t('projects.fun') }}</h2>
-    <div class="grid">
-      @for (p of fun; track p.name) {
-        <article class="card project" [class.highlight]="p.highlight">
-          <header>
-            <h3>{{ p.name }}</h3>
-            <span class="commits" title="Commits">{{ p.commits }} {{ i18n.t('projects.commits') }}</span>
-          </header>
-          <p class="desc">{{ i18n.pick(p.description) }}</p>
-          <div class="tech-tags">
-            @for (t of p.tech; track t) {
-              <span class="tag">{{ t }}</span>
-            }
-          </div>
-          <dl class="facts">
-            <div>
-              <dt>{{ i18n.t('projects.span') }}</dt>
-              <dd>{{ span(p) }}</dd>
+  @for (section of sections; track section.id) {
+    <section>
+      <h2 class="section-title">{{ section.icon }} {{ i18n.t(section.titleKey) }} <span class="count">({{ section.items.length }})</span></h2>
+      <div class="grid">
+        @for (p of section.items; track p.name) {
+          <article class="card project" [class.highlight]="p.highlight" [class.fun]="section.id === 'fun'">
+            <header>
+              <h3>{{ p.name }}</h3>
+              <span class="lang" [title]="langOf(p)">
+                <span class="lang-dot" [style.background]="langColor(p)"></span>{{ langOf(p) }}
+              </span>
+            </header>
+            <p class="desc">{{ i18n.pick(p.description) }}</p>
+            <div class="tech-tags">
+              @for (t of p.tech; track t) {
+                <span class="tag">{{ t }}</span>
+              }
             </div>
-            <div>
-              <dt>{{ i18n.t('projects.lastTouched') }}</dt>
-              <dd>{{ month(p.lastTouched) }}</dd>
+
+            <div class="viz">
+              <div class="tl">
+                <div class="tl-track">
+                  @for (y of gridYears; track y) {
+                    <span class="tl-tick" [style.left.%]="tickLeft(y)" [attr.data-year]="y"></span>
+                  }
+                  <div
+                    class="tl-seg"
+                    [class.fresh]="freshness(p) === 'fresh'"
+                    [style.left.%]="tlLeft(p)"
+                    [style.width.%]="tlWidth(p)"
+                  ></div>
+                </div>
+                <div class="tl-labels">
+                  <span>{{ tlMin }}</span>
+                  <span class="tl-span">{{ span(p) }}</span>
+                  <span>{{ i18n.lang() === 'de' ? 'heute' : 'today' }}</span>
+                </div>
+              </div>
+
+              <div class="stats">
+                <div class="stat">
+                  <span class="s-label">{{ i18n.t('projects.commits') }}</span>
+                  <div class="bar">
+                    <div class="fill" [style.width.%]="commitPct(p)"></div>
+                  </div>
+                  <span class="s-val">{{ p.commits }}</span>
+                </div>
+
+                <div class="stat-row">
+                  <div class="stat donut-stat" [title]="i18n.t('projects.estTime')">
+                    <svg viewBox="0 0 36 36" class="donut" aria-hidden="true">
+                      <circle class="ring" cx="18" cy="18" r="15.9155" />
+                      <circle class="val" cx="18" cy="18" r="15.9155" [style.stroke-dasharray]="hoursPct(p) + ' 100'" />
+                    </svg>
+                    <div class="s-col">
+                      <span class="s-val">~{{ p.estHours }} {{ i18n.t('projects.hours') }}</span>
+                      <span class="s-label">{{ i18n.t('projects.estTime') }}</span>
+                    </div>
+                  </div>
+
+                  <div class="stat fresh-stat" [title]="i18n.t('projects.lastTouched')">
+                    <span class="fresh-dot" [class]="freshness(p)"></span>
+                    <div class="s-col">
+                      <span class="s-val">{{ month(p.lastTouched) }}</span>
+                      <span class="s-label">{{ i18n.t('projects.lastTouched') }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <dt>{{ i18n.t('projects.estTime') }}</dt>
-              <dd>~{{ p.estHours }} {{ i18n.t('projects.hours') }}</dd>
-            </div>
-          </dl>
-          <p class="knowledge"><strong>{{ i18n.t('projects.knowledge') }}:</strong> {{ i18n.pick(p.knowledge) }}</p>
-          <footer>
-            <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.repo') }} ↗</a>
-            @if (p.demo) {
-              <a [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.demo') }} ↗</a>
-            }
-          </footer>
-        </article>
-      }
-    </div>
-  </section>
+
+            <p class="knowledge"><strong>{{ i18n.t('projects.knowledge') }}:</strong> {{ i18n.pick(p.knowledge) }}</p>
+            <footer>
+              <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.repo') }} ↗</a>
+              @if (p.demo) {
+                <a [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.demo') }} ↗</a>
+              }
+            </footer>
+          </article>
+        }
+      </div>
+    </section>
+  }
 </div>

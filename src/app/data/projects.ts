@@ -24,6 +24,41 @@ const PAGES = 'https://danielzaiser91.github.io';
 
 export const repoUrl = (p: Project) => `${GH}/${p.name}`;
 
+/** Primary GitHub language per repo (from the API, 2026-07-05). */
+export const LANGUAGES: Record<string, string> = {
+  'chrome-utilities': 'JavaScript',
+  'homestream': 'Shell',
+  'bubble-notifications': 'JavaScript',
+  'best_posts': 'TypeScript',
+  'ng-abschlussprojekt-reisekarte': 'TypeScript',
+  'daniel-zaiser.de': 'HTML',
+  'calendarApp': 'TypeScript',
+  'custom-scrollbars': 'HTML',
+  'arturs-webseite': 'HTML',
+  'ng-whatsapp-clone': 'TypeScript',
+  'incremental-adventure': 'JavaScript',
+  'stardust-to-singularity': 'TypeScript',
+  'ratespiel-wer-bin-ich': 'JavaScript',
+  'anime-adventure': 'TypeScript',
+  'cosmic-forge': 'GDScript',
+  'endless-arena': 'HTML',
+  'revolution-idle-clone': 'JavaScript',
+  'angular-clicker': 'TypeScript',
+  'incremental_adventure__dirty': 'JavaScript',
+  'incremental_adventure': 'JavaScript',
+  'multiplayer-games': 'TypeScript',
+  'QuizCheater': 'TypeScript',
+  'ng-cyberpunk-minigame': 'TypeScript',
+};
+
+export const LANGUAGE_COLORS: Record<string, string> = {
+  TypeScript: '#3178c6',
+  JavaScript: '#f1e05a',
+  HTML: '#e34c26',
+  Shell: '#89e051',
+  GDScript: '#478cbf',
+};
+
 /**
  * Commit counts, dates and demo availability pulled from the GitHub API on 2026-07-05.
  * estHours is a heuristic from commit count x development span, sanity-checked by memory.

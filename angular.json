@@ -33,16 +33,6 @@
                 "input": "website",
                 "output": "archive",
                 "ignore": ["**/.git/**", "zaiserde.zip"]
-              },
-              {
-                "glob": "**/*",
-                "input": "website/public",
-                "output": "public"
-              },
-              {
-                "glob": "myIcons.css",
-                "input": "website",
-                "output": "."
               }
             ],
             "styles": [

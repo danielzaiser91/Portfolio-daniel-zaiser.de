@@ -47,6 +47,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.knowledge': 'What I learned',
     'projects.repo': 'Repository',
     'projects.demo': 'Live demo',
+    'projects.summary.projects': 'public projects',
+    'projects.summary.commits': 'commits total',
+    'projects.summary.hours': 'estimated hours',
+    'projects.summary.years': 'years of side projects',
 
     // Recruiters
     'rec.title': 'For Recruiters & Headhunters',
@@ -161,6 +165,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.knowledge': 'Was ich gelernt habe',
     'projects.repo': 'Repository',
     'projects.demo': 'Live-Demo',
+    'projects.summary.projects': 'öffentliche Projekte',
+    'projects.summary.commits': 'Commits gesamt',
+    'projects.summary.hours': 'geschätzte Stunden',
+    'projects.summary.years': 'Jahre Nebenprojekte',
 
     // Recruiters
     'rec.title': 'Für Recruiter & Headhunter',
