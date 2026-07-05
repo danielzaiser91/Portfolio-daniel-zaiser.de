@@ -139,6 +139,52 @@
   font-size: 0.85rem;
 }
 
+/* ===== Sections ===== */
+.lib-section {
+  margin-bottom: 2.2rem;
+
+  h2 {
+    margin: 1.2rem 0 0.15rem;
+    font-size: 1.35rem;
+  }
+
+  .hint {
+    margin: 0 0 1rem;
+    font-size: 0.88rem;
+  }
+
+  &.wip-section {
+    opacity: 0.92;
+
+    h2 {
+      color: var(--text-2);
+    }
+  }
+}
+
+.wip-badge {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(255, 193, 7, 0.18);
+  border: 1px solid rgba(255, 193, 7, 0.55);
+  color: #ffd75e;
+  backdrop-filter: blur(6px);
+}
+
+.game.wip {
+  border-style: dashed;
+
+  .capsule {
+    position: relative;
+    filter: saturate(0.75);
+  }
+}
+
 /* ===== Library grid (Steam capsule cards) ===== */
 .library {
   display: grid;
