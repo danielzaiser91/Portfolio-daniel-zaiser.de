@@ -124,8 +124,8 @@ export const PROJECTS: Project[] = [
     category: 'serious',
     tech: ['HTML', 'CSS', 'Vanilla JS'],
     description: {
-      en: 'The source of my previous personal website — hand-crafted without any framework. Fully preserved in the archive section of this site.',
-      de: 'Der Quellcode meiner vorherigen persönlichen Webseite — komplett ohne Framework von Hand gebaut. Vollständig erhalten im Archiv-Bereich dieser Seite.',
+      en: 'The source of my previous personal website — hand-crafted without any framework, including a playground of games and pure tech demos (Design-It, CSS challenges, 3D art, a hand-built clock). Fully preserved in the archive section of this site.',
+      de: 'Der Quellcode meiner vorherigen persönlichen Webseite — komplett ohne Framework von Hand gebaut, inklusive Playground aus Spielen und reinen Tech-Demos (Design-It, CSS-Challenges, 3D-Art, handgebaute Uhr). Vollständig erhalten im Archiv-Bereich dieser Seite.',
     },
     knowledge: {
       en: 'What frameworks actually solve — by not using one: routing, state, animation and structure by hand.',
@@ -390,8 +390,8 @@ export const PROJECTS: Project[] = [
     category: 'fun',
     tech: ['TypeScript', 'WebSockets'],
     description: {
-      en: 'Experiments with browser multiplayer games and real-time communication.',
-      de: 'Experimente mit Browser-Multiplayer-Spielen und Echtzeit-Kommunikation.',
+      en: 'Experiments with browser multiplayer games and real-time communication — including a draw-and-guess party game with word prompts and chat.',
+      de: 'Experimente mit Browser-Multiplayer-Spielen und Echtzeit-Kommunikation — u. a. ein Montagsmaler-Ratespiel mit Suchbegriff und Chat.',
     },
     knowledge: {
       en: 'WebSockets, realtime state sync, latency handling.',
@@ -407,12 +407,12 @@ export const PROJECTS: Project[] = [
     category: 'fun',
     tech: ['TypeScript'],
     description: {
-      en: 'A tongue-in-cheek quiz helper tool — built for the fun of the challenge.',
-      de: 'Ein augenzwinkerndes Quiz-Hilfstool — gebaut, weil die Challenge Spaß gemacht hat.',
+      en: 'Unfinished quiz tool inspired by the German “WER LÜGT HIER?” show format by Vlesk, built for Twitch streamer umut_rre. Never completed — kept public as a project snapshot.',
+      de: 'Unvollendetes Quiz-Tool, angelehnt an das „WER LÜGT HIER?“-Format von Vlesk, gebaut für den Twitch-Streamer umut_rre. Nie fertiggestellt — bleibt als Projekt-Einblick öffentlich.',
     },
     knowledge: {
-      en: 'Fast DOM scraping and matching under time pressure.',
-      de: 'Schnelles DOM-Scraping und Matching unter Zeitdruck.',
+      en: 'Translating a live-show format into an app concept; knowing when to park a side project.',
+      de: 'Ein Live-Show-Format in ein App-Konzept übersetzen; erkennen, wann man ein Nebenprojekt ruhen lässt.',
     },
     commits: 3,
     started: '2024-03',

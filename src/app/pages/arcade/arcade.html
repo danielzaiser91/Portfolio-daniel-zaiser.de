@@ -49,38 +49,49 @@
     </div>
   </section>
 
-  <p class="count muted">{{ resultCount() }} {{ resultCount() === 1 ? 'Treffer' : 'Treffer' }}</p>
+  <p class="count muted">{{ resultCount() }} Treffer</p>
 
-  <section class="library">
-    @for (g of filtered(); track g.title) {
-      <article class="game card">
-        <a class="capsule" [href]="g.url" target="_blank" rel="noopener" [style.background]="capsuleStyle(g)">
-          @if (g.image) {
-            <img [src]="g.image" [alt]="g.title" loading="lazy" />
-          } @else {
-            <span class="cemoji">{{ g.emoji }}</span>
-          }
-        </a>
-        <div class="body">
-          <h3>{{ g.emoji }} {{ g.title }}</h3>
-          <div class="tags">
-            @for (t of g.tags; track t) {
-              <span class="tag">{{ t }}</span>
-            }
-          </div>
-          <dl class="meta">
-            <div><dt>👥 Spieler</dt><dd>{{ g.players }}</dd></div>
-            <div><dt>⏱️ Spielspaß</dt><dd>{{ g.playtime }}</dd></div>
-          </dl>
-          <p class="situation">📍 {{ g.situation }}</p>
-          <p class="desc muted">{{ g.description }}</p>
-          <a class="btn primary play" [href]="g.url" target="_blank" rel="noopener">
-            {{ g.repoOnly ? '📦 Zum Repo' : '▶ Spielen' }}
-          </a>
-        </div>
-      </article>
-    } @empty {
-      <p class="empty muted">Nichts gefunden 😢 — probier einen anderen Begriff oder eine andere Kategorie.</p>
-    }
-  </section>
+  @for (section of sections(); track section.id) {
+    <section class="lib-section" [class.wip-section]="section.id === 'wip'">
+      <h2>{{ section.title }}</h2>
+      <p class="hint muted">{{ section.hint }}</p>
+      <div class="library">
+        @for (g of section.items; track g.title) {
+          <article class="game card" [class.wip]="g.wip">
+            <a class="capsule" [href]="g.url" target="_blank" rel="noopener" [style.background]="capsuleStyle(g)">
+              @if (g.image) {
+                <img [src]="g.image" [alt]="g.title" loading="lazy" />
+              } @else {
+                <span class="cemoji">{{ g.emoji }}</span>
+              }
+              @if (g.wip) {
+                <span class="wip-badge">🚧 Unfertig</span>
+              }
+            </a>
+            <div class="body">
+              <h3>{{ g.emoji }} {{ g.title }}</h3>
+              <div class="tags">
+                @for (t of g.tags; track t) {
+                  <span class="tag">{{ t }}</span>
+                }
+              </div>
+              @if (g.kind !== 'tool') {
+                <dl class="meta">
+                  <div><dt>👥 Spieler</dt><dd>{{ g.players }}</dd></div>
+                  <div><dt>⏱️ Spielspaß</dt><dd>{{ g.playtime }}</dd></div>
+                </dl>
+              }
+              <p class="situation">📍 {{ g.situation }}</p>
+              <p class="desc muted">{{ g.description }}</p>
+              <a class="btn play" [class.primary]="!g.wip" [href]="g.url" target="_blank" rel="noopener">
+                {{ buttonLabel(g) }}
+              </a>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  } @empty {
+    <p class="empty muted">Nichts gefunden 😢 — probier einen anderen Begriff oder eine andere Kategorie.</p>
+  }
 </div>
