@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { I18n } from '../../core/i18n';
 import { LANGUAGES, LANGUAGE_COLORS, PROJECTS, Project, repoUrl } from '../../data/projects';
 
 @Component({
   selector: 'app-projects',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
 })

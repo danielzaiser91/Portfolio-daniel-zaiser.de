@@ -155,23 +155,6 @@ export const PROJECTS: Project[] = [
     highlight: true,
   },
   {
-    name: 'daniel-zaiser.de',
-    category: 'serious',
-    tech: ['HTML', 'CSS', 'Vanilla JS'],
-    description: {
-      en: 'The source of my previous personal website — hand-crafted without any framework, including a playground of games and pure tech demos (Design-It, CSS challenges, 3D art, a hand-built clock). Fully preserved in the archive section of this site.',
-      de: 'Der Quellcode meiner vorherigen persönlichen Webseite — komplett ohne Framework von Hand gebaut, inklusive Playground aus Spielen und reinen Tech-Demos (Design-It, CSS-Challenges, 3D-Art, handgebaute Uhr). Vollständig erhalten im Archiv-Bereich dieser Seite.',
-    },
-    knowledge: {
-      en: 'What frameworks actually solve — by not using one: routing, state, animation and structure by hand.',
-      de: 'Was Frameworks wirklich lösen — indem ich keins benutzt habe: Routing, State, Animation und Struktur von Hand.',
-    },
-    commits: 2,
-    started: '2021-02',
-    lastTouched: '2021-02',
-    estHours: 80,
-  },
-  {
     name: 'calendarApp',
     category: 'serious',
     tech: ['TypeScript', 'Angular'],
@@ -238,6 +221,23 @@ export const PROJECTS: Project[] = [
     started: '2020-12',
     lastTouched: '2021-01',
     estHours: 25,
+  },
+  {
+    name: 'daniel-zaiser.de',
+    category: 'serious',
+    tech: ['HTML', 'CSS', 'Vanilla JS'],
+    description: {
+      en: 'The source of my previous personal website — hand-crafted without any framework, including a playground of games and pure tech demos (Design-It, CSS challenges, 3D art, a hand-built clock). Fully preserved in the archive section of this site.',
+      de: 'Der Quellcode meiner vorherigen persönlichen Webseite — komplett ohne Framework von Hand gebaut, inklusive Playground aus Spielen und reinen Tech-Demos (Design-It, CSS-Challenges, 3D-Art, handgebaute Uhr). Vollständig erhalten im Archiv-Bereich dieser Seite.',
+    },
+    knowledge: {
+      en: 'What frameworks actually solve — by not using one: routing, state, animation and structure by hand.',
+      de: 'Was Frameworks wirklich lösen — indem ich keins benutzt habe: Routing, State, Animation und Struktur von Hand.',
+    },
+    commits: 2,
+    started: '2021-02',
+    lastTouched: '2021-02',
+    estHours: 80,
   },
 
   // ===== Fun =====
