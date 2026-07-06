@@ -31,7 +31,7 @@ export const LANGUAGES: Record<string, string> = {
   'bubble-notifications': 'JavaScript',
   'best_posts': 'TypeScript',
   'ng-abschlussprojekt-reisekarte': 'TypeScript',
-  'daniel-zaiser.de': 'TypeScript',
+  'Portfolio-daniel-zaiser.de': 'TypeScript',
   'calendarApp': 'TypeScript',
   'custom-scrollbars': 'HTML',
   'arturs-webseite': 'HTML',
@@ -223,7 +223,7 @@ export const PROJECTS: Project[] = [
     estHours: 25,
   },
   {
-    name: 'daniel-zaiser.de',
+    name: 'Portfolio-daniel-zaiser.de',
     category: 'serious',
     tech: ['Angular 21', 'TypeScript', 'SCSS', 'Signals'],
     description: {
