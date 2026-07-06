@@ -24,6 +24,5 @@ export class App {
     { path: '/', key: 'nav.home', exact: true },
     { path: '/projects', key: 'nav.projects', exact: false },
     { path: '/for-recruiters', key: 'nav.recruiters', exact: false },
-    { path: '/contact', key: 'nav.contact', exact: false },
   ];
 }

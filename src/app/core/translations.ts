@@ -7,7 +7,6 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'nav.projects': 'Projects',
     'nav.recruiters': 'For Recruiters',
     'nav.archive': 'Old Website',
-    'nav.contact': 'Contact',
 
     // Footer
     'footer.built': 'Built with Angular 21 — no trackers, no cookies.',
@@ -28,7 +27,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'home.visitor.text': 'Browse my serious work and my fun experiments — games, tools, and the playground of my old website.',
     'home.visitor.cta': 'Explore my projects',
     'home.recruiter.title': 'Recruiter or headhunter?',
-    'home.recruiter.text': 'Experience, skills, certificates and languages at a glance — the full CV is available on request.',
+    'home.recruiter.text': 'Experience, skills, certificates and languages at a glance — feel free to connect on LinkedIn.',
     'home.recruiter.cta': 'View my profile',
     'home.tech.title': 'Tech I work with',
 
@@ -60,9 +59,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
     // Recruiters
     'rec.title': 'For Recruiters & Headhunters',
-    'rec.lead':
-      'The essentials of my professional profile. The full CV — including contact details and references — ' +
-      'is available on request via the contact form.',
+    'rec.lead': 'The essentials of my professional profile — experience, skills, certificates and languages.',
     'rec.summary.title': 'Profile',
     'rec.summary.text':
       'Senior software developer with a frontend focus (Angular), professionally since August 2018. ' +
@@ -79,31 +76,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'rec.lang.de.level': 'native',
     'rec.lang.en': 'English',
     'rec.lang.en.level': 'fluent to business-level',
-    'rec.cv.title': 'Want the full CV?',
-    'rec.cv.text':
-      'I don’t publish my CV with private contact details on the open web. ' +
-      'Send me a short message and I’ll reply with the complete PDF — usually within a day.',
-    'rec.cv.cta': 'Request CV',
+    'rec.connect.title': 'Let’s connect',
+    'rec.connect.text': 'The best way to reach me is LinkedIn — feel free to connect or send a message there.',
+    'rec.connect.cta': 'Connect on LinkedIn',
     'rec.linkedin': 'See my LinkedIn profile',
-
-    // Contact
-    'contact.title': 'Contact',
-    'contact.lead':
-      'Whether it’s a role, a project or just a question about one of my repos — drop me a message. ' +
-      'It lands directly and privately in my inbox (spam-filtered, my address is never exposed).',
-    'contact.name': 'Your name',
-    'contact.email': 'Your email',
-    'contact.subject': 'Subject',
-    'contact.subject.placeholder': 'e.g. Job opportunity, project inquiry, CV request …',
-    'contact.message': 'Message',
-    'contact.send': 'Send message',
-    'contact.sending': 'Sending …',
-    'contact.success': 'Thanks! Your message has been sent — I’ll get back to you soon.',
-    'contact.error': 'Something went wrong. Please try again, or reach out via LinkedIn instead.',
-    'contact.required': 'This field is required.',
-    'contact.invalidEmail': 'Please enter a valid email address.',
-    'contact.linkedin.title': 'Prefer LinkedIn?',
-    'contact.linkedin.text': 'You can also reach me directly there:',
 
     // Archive
     'archive.title': 'The Old Website',
@@ -131,7 +107,6 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'nav.projects': 'Projekte',
     'nav.recruiters': 'Für Recruiter',
     'nav.archive': 'Alte Webseite',
-    'nav.contact': 'Kontakt',
 
     // Footer
     'footer.built': 'Gebaut mit Angular 21 — ohne Tracker, ohne Cookies.',
@@ -152,7 +127,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'home.visitor.text': 'Hier gibt es ernsthafte Projekte und verspielte Experimente — Spiele, Tools und den Playground meiner alten Webseite.',
     'home.visitor.cta': 'Zu meinen Projekten',
     'home.recruiter.title': 'Recruiter oder Headhunter?',
-    'home.recruiter.text': 'Erfahrung, Skills, Zertifikate und Sprachen auf einen Blick — den vollständigen Lebenslauf gibt es auf Anfrage.',
+    'home.recruiter.text': 'Erfahrung, Skills, Zertifikate und Sprachen auf einen Blick — gerne auch auf LinkedIn vernetzen.',
     'home.recruiter.cta': 'Zum Profil',
     'home.tech.title': 'Tech-Stack',
 
@@ -184,9 +159,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
 
     // Recruiters
     'rec.title': 'Für Recruiter & Headhunter',
-    'rec.lead':
-      'Das Wichtigste aus meinem beruflichen Profil. Den vollständigen Lebenslauf — inklusive Kontaktdaten und ' +
-      'Arbeitszeugnissen — gibt es auf Anfrage über das Kontaktformular.',
+    'rec.lead': 'Das Wichtigste aus meinem beruflichen Profil — Erfahrung, Skills, Zertifikate und Sprachen.',
     'rec.summary.title': 'Profil',
     'rec.summary.text':
       'Senior Software-Entwickler mit Frontend-Fokus (Angular), im Beruf seit August 2018. ' +
@@ -203,31 +176,10 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'rec.lang.de.level': 'Muttersprache',
     'rec.lang.en': 'Englisch',
     'rec.lang.en.level': 'fließend bis verhandlungssicher',
-    'rec.cv.title': 'Vollständigen Lebenslauf anfordern?',
-    'rec.cv.text':
-      'Meinen Lebenslauf mit privaten Kontaktdaten veröffentliche ich nicht im offenen Web. ' +
-      'Eine kurze Nachricht genügt — ich antworte mit dem vollständigen PDF, meist innerhalb eines Tages.',
-    'rec.cv.cta': 'Lebenslauf anfragen',
+    'rec.connect.title': 'Lass uns vernetzen',
+    'rec.connect.text': 'Am besten erreichst du mich über LinkedIn — dort gerne vernetzen oder eine Nachricht schreiben.',
+    'rec.connect.cta': 'Auf LinkedIn vernetzen',
     'rec.linkedin': 'Zu meinem LinkedIn-Profil',
-
-    // Contact
-    'contact.title': 'Kontakt',
-    'contact.lead':
-      'Ob Jobangebot, Projekt oder einfach eine Frage zu einem meiner Repos — schreib mir. ' +
-      'Die Nachricht landet direkt und privat in meinem Postfach (spam-gefiltert, meine Adresse bleibt verborgen).',
-    'contact.name': 'Dein Name',
-    'contact.email': 'Deine E-Mail',
-    'contact.subject': 'Betreff',
-    'contact.subject.placeholder': 'z. B. Jobangebot, Projektanfrage, Lebenslauf-Anfrage …',
-    'contact.message': 'Nachricht',
-    'contact.send': 'Nachricht senden',
-    'contact.sending': 'Wird gesendet …',
-    'contact.success': 'Danke! Deine Nachricht wurde gesendet — ich melde mich bald.',
-    'contact.error': 'Da ist etwas schiefgelaufen. Bitte versuch es nochmal — oder schreib mir auf LinkedIn.',
-    'contact.required': 'Pflichtfeld.',
-    'contact.invalidEmail': 'Bitte eine gültige E-Mail-Adresse eingeben.',
-    'contact.linkedin.title': 'Lieber LinkedIn?',
-    'contact.linkedin.text': 'Du erreichst mich auch direkt dort:',
 
     // Archive
     'archive.title': 'Die alte Webseite',

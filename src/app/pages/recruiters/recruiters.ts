@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { I18n, LText } from '../../core/i18n';
 import { LINKEDIN_URL } from '../../app';
 
@@ -16,7 +15,7 @@ interface Station {
 
 @Component({
   selector: 'app-recruiters',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './recruiters.html',
   styleUrl: './recruiters.scss',
 })

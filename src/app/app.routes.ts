@@ -18,10 +18,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/archive/archive').then((m) => m.Archive),
   },
   {
-    path: 'contact',
-    loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
-  },
-  {
     // Hidden route — intentionally not linked in the UI, shared by URL only.
     path: 'arcade',
     loadComponent: () => import('./pages/arcade/arcade').then((m) => m.Arcade),
