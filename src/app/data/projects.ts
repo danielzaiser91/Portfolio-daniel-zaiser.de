@@ -60,7 +60,12 @@ export const LANGUAGE_COLORS: Record<string, string> = {
 };
 
 /**
- * Commit counts, dates and demo availability pulled from the GitHub API on 2026-07-05.
+ * Curated project data. Commits/started/lastTouched/language below are a snapshot from
+ * 2026-07-05 and serve as the fallback baseline — the projects page (see GithubLiveStats)
+ * fetches these live from the public GitHub API at runtime and overlays them reactively,
+ * falling back to this snapshot only if the live fetch fails or a repo is unreachable
+ * (e.g. private). Everything else (description, knowledge, category, estHours, tech tags)
+ * is curated and never live — GitHub has no API for "hours invested" or a bilingual write-up.
  * estHours is a heuristic from commit count x development span, sanity-checked by memory.
  */
 export const PROJECTS: Project[] = [
