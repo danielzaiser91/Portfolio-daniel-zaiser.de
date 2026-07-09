@@ -17,6 +17,8 @@ export interface Project {
   /** Set when a GitHub Pages demo exists. */
   demo?: string;
   highlight?: boolean;
+  /** True when the repo is private — hide the (dead-for-visitors) repo link, show a badge instead. */
+  repoPrivate?: boolean;
 }
 
 const GH = 'https://github.com/danielzaiser91';
@@ -158,6 +160,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2021-03',
     estHours: 150,
     highlight: true,
+    repoPrivate: true,
   },
   {
     name: 'calendarApp',
@@ -175,6 +178,7 @@ export const PROJECTS: Project[] = [
     started: '2022-08',
     lastTouched: '2022-09',
     estHours: 10,
+    repoPrivate: true,
   },
   {
     name: 'custom-scrollbars',

@@ -179,10 +179,18 @@
 
   footer {
     display: flex;
+    align-items: center;
     gap: 1.2rem;
     font-weight: 600;
     font-size: 0.92rem;
   }
+}
+
+.private-badge {
+  color: var(--text-2);
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: help;
 }
 
 /* ===== Data visualization block ===== */
