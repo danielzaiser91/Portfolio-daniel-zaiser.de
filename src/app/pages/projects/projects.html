@@ -105,7 +105,11 @@
 
             <p class="knowledge"><strong>{{ i18n.t('projects.knowledge') }}:</strong> {{ i18n.pick(p.knowledge) }}</p>
             <footer>
-              <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.repo') }} ↗</a>
+              @if (!p.repoPrivate) {
+                <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.repo') }} ↗</a>
+              } @else {
+                <span class="private-badge" [title]="i18n.t('projects.repo.private.tooltip')">🔒 {{ i18n.t('projects.repo.private') }}</span>
+              }
               @if (p.demo) {
                 <a [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.demo') }} ↗</a>
               }
