@@ -8,7 +8,7 @@
       <span class="lbl">{{ i18n.t('projects.summary.projects') }}</span>
     </div>
     <div class="sum">
-      <span class="num">{{ totalCommits }}</span>
+      <span class="num">{{ totalCommits() }}</span>
       <span class="lbl">{{ i18n.t('projects.summary.commits') }}</span>
     </div>
     <div class="sum">
@@ -16,8 +16,11 @@
       <span class="lbl">{{ i18n.t('projects.summary.hours') }}</span>
     </div>
     <div class="sum">
-      <span class="num">{{ yearsActive }}</span>
+      <span class="num">{{ yearsActive() }}</span>
       <span class="lbl">{{ i18n.t('projects.summary.years') }}</span>
+    </div>
+    <div class="live-indicator" [class.on]="!liveLoading()" [title]="i18n.t('projects.live.tooltip')">
+      <span class="live-dot"></span>{{ i18n.t(liveLoading() ? 'projects.live.syncing' : 'projects.live.on') }}
     </div>
   </div>
 
@@ -51,7 +54,7 @@
             <div class="viz">
               <div class="tl">
                 <div class="tl-track">
-                  @for (y of gridYears; track y) {
+                  @for (y of gridYears(); track y) {
                     <span class="tl-tick" [style.left.%]="tickLeft(y)" [attr.data-year]="y"></span>
                   }
                   <div
@@ -62,7 +65,7 @@
                   ></div>
                 </div>
                 <div class="tl-labels">
-                  <span>{{ tlMin }}</span>
+                  <span>{{ tlMin() }}</span>
                   <span class="tl-span">{{ span(p) }}</span>
                   <span>{{ i18n.lang() === 'de' ? 'heute' : 'today' }}</span>
                 </div>
@@ -74,7 +77,7 @@
                   <div class="bar">
                     <div class="fill" [style.width.%]="commitPct(p)"></div>
                   </div>
-                  <span class="s-val">{{ p.commits }}</span>
+                  <span class="s-val">{{ commitsOf(p) }}</span>
                 </div>
 
                 <div class="stat-row">
@@ -92,7 +95,7 @@
                   <div class="stat fresh-stat" [title]="i18n.t('projects.lastTouched')">
                     <span class="fresh-dot" [class]="freshness(p)"></span>
                     <div class="s-col">
-                      <span class="s-val">{{ month(p.lastTouched) }}</span>
+                      <span class="s-val">{{ month(lastTouchedOf(p)) }}</span>
                       <span class="s-label">{{ i18n.t('projects.lastTouched') }}</span>
                     </div>
                   </div>

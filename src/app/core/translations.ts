@@ -56,6 +56,9 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.archive.title': 'The old website',
     'projects.archive.text': 'My previous hand-crafted site (2020–2023) is fully preserved — playground games, experiments and all.',
     'projects.archive.cta': 'Visit the archive',
+    'projects.live.on': 'Live from GitHub',
+    'projects.live.syncing': 'Syncing with GitHub …',
+    'projects.live.tooltip': 'Commit counts and dates are fetched live from the GitHub API — this page always reflects the real repos, not a static snapshot.',
 
     // Recruiters
     'rec.title': 'For Recruiters & Headhunters',
@@ -156,6 +159,9 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.archive.title': 'Die alte Webseite',
     'projects.archive.text': 'Meine frühere handgebaute Seite (2020–2023) ist vollständig erhalten — mit Playground-Spielen, Experimenten und allem.',
     'projects.archive.cta': 'Zum Archiv',
+    'projects.live.on': 'Live von GitHub',
+    'projects.live.syncing': 'Synchronisiere mit GitHub …',
+    'projects.live.tooltip': 'Commit-Zahlen und Daten werden live von der GitHub-API geladen — diese Seite zeigt immer die echten Repos, keinen statischen Schnappschuss.',
 
     // Recruiters
     'rec.title': 'Für Recruiter & Headhunter',

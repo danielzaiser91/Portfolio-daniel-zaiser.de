@@ -1,13 +1,15 @@
 .summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
   padding: 1.1rem 1.4rem;
   margin-bottom: 1.6rem;
 
   .sum {
     display: flex;
     flex-direction: column;
+    min-width: 110px;
 
     .num {
       font-size: 1.7rem;
@@ -19,6 +21,37 @@
     .lbl {
       color: var(--text-2);
       font-size: 0.82rem;
+    }
+  }
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  color: var(--text-2);
+  font-size: 0.76rem;
+  cursor: help;
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-2);
+  }
+
+  &.on {
+    color: var(--success);
+    border-color: rgba(74, 222, 128, 0.35);
+
+    .live-dot {
+      background: var(--success);
+      box-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+      animation: pulse 2.2s ease-in-out infinite;
     }
   }
 }
