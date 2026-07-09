@@ -157,13 +157,25 @@
   .desc {
     margin: 0.6rem 0 0.9rem;
     font-size: 0.95rem;
+    line-height: 1.4;
+    /* Reserve a fixed 3-line block so everything below (tags, viz, footer) starts at the
+       same height across cards, regardless of description length; longer text clips with an ellipsis. */
+    min-height: 4.2em;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .tech-tags {
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     gap: 0.4rem;
     margin-bottom: 0.95rem;
+    /* Reserve room for 2 rows of tags (the max any card needs) so the viz block below
+       starts at the same height regardless of how many tags a card has. */
+    min-height: 3.75rem;
   }
 
   .knowledge {
