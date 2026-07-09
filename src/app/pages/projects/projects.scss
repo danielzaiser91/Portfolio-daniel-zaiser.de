@@ -120,20 +120,32 @@
   }
 
   &:hover {
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+    /* Negative spread keeps the shadow's visible reach inside the 1.1rem grid gap
+       (~17.6px) so it doesn't bleed into the card below through its backdrop-filter. */
+    box-shadow: 0 8px 16px -14px rgba(0, 0, 0, 0.45);
   }
 
   header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: flex-start;
     gap: 0.5rem;
 
     h3 {
       margin: 0;
       font-size: 1.05rem;
       font-family: var(--mono);
+      line-height: 1.3;
       word-break: break-word;
+      /* Reserve room for 2 lines so a long repo name doesn't push the rest of the card
+         down relative to cards with a short, single-line name. */
+      min-height: 2.6em;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .lang {
+      padding-top: 0.15em;
     }
   }
 
@@ -158,23 +170,26 @@
     margin: 0.6rem 0 0.9rem;
     font-size: 0.95rem;
     line-height: 1.4;
-    /* Reserve a fixed 3-line block so everything below (tags, viz, footer) starts at the
+    /* Reserve a fixed 6-line block so everything below (tags, viz, footer) starts at the
        same height across cards, regardless of description length; longer text clips with an ellipsis. */
-    min-height: 4.2em;
+    min-height: 8.4em;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
   .tech-tags {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
     align-content: flex-start;
     gap: 0.4rem;
-    margin-bottom: 0.95rem;
+    margin-bottom: 0.4rem;
     /* Reserve room for 2 rows of tags (the max any card needs) so the viz block below
-       starts at the same height regardless of how many tags a card has. */
+       starts at the same height regardless of how many tags a card has. Tags are bottom-
+       aligned within that reserved space and sit close to .viz, so they read as glued to
+       the graphic rather than floating in the dead space left by a short description. */
     min-height: 3.75rem;
   }
 
