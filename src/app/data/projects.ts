@@ -51,6 +51,7 @@ export const LANGUAGES: Record<string, string> = {
   'multiplayer-games': 'TypeScript',
   'QuizCheater': 'TypeScript',
   'ng-cyberpunk-minigame': 'TypeScript',
+  'geoguessr-hints': 'Python',
 };
 
 export const LANGUAGE_COLORS: Record<string, string> = {
@@ -59,6 +60,7 @@ export const LANGUAGE_COLORS: Record<string, string> = {
   HTML: '#e34c26',
   Shell: '#89e051',
   GDScript: '#478cbf',
+  Python: '#3572A5',
 };
 
 /**
@@ -249,6 +251,24 @@ export const PROJECTS: Project[] = [
     estHours: 100,
     demo: 'https://daniel-zaiser.de',
     highlight: true,
+  },
+  {
+    name: 'geoguessr-hints',
+    category: 'serious',
+    tech: ['Python', 'globe.gl', 'Data Pipeline'],
+    description: {
+      en: 'An interactive 3D globe of GeoGuessr country metas — hints grouped by specificity and filterable by source, distilled from the Plonk It guide, with one JSON file per country as the single source of truth.',
+      de: 'Ein interaktiver 3D-Globus mit GeoGuessr-Länder-Metas — Hinweise nach Spezifität gruppiert und nach Quelle filterbar, destilliert aus dem Plonk-It-Guide, mit einer JSON-Datei pro Land als Single Source of Truth.',
+    },
+    knowledge: {
+      en: 'Small data-pipeline design (per-country JSON → build script → static site feed), vendoring a 3D library for offline/CDN-free operation, respecting a CC BY-NC-SA source license in a derivative.',
+      de: 'Kleines Datenpipeline-Design (JSON pro Land → Build-Skript → Datenfeed der Seite), eine 3D-Library vendored für Offline-/CDN-freien Betrieb, Umgang mit einer CC-BY-NC-SA-Quelllizenz in einem Derivat.',
+    },
+    commits: 20,
+    started: '2026-07',
+    lastTouched: '2026-07',
+    estHours: 18,
+    demo: `${PAGES}/geoguessr-hints`,
   },
 
   // ===== Fun =====
