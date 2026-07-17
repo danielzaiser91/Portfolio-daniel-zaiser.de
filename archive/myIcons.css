@@ -1,0 +1,52 @@
+/* burger-menu __ transform to circle X __ animation by class-name without keyframe __ scaleable */
+/*
+HTML:
+
+  <div class="burger-menu">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+Animation: add .rotate class to .burger-menu element
+*/
+.burger-menu {
+  width: 40px;
+  height: 40px;
+  background: white;
+  position: relative;
+  right: 10px;
+  z-index: 10;
+  border-radius: 5px;
+  border: 1px solid black;
+  transition: 1s all;
+  cursor: pointer;
+}
+.burger-menu > div {
+  width: 70%;
+  height:2%;
+  background:black;
+  position: absolute;
+  top: 0;
+  left: 15%;
+  transition: 1s all;
+}
+.burger-menu > div:nth-child(1) {top: 22%;}
+.burger-menu > div:nth-child(2) {top: 47%;}
+.burger-menu > div:nth-child(3) {top: 72%;}
+.burger-menu.rotate {
+  border-radius: 50%
+}
+.burger-menu.rotate > div:nth-child(1) {
+  top: 25%;
+  left: 25%;
+  transform: rotate(45deg);
+  transform-origin: left;
+}
+.burger-menu.rotate > div:nth-child(2) { opacity: 0; }
+.burger-menu.rotate > div:nth-child(3) {
+  top: 25%;
+  transform: rotate(-45deg);
+  transform-origin: right;
+  left: 5%;
+}

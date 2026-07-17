@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="👨‍💻 meine Webseite, Portfolio, about me, Daniel Zaiser, Daniel, Zaiser 👨‍💻">
+
+  <!-- for Whatsapp  -->
+  <meta property="og:image" content="https://daniel-zaiser.de/public/images/uhr.png">
+  <meta property="og:description" content="Uhr... einfach nur ne Uhr? 🤔🕑">
+  <meta property="og:title" content="Uhr" />
+  <meta property="og:url" content="https://daniel-zaiser.de/playground/uhr.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="de_DE" />
+  <!-- for Whatsapp  -->
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+
+  <!-- fonts: Open Sans  -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+
+  <title>Daniel Zaiser</title>
+  <style>
+    * { margin: 0; font-family: 'Open Sans', sans-serif; }
+    a { color: inherit; text-decoration: none; outline: none; }
+    a:hover { text-decoration: underline; }
+    nav, footer { min-height: 30px; }
+    .sections { display: flex; flex-direction: column; }
+    .sections .section { min-height: 100vh; padding: 0 1em; position: relative; display:flex; justify-content: center; align-items: center; }
+    .sections .section:nth-child(2n+1) { background: grey }
+    .see-more { position: absolute; left: 50%; bottom: 3em; transform: translateX(-50%); padding-bottom: 1em; }
+    .see-more::after, .see-more::before { content: ''; width: 20px; height: 1px; background: black; display: block; transform: rotate(35deg); box-shadow: 1px 1px black; left: calc(50% - 15px); bottom: 0; position: absolute; }
+    .see-more::before { transform: rotate(-40deg); left: 50%; }
+    #nav { background-color: grey; position: fixed; z-index: 1; display: flex; width: 100vw; justify-content: space-between; }
+    #nav.scroll { background-color: white; }
+    #nav .links { list-style-type: none; gap: 1em; flex: 1; display: flex; justify-content: center; }
+    #nav .links li { padding: 0 2em; }
+    #nav .links li, #nav .logo { display:flex; align-items: center; }
+    .intro {
+      font-size: 3em;
+      font-style: italic;
+      transform: rotate3d(-1150, 600, 500, -261deg);
+      animation: 5s introAnim forwards;
+    }@keyframes introAnim { to {transform: rotate3d(-1150, 600, 500, 0deg)} }
+    ::-webkit-scrollbar { width: 0 }
+  </style>
+</head>
+<body onscroll="window.pageYOffset ? nav.classList.add('scroll') : nav.classList.remove('scroll')">
+  <nav id="nav">
+    <div class="logo"><a href="">Logo</a></div>
+    <ul class="links">
+      <li><a href="#">Startseite</a></li>
+      <li><a href="#about" class="scrollTo" to="1">about me</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+  </nav>
+  <main>
+    <div class="sections">
+      <div class="section">
+        <div class="intro">
+          Hallo!<br>
+          Mein Name ist Daniel Zaiser<br>
+          Ich bin Full-Stack Web- und Software-Entwickler!<br>
+        </div>
+        <div class="see-more"><a href="#about">mehr Informationen</a></div>
+      </div>
+      <div class="section">
+        <div id="about">
+          😃 Ich bin 29 Jahre jung,<br>
+          🏙🗺 wohne im Kreis Neuwied, Deutschland. 🇩🇪<br>
+          🏫 Ich mache zur Zeit noch meine Ausbildung zum Fachinformatiker für Anwendungsentwicklung bei Berge & Meer,<br>
+          👨‍🎓 die ich im Sommer 2021 mit vorraussichtlich sehr guten Noten abschließen werde. 🎓🥇<br>
+          👨‍💻 In meiner Freizeit eigne ich mir zur Zeit viele neue technologische Konzepte an, wie Next.js, MongoDB, GraphQL, React, Django.<br>
+          🧑‍💻	Ich bin begeisterter Entwickler und habe Spaß daran neues zu lernen und auszuprobieren.<br>
+          🕵️‍♂️ Ich stelle mir selbst oft auch eigene Herausforderungen und setze diese um.<br>
+          🖥 Außerdem nehme ich auch öfters an Coding-Challenges in verschiedenen Programmiersprachen teil und feile so stetig weiter an meinen logischen und praktischen Erfahrungen.<br>
+          ♟ Seit ungefähr einem Jahr spiele ich auch sehr gerne Schach in meiner Freizeit.<br>
+          🎮 Und seit frühster Kindheit bin ich begeisterter Gamer 🎮<br>
+          Ich habe folgende Kenntnisse:<br>
+          <div class="skills">
+            <div class="skill">
+              <div class="type">Framework</div>
+              <div class="title">Angular</div>
+              <div class="description">Ich habe schon 2 Jahre Erfahrung mit Angular, habe also schon viel Erfahrung mit allen Möglichen Angular Technologien/Plugins/Modules.</div>
+              <div class="skillbar" data-value="85" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Framework</div><!-- make this in the top left corner as a color label -->
+              <div class="title">Ruby on Rails</div>
+              <div class="description">Ich arbeite seit über 2 Jahren an der Webseite von Berge und Meer, die sowohl im Frontend, als auch im Backend eine Rails App integriert hat.</div>
+              <div class="skillbar" data-value="80" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Framework</div>
+              <div class="title">React</div>
+              <div class="description">In meiner Freizeit habe ich mir React beigebracht, dass dank meiner Angular Kenntnisse, sehr einfach zu lernen ist.</div>
+              <div class="skillbar" data-value="35" data-color="yellow"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Framework</div>
+              <div class="title">Django</div>
+              <div class="description">Angular und React sind Javascript Frameworks, Django dagegen ist ein Python Framework. Es ist anders, aber ähnelt in vielerlei Hinsicht Ruby on Rails, also konnte ich mit diesem Framework ebenfalls relativ schnell warm werden.</div>
+              <div class="skillbar" data-value="25" data-color="red"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">Ruby</div>
+              <div class="description">Die Programmiersprache auf der Ruby on Rails basiert. Eine der ersten die ich gelernt habe.</div>
+              <div class="skillbar" data-value="80" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">Javascript</div>
+              <div class="description">Die wichtigste Webprogrammiersprache überhaupt. Seit über 3 Jahren kenne ich sie schon und lerne trotzdem immer wieder was neues, zum Beispiel erst kürzlich hab ich mir die WEB-API indexedDB angeguckt.</div>
+              <div class="skillbar" data-value="90" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">jQuery</div>
+              <div class="description">Eine Javascript Bibliothek, welche den Syntax vereinfacht. Habe ich lange Zeit benutzt, aber ich bevorzuge Javascript und Typescript.</div>
+              <div class="skillbar" data-value="90" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">Coffeescript</div>
+              <div class="description">Genau wie jQuery, ist eine Javascript Bibliothek, welche den Syntax vereinfacht. Habe ich ebenfalls lange Zeit benutzt, aber ich bevorzuge Javascript und Typescript.</div>
+              <div class="skillbar" data-value="80" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">Typescript</div>
+              <div class="description">Das Superset von Javascript, welches stark typisiert ist und ich zum Beispiel in Angular und React benutze.</div>
+              <div class="skillbar" data-value="85" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">Python</div>
+              <div class="description">Meiner Meinung nach sehr ähnlich zu Ruby, hat allerdings auch stellenweise Javascript Ähnlichkeit, bin ich noch zusammen mit Django am Lernen, aber läuft gut soweit.</div>
+              <div class="skillbar" data-value="35" data-color="yellow"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">PHP</div>
+              <div class="description">Habe ich tatsächlich erst vor kurzem kennen gelernt, da ich vorher mithilfe der Frameworks die komplette arbeit stemmen konnte, also keine PHP Kenntnisse benötigte. Allerdings seit ich einen eigenen Webserver habe, habe ich mich mehr mit PHP beschäftigt (vor ca 1 Monat angefangen). Ähnlichkeit mit Rails.</div>
+              <div class="skillbar" data-value="20" data-color="red"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">CSS</div>
+              <div class="description">Design des Webs. Seit über 3 Jahren in täglicher Benutzung. Flexbox ist mein main-way-to-go 😉</div>
+              <div class="skillbar" data-value="92" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">SQL</div>
+              <div class="description">Query Language für direkte Datenbank Kommunikation. Habe ich mir die Basics angeeignet, aber ich benutze dank Frameworks und Plugins hauptsächlich, zugänglichere Interfaces, welche eine simplere Syntax erlauben.</div>
+              <div class="skillbar" data-value="50" data-color="yellow"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Language</div>
+              <div class="title">C++</div>
+              <div class="description">In der Schule und Freizeit angeeignet. Komme gut damit klar, allerdings gefallen mir top-level-Sprachen wesentlich besser 😉</div>
+              <div class="skillbar" data-value="60" data-color="yellow"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">Dev Ops</div>
+              <div class="description de">Die Praktiken zum testen, builden und deployen der Code-Base in kleinen, automatischen sich wiederholenden Schritten, bei jeder Änderung am Live-Code.</div>
+              <div class="description en">A set of practices to build test and release your code in small frequent steps. Implements CI and CD.</div>
+              <div class="skillbar" data-value="50" data-color="light-green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">Travis CI</div>
+              <div class="description">Für das automatische Testen von Codeanpassungen, eignet sich Travis sehr gut, es ist eine Test Suite für automatisiertes CI/CD gegen Github Branches.</div>
+              <div class="skillbar" data-value="80" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">Git Workflow</div>
+              <div class="description">Sowohl das Arbeiten mit Git (Konsole) als auch Github, mache ich bereits seit über 2,5 Jahren. Alle möglichen Use-Cases habe ich bereits gehabt/genutzt/erlernt.</div>
+              <div class="skillbar" data-value="90" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">Jira</div>
+              <div class="description">Mithilfe von Jira lassen sich Projekte in Tasks aufteilen, welche erst von Designern formuliert und dann von Entwicklern bearbeitet werden können. Dabei arbeitet man Phasenweise an den Aufgaben. Kenne ich von der Arbeit seit über 2 Jahren.</div>
+              <div class="skillbar" data-value="100" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">Scrum</div>
+              <div class="description">Scrum ist ein Teamplanungssystem, das hilft Projekte besser zu planen und die Kommunikation zwischen Entwicklern und Designern zu verbessern.</div>
+              <div class="skillbar" data-value="100" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">Docker/Kubernetes</div>
+              <div class="description">Ich finde Docker sehr interessant, allerdings habe ich bisher keinen Use-Case gehabt und mich bisher nur wenig damit auseinandergesetzt. Ich besitze lediglich theoretisches Wissen/Erfahrung mit Docker.</div>
+              <div class="skillbar" data-value="10" data-color="red"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">GraphQL</div>
+              <div class="description">Ich bin überzeugt, dass GraphQL die Zukunft für APIs ist, denn gezieltes Abrufen von Daten ist sowohl elegant als auch Kosten- bzw Performancesparender. Leider habe ich mich bisher noch nicht genug damit beschäftigt um von mir sagen zu können, das ich darin geübt bin, das plane ich allerdings in naher Zukunft zu ändern.</div>
+              <div class="skillbar" data-value="20" data-color="red"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">REST</div>
+              <div class="description">Mit REST beschäftige ich mich schon seit 2 Jahren, da mein derzeitiger Arbeitgeber in seinem Backend eine REST-API verwendet.</div>
+              <div class="skillbar" data-value="96" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">Firebase</div>
+              <div class="description">Mit Firebase von Google hat man eine Cloud API zur Verfügung mit welcher man Authentification, Datenbanken, Storage, Hosting, Cloud Functions und sogar Machine Learning kostenlos (bzw skalierbar kostenpflichtig) nutzen kann. Ich habe bereits mehrere kleinere Freizeit-Projekte mit Firebase gelöst. Zum Beispiel Eine Chat App, ein paar Cloud Functions und ein Browser Spiel.</div>
+              <div class="skillbar" data-value="75" data-color="green"></div>
+            </div>
+            <div class="skill">
+              <div class="type">Workflow/Technologie/Andere</div>
+              <div class="title">Ngrx Store</div>
+              <div class="description">Eine Frontend Datenspeichertechnik, die für Javascript Frontends entwickelt wurde. Ich kenne Sie im Zusammenhang mit Angular.</div>
+              <div class="skillbar" data-value="82" data-color="green"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div id="contact">
+          📋📝 Ich bin offen für Aufträge im Web-Frontend-Bereich.<br>
+          Kontakt: über <a href="https://www.linkedin.com/in/daniel-zaiser-12960b206/" target="_blank" rel="noopener">LinkedIn</a><br>
+          <!-- Kontaktdaten aus Datenschutzgründen entfernt (Archiv-Redaktion 2026) -->
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>This Website and all its contents are made by me © Daniel Zaiser</footer>
+  <script>
+    document.querySelectorAll('.scrollTo').forEach(el=>{
+      el.addEventListener('click', event => {
+        event.preventDefault();
+        console.log(el.offsetTop);
+        scrollTo({ top: innerHeight * el.getAttribute('to')-30, behavior: 'smooth'});
+      });
+    })
+  </script>
+</body>
+</html>

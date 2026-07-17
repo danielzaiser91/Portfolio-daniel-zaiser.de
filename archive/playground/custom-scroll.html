@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrollbar</title>
+  <style>
+    body { background-color: rgb(70, 20, 59); display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; color: white; }
+    body.cursor-drag { cursor: grabbing; }
+    .wrapper { width: 500px; height: 500px; overflow: hidden; position: relative; }
+    .big-child-to-scroll { width: 500%; height: 500%; background: linear-gradient(140deg, #d59292 10%, red 20%, #ff8d00 30%, #fff700 40%, #dbe360 50%, #a0f1a2 60%, #108324 70%, #95cbf9 80%, #445dbb 90%, #3819e5 100%); }
+    .scrollbar-x { bottom: 0; height: 7px; width: calc(100% - 7px); left: 0; }
+    .scrollbar-x:hover { bottom: 0; height: 13px; width: calc(100% - 13px); left: 0; }
+    .scrollbar-y { right: 0; height: calc(100% - 7px); width: 7px; top: 0; }
+    .scrollbar-y:hover { right: 0; height: calc(100% - 13px); width: 13px; top: 0; }
+    .scrollbar-y:hover, .scrollbar-x:hover { cursor: grab; }
+    .cursor-drag .scrollbar-y:hover, .cursor-drag .scrollbar-x:hover { cursor: grabbing; }
+    .scrollbar-y, .scrollbar-x { position: absolute; z-index: 1; background: white; }
+    .scroll-thumb-y, .scroll-thumb-x { background: black; }
+    .scroll-thumb-y { width: inherit; height: 50px; transition: none; position: absolute; top: 0; }
+    .scroll-thumb-x { height: inherit; width: 50px; transition: none; position: absolute; left: 0; }
+    * { transition: all 0.1s }
+  </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="big-child-to-scroll"></div>
+        <div class="scrollbar-y"><div class="scroll-thumb-y"></div></div>
+        <div class="scrollbar-x"><div class="scroll-thumb-x"></div></div>
+    </div>
+    <div>
+        <h3>Demonstration of a custom scroll</h3>
+        <ul>
+            <li>scrollbars get bigger on hover</li>
+            <li>drag&drop implemented</li>
+            <li>using mousewheel scrolls the y-scrollbar</li>
+            <li>holding shift while using mousewheel scrolls the x-scrollbar</li>
+            <li>clicking anywhere on the scrollbar (not the thumb) will move thumb closer to that point</li>
+        </ul>
+    </div>
+
+    <script>
+        let x=0, y=0;
+        const setThumbValue = (setScrollBarY = true) => {
+            const scrollBar = setScrollBarY ? scrollBarY : scrollBarX;
+            // : 4 * 5, because of the 20% offset on the scrollChild
+            const thumbPercentPosition = ((setScrollBarY ? y : x) / 4) * 5;
+            const thumbWidth = 50;
+            const scrollBarRect = scrollBar.getBoundingClientRect();
+            const max = setScrollBarY ? scrollBarRect.height : scrollBarRect.width;
+            const thumbOffsetPercent = (thumbWidth / max) * 100;
+            const thumbPercent = clamp(thumbPercentPosition, 100-thumbOffsetPercent, 0);
+            if (setScrollBarY) {
+                scrollThumbY.style.top = thumbPercent + '%';
+            } else {
+                scrollThumbX.style.left = thumbPercent + '%';
+            }
+        };
+        const onScrollThumbXMouseDown = e => {
+            mouseDownX = true;
+            document.body.classList.add('cursor-drag');
+        }
+        const onScrollThumbYMouseDown = e => {
+            mouseDownY = true;
+            document.body.classList.add('cursor-drag');
+        };
+        const scrollChild = document.querySelector('.big-child-to-scroll');
+        const clamp = (val, max, min) => Math.max(min, Math.min(val, max));
+        const containerWidth = 500 * 4;
+        const containerHeight = 500 * 4;
+        let mouseDownX = false, mouseDownY = false;
+        const scrollThumbX = document.querySelector('.scroll-thumb-x');
+        const scrollBarX = document.querySelector('.scrollbar-x');
+        const scrollBarY = document.querySelector('.scrollbar-y');
+        const scrollThumbY = document.querySelector('.scroll-thumb-y');
+        const wrapper = document.querySelector('.wrapper');
+        const wrapperRects = () => wrapper.getBoundingClientRect();
+        scrollThumbX.addEventListener('mousedown', onScrollThumbXMouseDown);
+        scrollThumbY.addEventListener('mousedown', onScrollThumbYMouseDown);
+        scrollBarX.addEventListener('mousedown', e => onScrollBarClick('x', e));
+        scrollBarY.addEventListener('mousedown', e => onScrollBarClick('y', e));
+        wrapper.addEventListener('wheel', onWrapperWheel);
+        window.addEventListener('mousemove', onWindowMouseMove);
+        window.addEventListener('dragstart', e => e.preventDefault());
+        window.addEventListener('dragend', onMouseup);
+        window.addEventListener('mouseup', onMouseup);
+
+        function onScrollBarClick(bar, event) {
+            const rects = bar === 'x' ? scrollThumbX.getBoundingClientRect() : scrollThumbY.getBoundingClientRect();
+            if (event.target.classList.contains('scroll-thumb-y') || event.target.classList.contains('scroll-thumb-x')) return;
+            const scrollBarSize = bar === 'x' ? scrollBarX.clientWidth : scrollBarY.clientHeight;
+            if (bar === 'x') {
+                const pxToLeft = event.clientX - rects.left;
+                if (pxToLeft > 0) {
+                    const percent = (pxToLeft / scrollBarSize) * 100;
+                    x = clamp(x + Math.min(percent, 15), 80, 0);
+                    setThumbValue(false);
+                } else {
+                    const pxToRight = rects.right - event.clientX;
+                    if (pxToRight > 0) {
+                        const percent = (pxToRight / scrollBarSize) * 100;
+                    x = clamp(x - Math.min(percent, 15), 80, 0);
+                        setThumbValue(false);
+                    }
+                }
+            } else {
+                const pxBelow = event.clientY - rects.bottom;
+                console.log(pxBelow);
+                if (pxBelow > 0) {
+                    const percent = (pxBelow / scrollBarSize) * 100;
+                    y = clamp(y + Math.min(percent, 15), 80, 0);
+                    setThumbValue();
+                } else {
+                    const pxAbove = rects.top - event.clientY;
+                    if (pxAbove > 0) {
+                        const percent = (pxAbove / scrollBarSize) * 100;
+                        y = clamp(y - Math.min(percent, 15), 80, 0);
+                        setThumbValue();
+                    }
+                }
+            }
+            scrollChild.style.transform = 'translate(-'+x+'%, -'+y+'%)';
+        }
+        function onWrapperWheel(e) {
+            const isScrollingDown = e.wheelDelta < 0;
+            const shiftPressed = e.shiftKey;
+
+            if (shiftPressed) {
+                // scroll horizontally
+                const newXVal = x + (isScrollingDown ? 5 : -5);
+                x = clamp(newXVal, 80, 0);
+                setThumbValue(false)
+            } else {
+                // scroll vertically
+                const newYVal = y + (isScrollingDown ? 5 : -5);
+                y = clamp(newYVal, 80, 0);
+                setThumbValue();
+            }
+            scrollChild.style.transform = 'translate(-'+x+'%, -'+y+'%)';
+        }
+        let onMouseMoveDebouncing = false;
+        function onWindowMouseMove(e) {
+            // debounce from being called to often
+            if (onMouseMoveDebouncing || (!mouseDownX && !mouseDownY)) return;
+            onMouseMoveDebouncing = true;
+            setTimeout(() => {
+                onMouseMoveDebouncing = false;
+            }, 16);
+            if (mouseDownY) {
+                // scrollThumbY
+                const scrollBarRect = scrollBarY.getBoundingClientRect();
+                const clampedPxPositionOfMouse = clamp(e.clientY, scrollBarRect.bottom, scrollBarRect.top);
+                const percentValueOfMousePosition = (clampedPxPositionOfMouse - scrollBarRect.top) / scrollBarRect.height;
+                const val = (percentValueOfMousePosition * 100);
+                y = clamp(val, 80, 0);
+                setThumbValue();
+            } else if (mouseDownX) {
+                // scrollThumbX
+                const scrollBarRect = scrollBarX.getBoundingClientRect();
+                const clampedPxPositionOfMouse = clamp(e.clientX, scrollBarRect.right, scrollBarRect.left);
+                const percentValueOfMousePosition = (clampedPxPositionOfMouse - scrollBarRect.left) / scrollBarRect.width;
+                const val = (percentValueOfMousePosition * 100);
+                // 80 because 500 / 2500 = 20%, 500 wrapper width, 2500 child width
+                x = clamp(val, 80, 0);
+                setThumbValue(false);
+            }
+            scrollChild.style.transform = 'translate(-'+x+'%, -'+y+'%)';
+        }
+        function onMouseup(e) {
+            mouseDownX = false;
+            mouseDownY = false;
+            document.body.classList.remove('cursor-drag');
+        }
+    </script>
+</body>
+</html>

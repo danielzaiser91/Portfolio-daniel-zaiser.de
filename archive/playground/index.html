@@ -1,0 +1,126 @@
+<html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground</title>
+  <style>
+    * { margin: 0; color: inherit; }
+    a { color: rgb(164, 226, 221) }
+    a:hover { text-decoration: underline; }
+    #main-wrapper { display: flex; flex-direction: column; min-height: 100%; min-width: 100%; justify-content: center; align-items: center; background: radial-gradient(rgb(82, 255, 255), rgb(38, 37, 59)); }
+    #top-title, .card > .title { color: yellow; font-size: 8em; text-shadow: 5px 1px rgb(58, 79, 148); }
+    .cards { display: flex; flex-wrap: wrap; padding: 1em; gap: 1em; box-sizing: border-box; }
+    .card > .title { font-size: 2em; z-index: 1; }
+    .card { flex: 0 1 32.5%; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+      padding: 1em; box-sizing: border-box; text-shadow: 2px 2px 2px black, -2px -2px 6px black, -2px 2px 6px black, 2px -2px 6px black; position: relative; }
+    .card .bg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: url('../public/images/dev.jpeg') 50% 50%/contain no-repeat; z-index: 0; opacity: 0.5; }
+    .card:nth-child(1) .bg { background: url('../public/images/conway.gif') 50% 50%/contain no-repeat; }
+    .card:nth-child(2) .bg { background: url('../public/images/design-it.png') 50% 50%/contain no-repeat; }
+    .card:nth-child(3) .bg { background: url('../public/images/clicker.png') 50% 50%/contain no-repeat; }
+    .card:nth-child(4) .bg { background: url('../public/images/uhr.png') 50% 50%/contain no-repeat; }
+    .card:nth-child(5) .bg { background: url('../public/images/syntax-highlighting.png') 50% 50%/contain no-repeat; }
+    .card > .description { padding: .5em 1em; z-index: 3; color: rgb(175 171 255); background-color: #402bc78f; border-radius: 1em; cursor: default; }
+    .nav-layer { position: fixed; width:100vw; height: 100vh; background-color: cadetblue; z-index: -1; display: flex; flex-direction: column; justify-content: center; flex-wrap: wrap; padding: 1em; text-align: center; box-sizing: border-box; opacity: 0; transition: 1s all; }
+    .nav-layer.show-overlay { z-index: 4; opacity: 1 }
+    .nav-layer > ul.nav-wrapper { padding: 1em; list-style-type: none; }
+    .nav-toggle.burger-menu { width: 32px; height: 32px; top: 5px; right: 5px; position: fixed; background: transparent; border-color: white; z-index: 5; }
+    .nav-toggle.burger-menu > div { background-color: white; }
+    .burger-menu::before { content: ''; width: 10em; height: 10em; background-color: #463f3f61; position: absolute; border-radius: 50%; z-index: -1; bottom: -3em; left: -3em; animation: 10s shadowPulse alternate infinite; box-shadow: 0 0 10em white; }
+    .nav-card { padding: 1em 2em; color: white; text-shadow: 0px 0px 6px black; position: relative; }
+    .cover-link { position: absolute; top:0; left: 0; width: 100%; height: 100%; z-index: 3; }
+    .no-scroll { overflow: hidden; }
+    @media screen and (max-width: 700px) {
+      #top-title { font-size: 4em }
+      .card > .title { font-size: 1.6em }
+      .card { flex: 1 1 100% }
+    }
+    @media screen and (max-width: 1100px) {.card { flex: 1 1 49% }}
+  </style>
+  <link rel="stylesheet" async href="../myIcons.css">
+</head>
+<body>
+  <div class="nav-toggle burger-menu">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <nav class="nav-layer">
+    <ul class="nav-wrapper">
+      <li class="nav-card">
+        <a href="../index.html" class="cover-link"></a>
+        <div class="bg wh-100"></div>
+        <div class="description">
+          <h2>Startseite</h2>
+          <p>Hier geht es zur Startseite :)</p>
+        </div>
+      </li>
+      <li class="nav-card">
+        <a href="../projects/index.html" class="cover-link"></a>
+        <div class="bg wh-100"></div>
+        <div class="description">
+          <h2>meine Projekte</h2>
+          <p>Hier geht es zu einer Übersicht all meiner abgeschlossenen und fortlaufenden Projekte, Webseiten an denen ich mitgewirkt habe, etc.</p>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <div id="main-wrapper">
+    <h1 id="top-title">Playground</h1>
+    <div class="cards">
+      <div class="card">
+        <a href="./game-of-life.html" class="cover-link"></a>
+        <div class="bg"></div>
+        <h2 class="title">Conways Game of Life</h2>
+        <div class="description">Conways Game of Life ist eine Lebenssimulation. Zellen sterben, Zellen vermehren sich, Zellen bleiben wie sie sind. Alles abhängig von ihrer Umgebung. Dies führt zu coolen Animationen und Bewegungsmustern. 👾👾 Mehr Infos auf: <a href="https://de.wikipedia.org/wiki/Conways_Spiel_des_Lebens">Wikipedia</a></div>
+      </div>
+      <div class="card">
+        <a href="./design-it.html" class="cover-link"></a>
+        <div class="bg"></div>
+        <h2 class="title">Design it yourself!</h2>
+        <div class="description">Wäre es nicht cool wenn Designer eine Webseite nach ihren Wünschen designen könnten? Hier setze ich die Idee grob um, man kann nachdem man auf den Pinsel geklickt hat, jedes Element auf der Seite anklicken und dieses dann nach belieben selbst stylen. 👨‍🎨</div>
+      </div>
+      <div class="card">
+        <a href="./click-rpg.html" class="cover-link"></a>
+        <div class="bg"></div>
+        <h2 class="title">Klicker-Game</h2>
+        <div class="description">Klick, klick, klick, klick, klick... Bei Klicker-Games geht es um das Klicken 😅 Hier hab ich mal ein bisschen was gemacht, was in die Richtung geht 😁 Viel Spaß beim Bäume schütteln 🌴🌴</div>
+      </div>
+      <div class="card">
+        <a href="./uhr.html" class="cover-link"></a>
+        <div class="bg"></div>
+        <h2 class="title">Uhr</h2>
+        <div class="description">tick, tock... Eine simple Uhr, die die Zeiger in 60 fps aktualisiert, was für eine flüssige Zeigerbewegung sorgt. Elemente wie Ziffernblatt und Digitalanzeige, lassen sich per Option hinzuschalten. 🕐</div>
+      </div>
+      <div class="card">
+        <a href="./syntax-highlighting.html" class="cover-link"></a>
+        <div class="bg"></div>
+        <h2 class="title">Syntax Highlighting</h2>
+        <div class="description">Code muss farbig sein, damit man schneller den Code lesen kann. Das machen heutzutage alle Editoren von allein, ich wollte das auchmal selber machen, also hab ich es gemacht 😅</div>
+      </div>
+      <div class="card">
+        <a href="./css-challenges.html" class="cover-link"></a>
+        <div class="bg"></div>
+        <h2 class="title">CSS-Challenges</h2>
+        <div class="description">Ich nehme öfters an coolen, kleinen CSS-Challenges teil, in welchen man Elemente mit HTML und CSS nachbaut. Einige davon werde ich dann hier veröffentlichen. 🎨</div>
+      </div>
+      <div class="card">
+        <a href="./3d-art.html" class="cover-link"></a>
+        <div class="bg"></div>
+        <h2 class="title">p5 js Demonstration</h2>
+        <div class="description">Hier mache ich meine ersten Schritte mit p5.js, und damit dem render von 2d und 3d objekten mit OpenGL bzw WebGL.</div>
+      </div>
+      <div class="card">
+        <a href="./custom-scroll.html" class="cover-link"></a>
+        <div class="bg"></div>
+        <h2 class="title">custom Scrollbar</h2>
+        <div class="description">eine eigene scrollbar (custom element), die auf hover reagiert und größer wird</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const toggleNavEl = document.querySelector('.nav-toggle'), navOverlay = document.querySelector('.nav-layer'), bodyEl = document.body;
+    toggleNavEl.addEventListener('click', _=> { toggleNavEl.classList.toggle('rotate'); navOverlay.classList.toggle('show-overlay'); bodyEl.classList.toggle('no-scroll'); })
+  </script>
+</body>
+</html>
