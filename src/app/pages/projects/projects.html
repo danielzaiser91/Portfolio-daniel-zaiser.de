@@ -40,6 +40,11 @@
             (mouseenter)="showPreview(p, $event)"
             (mouseleave)="hidePreview()"
           >
+            @if (p.preview) {
+              <div class="card-preview" aria-hidden="true">
+                <img [src]="previewUrl(p)" alt="" loading="lazy" decoding="async" width="800" height="420" />
+              </div>
+            }
             <header>
               <h3>{{ p.name }}</h3>
               <span class="lang" [title]="langOf(p)">

@@ -125,6 +125,29 @@
     box-shadow: 0 8px 16px -14px rgba(0, 0, 0, 0.45);
   }
 
+  /* Embedded cover image for devices without hover — there the floating panel never
+     shows, so the screenshot sits at the top of the card instead. display: none also
+     keeps the lazy images from being fetched on desktop. */
+  .card-preview {
+    display: none;
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .card-preview {
+      display: block;
+      /* Full-bleed against the card's 1.5rem padding; the card's overflow: hidden
+         clips it to the rounded corners, the ::before accent line paints on top. */
+      margin: -1.5rem -1.5rem 1.1rem;
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto; /* 800x420 source → full-width, uncropped */
+        border-bottom: 1px solid var(--glass-border);
+      }
+    }
+  }
+
   header {
     display: flex;
     justify-content: space-between;
