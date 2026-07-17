@@ -125,44 +125,6 @@
     box-shadow: 0 8px 16px -14px rgba(0, 0, 0, 0.45);
   }
 
-  /* Hover preview: demo screenshot fades in over the upper card area (desktop pointer only).
-     Sits inside the card (overflow: hidden would clip anything floating outside), covers the
-     header/desc/tags region and fades out towards the stats, footer links stay visible. */
-  .preview {
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 62%;
-    z-index: 2;
-    opacity: 0;
-    overflow: hidden;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top;
-      mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
-      transform: scale(1.04);
-      transition: transform 0.35s ease;
-    }
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    /* Small delay so sweeping the cursor across the grid doesn't flash previews. */
-    &:hover .preview {
-      opacity: 1;
-      transition-delay: 0.12s;
-
-      img {
-        transform: scale(1);
-        transition-delay: 0.12s;
-      }
-    }
-  }
-
   header {
     display: flex;
     justify-content: space-between;
@@ -185,23 +147,6 @@
     .lang {
       padding-top: 0.15em;
     }
-  }
-
-  .lang {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: var(--text-2);
-    font-size: 0.78rem;
-    white-space: nowrap;
-  }
-
-  .lang-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
   }
 
   .desc {
@@ -248,6 +193,94 @@
     gap: 1.2rem;
     font-weight: 600;
     font-size: 0.92rem;
+  }
+}
+
+/* Shared by the card header and the rich preview panel. */
+.lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-2);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.lang-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+/* ===== Floating rich hover preview (position set from TS, viewport-clamped) ===== */
+.rich-preview {
+  position: fixed;
+  z-index: 60;
+  width: 480px;
+  pointer-events: none;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(16, 24, 48, 0.97), rgba(10, 15, 30, 0.97));
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  /* Short delay so sweeping the cursor across the grid doesn't flash panels. */
+  animation: rp-in 0.18s ease 0.1s both;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.85rem;
+  }
+
+  .rp-name {
+    font-family: var(--mono);
+    font-size: 0.92rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto; /* source is 800x420 → rendered 480x252, uncropped */
+  }
+
+  .rp-ph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    aspect-ratio: 40 / 21;
+    font-size: 2.2rem;
+    color: var(--text-2);
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05), transparent 70%);
+
+    span {
+      font-size: 0.85rem;
+    }
+  }
+
+  .rp-src {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-2);
+    border-top: 1px solid var(--glass-border);
+  }
+}
+
+@keyframes rp-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
   }
 }
 

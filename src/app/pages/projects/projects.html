@@ -37,12 +37,9 @@
             [class.highlight]="p.highlight"
             [class.fun]="section.id === 'fun'"
             [class.abandoned]="section.id === 'abandoned'"
+            (mouseenter)="showPreview(p, $event)"
+            (mouseleave)="hidePreview()"
           >
-            @if (p.preview) {
-              <div class="preview" aria-hidden="true">
-                <img [src]="previewUrl(p)" alt="" loading="lazy" decoding="async" width="800" height="420" />
-              </div>
-            }
             <header>
               <h3>{{ p.name }}</h3>
               <span class="lang" [title]="langOf(p)">
@@ -123,6 +120,23 @@
         }
       </div>
     </section>
+  }
+
+  @if (hoveredPreview(); as hp) {
+    <aside class="rich-preview" [style.left.px]="previewPos().x" [style.top.px]="previewPos().y" aria-hidden="true">
+      <header>
+        <span class="rp-name">{{ hp.name }}</span>
+        <span class="lang">
+          <span class="lang-dot" [style.background]="langColor(hp)"></span>{{ langOf(hp) }}
+        </span>
+      </header>
+      @if (hp.preview) {
+        <img [src]="previewUrl(hp)" alt="" decoding="async" width="800" height="420" />
+      } @else {
+        <div class="rp-ph">🔒<span>{{ i18n.t('projects.repo.private') }}</span></div>
+      }
+      <footer class="rp-src">{{ i18n.t(hp.demo ? 'projects.demo' : 'projects.repo') }}</footer>
+    </aside>
   }
 
   <aside class="archive-teaser glass">

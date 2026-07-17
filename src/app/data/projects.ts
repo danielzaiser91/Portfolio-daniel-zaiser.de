@@ -94,6 +94,7 @@ export const PROJECTS: Project[] = [
     started: '2022-09',
     lastTouched: '2026-06',
     estHours: 180,
+    preview: true,
     highlight: true,
   },
   {
@@ -132,6 +133,7 @@ export const PROJECTS: Project[] = [
     started: '2021-02',
     lastTouched: '2023-12',
     estHours: 30,
+    preview: true,
   },
   {
     name: 'best_posts',
@@ -149,6 +151,7 @@ export const PROJECTS: Project[] = [
     started: '2021-03',
     lastTouched: '2021-03',
     estHours: 50,
+    preview: true,
   },
   {
     name: 'ng-abschlussprojekt-reisekarte',
@@ -203,6 +206,7 @@ export const PROJECTS: Project[] = [
     started: '2023-03',
     lastTouched: '2023-03',
     estHours: 6,
+    preview: true,
   },
   {
     name: 'arturs-webseite',
@@ -220,6 +224,7 @@ export const PROJECTS: Project[] = [
     started: '2021-02',
     lastTouched: '2021-02',
     estHours: 10,
+    preview: true,
   },
   {
     name: 'ng-whatsapp-clone',
@@ -237,6 +242,7 @@ export const PROJECTS: Project[] = [
     started: '2020-12',
     lastTouched: '2021-01',
     estHours: 25,
+    preview: true,
   },
   {
     name: 'Portfolio-daniel-zaiser.de',
@@ -449,6 +455,7 @@ export const PROJECTS: Project[] = [
     started: '2025-08',
     lastTouched: '2025-08',
     estHours: 6,
+    preview: true,
   },
   {
     name: 'incremental_adventure__dirty',
@@ -466,6 +473,7 @@ export const PROJECTS: Project[] = [
     started: '2025-03',
     lastTouched: '2025-08',
     estHours: 15,
+    preview: true,
   },
   {
     name: 'incremental_adventure',
@@ -483,6 +491,7 @@ export const PROJECTS: Project[] = [
     started: '2025-02',
     lastTouched: '2025-02',
     estHours: 10,
+    preview: true,
   },
   {
     name: 'multiplayer-games',
@@ -500,6 +509,7 @@ export const PROJECTS: Project[] = [
     started: '2024-04',
     lastTouched: '2024-04',
     estHours: 15,
+    preview: true,
   },
   {
     name: 'QuizCheater',
@@ -517,6 +527,7 @@ export const PROJECTS: Project[] = [
     started: '2024-03',
     lastTouched: '2024-03',
     estHours: 5,
+    preview: true,
   },
   {
     name: 'ng-cyberpunk-minigame',
@@ -534,5 +545,6 @@ export const PROJECTS: Project[] = [
     started: '2020-12',
     lastTouched: '2020-12',
     estHours: 12,
+    preview: true,
   },
 ];
