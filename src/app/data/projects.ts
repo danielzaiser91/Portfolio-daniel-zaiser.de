@@ -16,6 +16,8 @@ export interface Project {
   estHours: number;
   /** Set when a GitHub Pages demo exists. */
   demo?: string;
+  /** Set when a hover-preview screenshot exists at public/images/previews/projects/<name>.webp. */
+  preview?: boolean;
   highlight?: boolean;
   /** True when the repo is private — hide the (dead-for-visitors) repo link, show a badge instead. */
   repoPrivate?: boolean;
@@ -25,6 +27,7 @@ const GH = 'https://github.com/danielzaiser91';
 const PAGES = 'https://danielzaiser91.github.io';
 
 export const repoUrl = (p: Project) => `${GH}/${p.name}`;
+export const previewUrl = (p: Project) => `images/previews/projects/${p.name}.webp`;
 
 /** Primary GitHub language per repo (from the API, 2026-07-05). */
 export const LANGUAGES: Record<string, string> = {
@@ -52,6 +55,7 @@ export const LANGUAGES: Record<string, string> = {
   'QuizCheater': 'TypeScript',
   'ng-cyberpunk-minigame': 'TypeScript',
   'geoguessr-hints': 'Python',
+  'isekai-idle-mockups': 'HTML',
 };
 
 export const LANGUAGE_COLORS: Record<string, string> = {
@@ -109,6 +113,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-07',
     estHours: 20,
     demo: `${PAGES}/homestream`,
+    preview: true,
     highlight: true,
   },
   {
@@ -250,6 +255,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-07',
     estHours: 100,
     demo: 'https://daniel-zaiser.de',
+    preview: true,
     highlight: true,
   },
   {
@@ -269,6 +275,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-07',
     estHours: 18,
     demo: `${PAGES}/geoguessr-hints`,
+    preview: true,
   },
 
   // ===== Fun =====
@@ -289,6 +296,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-06',
     estHours: 120,
     demo: `${PAGES}/incremental-adventure`,
+    preview: true,
     highlight: true,
   },
   {
@@ -308,7 +316,27 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-07',
     estHours: 15,
     demo: `${PAGES}/stardust-to-singularity`,
+    preview: true,
     highlight: true,
+  },
+  {
+    name: 'isekai-idle-mockups',
+    category: 'fun',
+    tech: ['HTML', 'JavaScript', 'Game Design', 'Prototyping'],
+    description: {
+      en: 'Five playable HTML mockups for an incremental/idle game in a medieval-fantasy anime-isekai setting (Revolution-Idle-style mechanics) — built to pick a direction before committing to the real game.',
+      de: 'Fünf spielbare HTML-Mockups für ein Incremental/Idle im Mittelalter-Fantasy/Anime-Isekai-Setting (Mechanik à la Revolution Idle) — als Entscheidungsgrundlage, bevor das echte Spiel entsteht.',
+    },
+    knowledge: {
+      en: 'Rapid prototyping of one core mechanic in five visual and mechanical directions; using playable mockups as a decision tool instead of design documents.',
+      de: 'Rapid Prototyping einer Kernmechanik in fünf visuellen und mechanischen Richtungen; spielbare Mockups als Entscheidungswerkzeug statt Design-Dokumenten.',
+    },
+    commits: 1,
+    started: '2026-07',
+    lastTouched: '2026-07',
+    estHours: 8,
+    demo: `${PAGES}/isekai-idle-mockups`,
+    preview: true,
   },
   {
     name: 'ratespiel-wer-bin-ich',
@@ -327,6 +355,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-06',
     estHours: 30,
     demo: `${PAGES}/ratespiel-wer-bin-ich`,
+    preview: true,
   },
   {
     name: 'anime-adventure',
@@ -345,6 +374,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-06',
     estHours: 20,
     demo: `${PAGES}/anime-adventure`,
+    preview: true,
   },
   {
     name: 'cosmic-forge',
@@ -363,6 +393,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-06',
     estHours: 15,
     demo: `${PAGES}/cosmic-forge`,
+    preview: true,
   },
   {
     name: 'endless-arena',
@@ -381,6 +412,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-07',
     estHours: 5,
     demo: `${PAGES}/endless-arena`,
+    preview: true,
   },
   {
     name: 'revolution-idle-clone',
@@ -399,6 +431,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2026-06',
     estHours: 5,
     demo: `${PAGES}/revolution-idle-clone`,
+    preview: true,
   },
   {
     name: 'angular-clicker',
