@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { I18n } from '../../core/i18n';
 import { GithubLiveStats } from '../../core/github-live';
-import { LANGUAGES, LANGUAGE_COLORS, PROJECTS, Project, repoUrl } from '../../data/projects';
+import { LANGUAGES, LANGUAGE_COLORS, PROJECTS, Project, previewUrl, repoUrl } from '../../data/projects';
 
 @Component({
   selector: 'app-projects',
@@ -13,6 +13,7 @@ import { LANGUAGES, LANGUAGE_COLORS, PROJECTS, Project, repoUrl } from '../../da
 export class Projects {
   protected readonly i18n = inject(I18n);
   protected readonly repoUrl = repoUrl;
+  protected readonly previewUrl = previewUrl;
 
   private readonly live = inject(GithubLiveStats);
   protected readonly liveLoading = this.live.loading;

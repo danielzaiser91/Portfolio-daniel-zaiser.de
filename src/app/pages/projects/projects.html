@@ -38,6 +38,11 @@
             [class.fun]="section.id === 'fun'"
             [class.abandoned]="section.id === 'abandoned'"
           >
+            @if (p.preview) {
+              <div class="preview" aria-hidden="true">
+                <img [src]="previewUrl(p)" alt="" loading="lazy" decoding="async" width="800" height="420" />
+              </div>
+            }
             <header>
               <h3>{{ p.name }}</h3>
               <span class="lang" [title]="langOf(p)">
