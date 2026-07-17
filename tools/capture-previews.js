@@ -16,6 +16,7 @@ const path = require('path');
 
 const CHROME = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const PAGES = 'https://danielzaiser91.github.io';
+const GH = 'https://github.com/danielzaiser91';
 const OUT = path.join(__dirname, '..', 'public', 'images', 'previews', 'projects');
 
 // name → { url, wait: extra ms after networkidle (games/3D need render time),
@@ -32,6 +33,19 @@ const TARGETS = {
   'endless-arena': { url: `${PAGES}/endless-arena`, wait: 6000 },
   'revolution-idle-clone': { url: `${PAGES}/revolution-idle-clone`, wait: 4000 },
   'isekai-idle-mockups': { url: `${PAGES}/isekai-idle-mockups`, wait: 4000 },
+  // Public repos without a live demo: the GitHub repo page (dark via --force-dark-mode).
+  'chrome-utilities': { url: `${GH}/chrome-utilities`, wait: 2500 },
+  'bubble-notifications': { url: `${GH}/bubble-notifications`, wait: 2500 },
+  'best_posts': { url: `${GH}/best_posts`, wait: 2500 },
+  'custom-scrollbars': { url: `${GH}/custom-scrollbars`, wait: 2500 },
+  'arturs-webseite': { url: `${GH}/arturs-webseite`, wait: 2500 },
+  'ng-whatsapp-clone': { url: `${GH}/ng-whatsapp-clone`, wait: 2500 },
+  'angular-clicker': { url: `${GH}/angular-clicker`, wait: 2500 },
+  'incremental_adventure__dirty': { url: `${GH}/incremental_adventure__dirty`, wait: 2500 },
+  'incremental_adventure': { url: `${GH}/incremental_adventure`, wait: 2500 },
+  'multiplayer-games': { url: `${GH}/multiplayer-games`, wait: 2500 },
+  'QuizCheater': { url: `${GH}/QuizCheater`, wait: 2500 },
+  'ng-cyberpunk-minigame': { url: `${GH}/ng-cyberpunk-minigame`, wait: 2500 },
 };
 
 // Clicks the first button-ish element whose text contains `match`; falls back to a click

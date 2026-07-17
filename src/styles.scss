@@ -128,7 +128,9 @@ a {
 
 .page {
   padding: 3rem 0 4rem;
-  animation: fade-up 0.35s ease both;
+  /* No fill mode: a filling transform animation would permanently keep .page a containing
+     block for position: fixed descendants (the floating project preview) and shift them. */
+  animation: fade-up 0.35s ease;
 }
 
 .page-title {
