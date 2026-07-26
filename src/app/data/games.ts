@@ -39,14 +39,40 @@ export interface Game {
   tags: string[];
   /** Optional screenshot (from the old-site archive or public/images/previews). */
   image?: string;
+  /**
+   * Wide screenshot for the floating hover preview (desktop only). Most entries reuse
+   * the shot the projects page already captures via tools/capture-previews.js; falls
+   * back to `image` when unset, so archive entries need nothing extra.
+   */
+  preview?: string;
   featured?: boolean;
 }
 
 const PAGES = 'https://danielzaiser91.github.io';
 const GH = 'https://github.com/danielzaiser91';
+/** Screenshot of the projects page (same repo name) — no second capture needed. */
+const shot = (repo: string) => `images/previews/projects/${repo}.webp`;
+
+/** What the hover preview shows: the wide shot, else the capsule image, else nothing. */
+export const gamePreview = (g: Game): string | undefined => g.preview ?? g.image;
 
 export const GAMES: Game[] = [
   // ===== 🎮 Spiele (fertig & spielbar) =====
+  {
+    title: 'Archmage Idle',
+    emoji: '🔮',
+    url: `${PAGES}/archmage-idle-live`,
+    kind: 'game',
+    categories: ['idle'],
+    players: '1',
+    playtime: '3–10 Std.',
+    situation: 'Wenn du ein Idle willst, das dich nicht mit Zahlenkolonnen zuschüttet.',
+    description:
+      'Werde Erzmagier: Orb füllen, vier Elemente freischalten, Elementargeister nach ihrer Typ-Schwäche jagen — und am Ende die Zeit selbst zurückdrehen. Erzählt alles über Ringe, Farben und Füllstände: im ganzen Spiel steht keine einzige Zahl.',
+    tags: ['Idle', 'Incremental', 'Elemente', 'Browser & Handy'],
+    preview: shot('archmage-idle'),
+    featured: true,
+  },
   {
     title: 'Incremental Adventure',
     emoji: '🗡️',
@@ -60,6 +86,7 @@ export const GAMES: Game[] = [
       'Mein Herzensprojekt (246 Commits!): Ressourcen sammeln, Abenteuer bestehen, Prestige-Ebenen freischalten. Läuft auch nebenbei weiter — im Browser und auf dem Handy.',
     tags: ['Idle', 'Incremental', 'Prestige', 'Browser & Handy'],
     featured: true,
+    preview: shot('incremental-adventure'),
   },
   {
     title: 'Stardust to Singularity',
@@ -74,6 +101,7 @@ export const GAMES: Game[] = [
       'Vom Staubkorn bis zur Singularität — 3D-Incremental mit Three.js und 5 Prestige-Ebenen. Chillige Musik im Kopf dazu denken.',
     tags: ['3D', 'Three.js', 'Incremental', 'Browser & Handy'],
     featured: true,
+    preview: shot('stardust-to-singularity'),
   },
   {
     title: 'Wer bin ich? — Ratespiel',
@@ -88,6 +116,7 @@ export const GAMES: Game[] = [
       'Heads-up-Style Partyspiel als PWA: Begriff auf die Stirn, die anderen geben Hinweise, Handy kippen zum Werten. Lässt sich wie eine App installieren.',
     tags: ['Partyspiel', 'PWA', 'Gesellschaftsspiel', 'Handy'],
     featured: true,
+    preview: shot('ratespiel-wer-bin-ich'),
   },
   {
     title: 'Endless Arena',
@@ -101,6 +130,7 @@ export const GAMES: Game[] = [
     description:
       'Winziger prozeduraler 3D-Auto-Battler: kein Tod, keine Wände, endloser Loot. Einfach laufen lassen und stärker werden.',
     tags: ['Auto-Battler', '3D', 'Loot', 'Browser & Handy'],
+    preview: shot('endless-arena'),
   },
   {
     title: 'Anime Adventure',
@@ -114,6 +144,7 @@ export const GAMES: Game[] = [
     description:
       '„Chronicles of the Celestial Blade“ — ein Adventure mit Anime-Flair als installierbare PWA.',
     tags: ['Adventure', 'Anime', 'Story', 'PWA'],
+    preview: shot('anime-adventure'),
   },
   {
     title: 'Cosmic Forge',
@@ -127,6 +158,7 @@ export const GAMES: Game[] = [
     description:
       'Incremental-Roguelike, gebaut in Godot 4: Ressourcen abbauen, Prestige sammeln, Dungeon-Runs wagen.',
     tags: ['Godot', 'Roguelike', 'Incremental'],
+    preview: shot('cosmic-forge'),
   },
   {
     title: 'Punch! 🥊',
@@ -247,6 +279,7 @@ export const GAMES: Game[] = [
     description:
       'Meine Chrome-Extension-Sammlung (195 Commits über 4 Jahre) — Utilities, die ich selbst täglich nutze. Installation steht im Repo.',
     tags: ['Extension', 'Produktivität', 'Repo'],
+    preview: shot('chrome-utilities'),
   },
 
   // ===== 🚧 Unfertig & Prototypen =====
@@ -263,6 +296,7 @@ export const GAMES: Game[] = [
     description:
       'Zweiter Anlauf von 2025 — City-Map, Dialoge, Schmied & Gilde funktionieren schon. Danach wurde daraus das große Incremental Adventure. Unfertig, aber anspielbar.',
     tags: ['Archiv', 'Prototyp', 'Unfertig'],
+    preview: shot('incremental_adventure__dirty'),
   },
   {
     title: 'Revolution Idle Clone',
@@ -277,6 +311,7 @@ export const GAMES: Game[] = [
     description:
       'Begonnener Nachbau der Kern-Mechanik von Revolution Idle. Im aktuellen Zustand praktisch unspielbar — kein fertiges Spiel, nur ein Anfang.',
     tags: ['Unfertig', 'Idle', 'Klon'],
+    preview: shot('revolution-idle-clone'),
   },
   {
     title: 'QuizCheater',
@@ -292,5 +327,6 @@ export const GAMES: Game[] = [
     description:
       'Halbfertiges Quiz-Tool, angelehnt an das „WER LÜGT HIER?“-Format von Vlesk (YouTube), gebaut für den Twitch-Streamer umut_rre. Nie vollendet — der spannende Teil war der Anfang. 😄',
     tags: ['Unfertig', 'WER LÜGT HIER?', 'Twitch', 'Repo'],
+    preview: shot('QuizCheater'),
   },
 ];

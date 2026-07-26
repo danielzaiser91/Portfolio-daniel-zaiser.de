@@ -1,5 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
-import { CATEGORY_LABELS, GAMES, Game, GameCategory } from '../../data/games';
+import { CATEGORY_LABELS, GAMES, Game, GameCategory, gamePreview } from '../../data/games';
+import { HoverPreview } from '../../core/hover-preview';
 
 interface Section {
   id: string;
@@ -18,6 +19,9 @@ interface Section {
   imports: [],
   templateUrl: './arcade.html',
   styleUrl: './arcade.scss',
+  // The floating preview is anchored to coordinates captured at mouseenter; scrolling
+  // would let it drift away from its card, so close it instead.
+  host: { '(window:scroll)': 'hidePreview()' },
 })
 export class Arcade {
   protected readonly categoryLabels = CATEGORY_LABELS;
@@ -90,6 +94,24 @@ export class Arcade {
 
   protected label(cat: GameCategory): string {
     return CATEGORY_LABELS[cat];
+  }
+
+  // ===== Rich hover preview: one floating panel at page level (desktop pointers only).
+  // Same panel as on the projects page — the capsules are small and crop hard, so the
+  // screenshot only becomes readable in a big floating view.
+  private readonly preview = new HoverPreview<Game>();
+  protected readonly hoveredGame = this.preview.item;
+  protected readonly previewPos = this.preview.pos;
+  protected readonly gamePreview = gamePreview;
+
+  protected showPreview(g: Game, ev: MouseEvent): void {
+    // Nothing to show for entries without any screenshot — an empty panel would only
+    // cover the card the user is reading.
+    if (gamePreview(g)) this.preview.show(g, ev);
+  }
+
+  protected hidePreview(): void {
+    this.preview.hide();
   }
 
   protected buttonLabel(g: Game): string {

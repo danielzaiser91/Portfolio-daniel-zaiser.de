@@ -165,3 +165,82 @@ a {
     transition: none !important;
   }
 }
+
+/* ===== Floating hover preview (projects + arcade) =====
+   Rendered at page level instead of inside a card: the cards clip their content and are
+   far too small for an 800x420 screenshot. Position comes from HoverPreview
+   (src/app/core/hover-preview.ts) — W/H there must match the size below. */
+.rich-preview {
+  position: fixed;
+  z-index: 60;
+  width: 480px;
+  pointer-events: none;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(16, 24, 48, 0.97), rgba(10, 15, 30, 0.97));
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  /* Short delay so sweeping the cursor across the grid doesn't flash panels. */
+  animation: rp-in 0.18s ease 0.1s both;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.85rem;
+  }
+
+  .rp-name {
+    font-family: var(--mono);
+    font-size: 0.92rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto; /* source is 800x420 → rendered 480x252, uncropped */
+  }
+
+  .rp-ph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    aspect-ratio: 40 / 21;
+    font-size: 2.2rem;
+    color: var(--text-2);
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05), transparent 70%);
+
+    span {
+      font-size: 0.85rem;
+    }
+  }
+
+  .rp-src {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-2);
+    border-top: 1px solid var(--glass-border);
+  }
+}
+
+@keyframes rp-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+}
+
+.rich-preview .rp-meta {
+  font-size: 0.8rem;
+  color: var(--text-2);
+  white-space: nowrap;
+}
