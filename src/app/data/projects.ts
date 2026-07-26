@@ -56,6 +56,7 @@ export const LANGUAGES: Record<string, string> = {
   'ng-cyberpunk-minigame': 'TypeScript',
   'geoguessr-hints': 'Python',
   'isekai-idle-mockups': 'HTML',
+  'archmage-idle': 'TypeScript',
 };
 
 export const LANGUAGE_COLORS: Record<string, string> = {
@@ -285,6 +286,27 @@ export const PROJECTS: Project[] = [
   },
 
   // ===== Fun =====
+  {
+    name: 'archmage-idle',
+    category: 'fun',
+    tech: ['TypeScript', 'Vite', 'Canvas 2D', 'Web Audio', 'Game Design'],
+    description: {
+      en: 'Medieval-fantasy anime-isekai incremental: a mage’s orb, four elements that feed each other, elemental spirits that answer to type matchups, and a time layer that resets everything for something permanent. Grown out of the isekai-idle mockups, released as v0.5.',
+      de: 'Incremental im Mittelalter-Fantasy-Anime-Isekai-Setting: der Orb eines Magiers, vier Elemente, die sich gegenseitig nähren, Elementargeister mit Typ-Schwächen und eine Zeit-Ebene, die alles für Dauerhaftes zurücksetzt. Aus den isekai-idle-Mockups entstanden, veröffentlicht als v0.5.',
+    },
+    knowledge: {
+      en: 'A pure core (game logic without DOM or audio) that the UI only reads; a visual language that avoids numbers entirely — every value is told through rings, orbiting orbs and fill levels; shipping a private source repo to public Pages through a build-only mirror repo.',
+      de: 'Ein purer Core (Spiellogik ohne DOM und Audio), den die UI nur liest; eine visuelle Sprache ganz ohne Zahlen — jeder Wert wird über Ringe, kreisende Orbs und Füllstände erzählt; ein privates Quell-Repo über ein reines Build-Spiegel-Repo auf öffentliche Pages bringen.',
+    },
+    commits: 118,
+    started: '2026-07',
+    lastTouched: '2026-07',
+    estHours: 70,
+    demo: `${PAGES}/archmage-idle-live`,
+    preview: true,
+    highlight: true,
+    repoPrivate: true,
+  },
   {
     name: 'incremental-adventure',
     category: 'fun',
