@@ -12,7 +12,15 @@
       <h2>⭐ Empfohlen</h2>
       <div class="featured-grid">
         @for (g of featured; track g.title) {
-          <a class="featured-card" [href]="g.url" target="_blank" rel="noopener" [style.background]="capsuleStyle(g)">
+          <a
+            class="featured-card"
+            [href]="g.url"
+            target="_blank"
+            rel="noopener"
+            [style.background]="capsuleStyle(g)"
+            (mouseenter)="showPreview(g, $event)"
+            (mouseleave)="hidePreview()"
+          >
             <span class="femoji">{{ g.emoji }}</span>
             <div class="finfo">
               <h3>{{ g.title }}</h3>
@@ -57,7 +65,12 @@
       <p class="hint muted">{{ section.hint }}</p>
       <div class="library">
         @for (g of section.items; track g.title) {
-          <article class="game card" [class.wip]="g.wip">
+          <article
+            class="game card"
+            [class.wip]="g.wip"
+            (mouseenter)="showPreview(g, $event)"
+            (mouseleave)="hidePreview()"
+          >
             <a class="capsule" [href]="g.url" target="_blank" rel="noopener" [style.background]="capsuleStyle(g)">
               @if (g.image) {
                 <img [src]="g.image" [alt]="g.title" loading="lazy" />
@@ -93,5 +106,16 @@
     </section>
   } @empty {
     <p class="empty muted">Nichts gefunden 😢 — probier einen anderen Begriff oder eine andere Kategorie.</p>
+  }
+
+  @if (hoveredGame(); as hg) {
+    <aside class="rich-preview" [style.left.px]="previewPos().x" [style.top.px]="previewPos().y" aria-hidden="true">
+      <header>
+        <span class="rp-name">{{ hg.emoji }} {{ hg.title }}</span>
+        <span class="rp-meta">⏱️ {{ hg.playtime }}</span>
+      </header>
+      <img [src]="gamePreview(hg)" alt="" decoding="async" width="800" height="420" />
+      <footer class="rp-src">{{ hg.repoOnly ? 'Repo' : 'Vorschau' }}</footer>
+    </aside>
   }
 </div>

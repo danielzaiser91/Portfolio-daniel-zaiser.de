@@ -26,6 +26,8 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
 
 | Task | Stand |
 |------|-------|
+| **archmage-idle in der Arcade** — als empfohlenes Spiel ganz oben, Kategorie Idle | live nach dem Push |
+| **Hover-Vorschau in der Arcade** — gleiches schwebendes Panel wie auf der Projekte-Seite; die Screenshots kommen aus `images/previews/projects/`, Archiv-Einträge fallen auf ihr Kapsel-Bild zurück, Einträge ganz ohne Bild zeigen kein leeres Panel | live nach dem Push |
 | **archmage-idle in die Projekte aufgenommen** — Kategorie „Fun", Highlight, Live-Demo auf den öffentlichen Build-Spiegel, privates Quell-Repo mit Schloss-Badge, Vorschaubild aus einem weit gespielten Stand | live nach dem Push |
 
 ## Deploy
@@ -48,3 +50,7 @@ sie richten sich per `prepare`-Snippet erst einen sehenswerten Spielstand ein.
    Sprache im `LANGUAGES`-Snapshot ergänzt, Vorschaubild aufgenommen. Dafür kann
    `tools/capture-previews.js` jetzt `prepare`-Snippets ausführen und lokale Ziele
    überspringen.
+2. **26.07.2026:** `archmage-idle` auch in die Arcade (empfohlen, Kategorie Idle) und die
+   Hover-Vorschau von der Projekte-Seite auf die Arcade übertragen. Die Panel-Logik liegt
+   dafuer jetzt gemeinsam in `src/app/core/hover-preview.ts`, die Optik global in
+   `src/styles.scss` — vorher lag beides nur in der Projekte-Komponente.

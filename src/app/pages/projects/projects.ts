@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { I18n } from '../../core/i18n';
 import { GithubLiveStats } from '../../core/github-live';
+import { HoverPreview } from '../../core/hover-preview';
 import { LANGUAGES, LANGUAGE_COLORS, PROJECTS, Project, previewUrl, repoUrl } from '../../data/projects';
 
 @Component({
@@ -113,32 +114,17 @@ export class Projects {
     return months < 6 ? 'fresh' : months < 18 ? 'warm' : 'cold';
   }
 
-  // ===== Rich hover preview: one floating panel at page level (desktop pointers only).
-  // Rendered outside the cards — the cards clip (overflow: hidden) and are too small
-  // to show the screenshot uncropped.
-  private readonly finePointer = typeof matchMedia !== 'undefined' && matchMedia('(hover: hover) and (pointer: fine)').matches;
-  protected readonly hoveredPreview = signal<Project | null>(null);
-  protected readonly previewPos = signal({ x: 0, y: 0 });
+  // ===== Rich hover preview (shared with the arcade page, see HoverPreview) =====
+  private readonly preview = new HoverPreview<Project>();
+  protected readonly hoveredPreview = this.preview.item;
+  protected readonly previewPos = this.preview.pos;
 
   protected showPreview(p: Project, ev: MouseEvent): void {
-    if (!this.finePointer) return;
-    const r = (ev.currentTarget as HTMLElement).getBoundingClientRect();
-    // Panel: 480px wide, ~330px tall (header + 480x252 image + source caption).
-    const W = 480, H = 330, gap = 14, pad = 10;
-    let x = r.right + gap;
-    if (x + W > window.innerWidth - pad) x = r.left - gap - W;
-    if (x < pad) {
-      // No room on either side: center it near the card instead (pointer-events: none,
-      // so overlapping the hovered card cannot cause hover flicker).
-      x = Math.min(Math.max(pad, r.left + r.width / 2 - W / 2), window.innerWidth - W - pad);
-    }
-    const y = Math.max(pad, Math.min(r.top + r.height / 2 - H / 2, window.innerHeight - H - pad));
-    this.previewPos.set({ x, y });
-    this.hoveredPreview.set(p);
+    this.preview.show(p, ev);
   }
 
   protected hidePreview(): void {
-    this.hoveredPreview.set(null);
+    this.preview.hide();
   }
 
   /** "2022-09" → "09/2022" */
