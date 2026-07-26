@@ -20,7 +20,10 @@ const GH = 'https://github.com/danielzaiser91';
 const OUT = path.join(__dirname, '..', 'public', 'images', 'previews', 'projects');
 
 // name → { url, wait: extra ms after networkidle (games/3D need render time),
-//          dismiss?: text of a blocking overlay button to click first }
+//          dismiss?: text of a blocking overlay button to click first,
+//          prepare?: page-side JS run before the wait (set up a worth-showing game state),
+//          local?: true = needs a local dev server, so it is SKIPPED on a full run and
+//                  only captured when you pass its name explicitly }
 const TARGETS = {
   'Portfolio-daniel-zaiser.de': { url: 'https://daniel-zaiser.de', wait: 2500 },
   'homestream': { url: `${PAGES}/homestream`, wait: 2000 },
@@ -33,6 +36,24 @@ const TARGETS = {
   'endless-arena': { url: `${PAGES}/endless-arena`, wait: 6000 },
   'revolution-idle-clone': { url: `${PAGES}/revolution-idle-clone`, wait: 4000 },
   'isekai-idle-mockups': { url: `${PAGES}/isekai-idle-mockups`, wait: 4000 },
+  // Quell-Repo ist privat, die Demo läuft aus dem öffentlichen Build-Spiegel. Der
+  // Live-Build startet aber bei null — ein leerer Orb sagt nichts über das Spiel. Also
+  // aus dem DEV-Server (npm run dev im archmage-idle-Repo) mit einem weit gespielten
+  // Stand aufnehmen und das Debug-Werkzeug ausblenden.
+  'archmage-idle': {
+    url: 'http://localhost:5173',
+    wait: 1200,
+    local: true,
+    prepare: `
+      window.dev.beforeReset();          // alle vier Elemente auf Mastery 12, evolviert
+      window.dev.select('fire');
+      const s = window.dev.state();
+      s.embers = 0;                      // volles Ascheglas würde die Geister vertreiben
+      s.elements.fire.orb = s.elements.fire.orbCap * 0.62;
+      window.dev.tick(40, 0.05);         // Bahnen, Geister und Füllstand einschwingen lassen
+      document.getElementById('debug-btn').style.display = 'none';
+    `,
+  },
   // Public repos without a live demo: the GitHub repo page (dark via --force-dark-mode).
   'chrome-utilities': { url: `${GH}/chrome-utilities`, wait: 2500 },
   'bubble-notifications': { url: `${GH}/bubble-notifications`, wait: 2500 },
@@ -70,8 +91,12 @@ const dismissOverlay = async (page, match) => {
     args: ['--mute-audio', '--hide-scrollbars', '--force-dark-mode'],
   });
 
-  for (const [name, { url, wait, dismiss }] of Object.entries(TARGETS)) {
+  for (const [name, { url, wait, dismiss, prepare, local }] of Object.entries(TARGETS)) {
     if (only.length && !only.includes(name)) continue;
+    if (!only.length && local) {
+      console.log(`SKIP ${name} (braucht den lokalen Dev-Server — gezielt aufrufen)`);
+      continue;
+    }
     try {
       const page = await browser.newPage();
       // CSS viewport 1200x630 (desktop layout), bitmap 800x420 via dsf 2/3.
@@ -81,6 +106,7 @@ const dismissOverlay = async (page, match) => {
         await new Promise((r) => setTimeout(r, 3000));
         await dismissOverlay(page, dismiss);
       }
+      if (prepare) await page.evaluate(prepare);
       await new Promise((r) => setTimeout(r, wait));
       const file = path.join(OUT, `${name}.webp`);
       await page.screenshot({ path: file, type: 'webp', quality: 82 });
