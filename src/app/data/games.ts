@@ -59,6 +59,21 @@ export const gamePreview = (g: Game): string | undefined => g.preview ?? g.image
 export const GAMES: Game[] = [
   // ===== 🎮 Spiele (fertig & spielbar) =====
   {
+    title: 'Incremental Adventure Rewritten',
+    emoji: '⚔️',
+    url: `${PAGES}/incremental-adventure-rewritten-live`,
+    kind: 'game',
+    categories: ['idle'],
+    players: '1',
+    playtime: '10–40+ Std.',
+    situation: 'Wenn du eine Ratte im Keller verprügeln willst und drei Wochen später Göttern beim Umfallen zusiehst.',
+    description:
+      'Du fängst mit einem rostigen Schwert an. Irgendwann kaufst du Gesetze, die die Spielregeln selbst umschreiben — „Der Tod ist optional", „Die Zeit fließt zweimal". Dazwischen liegen acht Ebenen, die nicht größere Zahlen bringen, sondern jedes Mal ein anderes Spiel: ein Seelengitter, ein Runen-Codex mit 250 Einträgen, ein Kachel-Puzzle, Roguelite-Läufe. Alles selbst gezeichnet und selbst vertont, keine einzige Bilddatei.',
+    tags: ['Idle', 'Incremental', 'Fantasy-RPG', 'Prestige', 'Browser & Handy'],
+    preview: shot('incremental-adventure-rewritten'),
+    featured: true,
+  },
+  {
     title: 'Archmage Idle',
     emoji: '🔮',
     url: `${PAGES}/archmage-idle-live`,

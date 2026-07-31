@@ -54,6 +54,28 @@ const TARGETS = {
       document.getElementById('debug-btn').style.display = 'none';
     `,
   },
+  // Quell-Repo privat, Demo aus dem oeffentlichen Build-Spiegel. Der Live-Build startet
+  // bei null — ein leerer Keller sagt nichts. Also erst ein paar Minuten vorspielen und
+  // dann waehrend eines echten Kampfes aufnehmen.
+  'incremental-adventure-rewritten': {
+    url: `${PAGES}/incremental-adventure-rewritten-live`,
+    wait: 26000,
+    prepare: `
+      // Ton hart auf null: die Aufnahme darf nichts hoerbar machen.
+      (() => { const o = AudioNode.prototype.connect; AudioNode.prototype.connect = function (d, ...r) {
+        if (d instanceof AudioDestinationNode) { const g = this.context.createGain(); g.gain.value = 0; o.call(this, g); return o.call(g, d, ...r); }
+        return o.call(this, d, ...r); }; })();
+      // Alle sichtbaren Karten auf Max kaufen, bis der Held bei den Elite-Gegnern steht.
+      window.__auto = setInterval(() => {
+        for (const c of document.querySelectorAll('.buy-card')) {
+          if (getComputedStyle(c).display === 'none') continue;
+          const b = [...c.querySelectorAll('button')].find((x) => x.textContent === 'Max');
+          if (b) b.click();
+        }
+      }, 250);
+      setTimeout(() => clearInterval(window.__auto), 24000);
+    `,
+  },
   // Public repos without a live demo: the GitHub repo page (dark via --force-dark-mode).
   'chrome-utilities': { url: `${GH}/chrome-utilities`, wait: 2500 },
   'bubble-notifications': { url: `${GH}/bubble-notifications`, wait: 2500 },

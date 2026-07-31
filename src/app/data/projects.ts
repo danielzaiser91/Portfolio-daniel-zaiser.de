@@ -57,6 +57,7 @@ export const LANGUAGES: Record<string, string> = {
   'geoguessr-hints': 'Python',
   'isekai-idle-mockups': 'HTML',
   'archmage-idle': 'TypeScript',
+  'incremental-adventure-rewritten': 'TypeScript',
 };
 
 export const LANGUAGE_COLORS: Record<string, string> = {
@@ -286,6 +287,26 @@ export const PROJECTS: Project[] = [
   },
 
   // ===== Fun =====
+  {
+    name: 'incremental-adventure-rewritten',
+    category: 'fun',
+    tech: ['TypeScript', 'Vite', 'Canvas 2D', 'Web Audio', 'break_eternity.js', 'Game Design'],
+    description: {
+      en: 'A fantasy-RPG incremental with eight prestige layers, where each layer adds a new verb instead of a bigger number: an animated combat arena, a soul grid, a bloodline crucible, a codex of 250 hand-written runes, a talent tree, a tile puzzle, roguelite runs and finally laws that rewrite the game’s own rules. Spiritual successor to incremental-adventure.',
+      de: 'Ein Fantasy-RPG-Incremental mit acht Prestige-Ebenen, von denen jede ein neues Verb einführt statt einer größeren Zahl: animierte Kampfarena, Seelengitter, Blutlinien-Tiegel, ein Codex aus 250 handgeschriebenen Runen, ein Talentbaum, ein Kachel-Puzzle, Roguelite-Läufe und zuletzt Gesetze, die die Spielregeln selbst umschreiben. Geistiger Nachfolger von incremental-adventure.',
+    },
+    knowledge: {
+      en: 'Designing a headless deterministic core that runs identically in the game, in offline catch-up and in a simulation bot; taming double-exponential feedback with softcap chains until a run lasts weeks instead of twelve minutes; procedural creature silhouettes and a full synth engine with no asset files at all; shipping German and English complete from day one, with a missing translation as a compile error.',
+      de: 'Einen kopflosen deterministischen Core bauen, der im Spiel, im Offline-Nachlauf und im Sim-Bot identisch läuft; doppelt-exponentielle Rückkopplung mit Softcap-Ketten bändigen, bis ein Durchlauf Wochen statt zwölf Minuten dauert; prozedurale Kreatur-Silhouetten und eine komplette Synth-Engine ganz ohne Asset-Dateien; Deutsch und Englisch von Tag eins vollständig, mit fehlender Übersetzung als Compile-Fehler.',
+    },
+    commits: 2,
+    started: '2026-07',
+    lastTouched: '2026-07',
+    estHours: 40,
+    demo: `${PAGES}/incremental-adventure-rewritten-live`,
+    preview: true,
+    repoPrivate: true,
+  },
   {
     name: 'archmage-idle',
     category: 'fun',
