@@ -59,6 +59,30 @@ export const gamePreview = (g: Game): string | undefined => g.preview ?? g.image
 export const GAMES: Game[] = [
   // ===== 🎮 Spiele (fertig & spielbar) =====
   {
+    title: 'Malazan \u2014 Das Buch der Gefallenen',
+    emoji: '\U0001F0CF',
+    url: `${PAGES}/malazan-cyoa/`,
+    kind: 'game',
+    // Prolog und Kapitel 1 von elf. Spielbar und fertig erz\u00e4hlt bis dahin,
+    // aber es ist kein fertiges Buch \u2014 also steht es in der WIP-Sektion und
+    // wird nirgends als eins verkauft.
+    wip: true,
+    categories: ['story'],
+    players: '1',
+    playtime: '30\u201345 Min. (Prolog + Kapitel 1)',
+    situation: 'Wenn du Lust auf eine d\u00fcstere Fantasy-Geschichte hast, in der deine Entscheidungen '
+      + 'wirklich etwas kosten \u2014 und du keine 1200 Seiten Roman anfangen willst.',
+    description:
+      'Ein illustriertes Spielbuch nach Steven Eriksons \u201eMalazan\u201c. Du bist ein frischer Rekrut im '
+      + 'malazanischen Heer, und die Geschichte l\u00e4uft nicht auf ein gutes Ende zu. Der Clou ist die '
+      + 'Auslegung: Der Verlauf liegt als Kartenlegung vor dir, du springst zu jeder Szene zur\u00fcck, die du '
+      + 'erreicht hast \u2014 aber nur, was du wei\u00dft, nimmst du mit; was du geworden bist, bleibt zur\u00fcck. '
+      + 'Was du nie gesehen hast, bleibt verdeckt: keine Titel, keine Zusammenfassungen, keine Bilder. '
+      + 'Jede Seite hat ihre eigene gemalte Illustration, komplett auf Deutsch und Englisch.',
+    tags: ['Spielbuch', 'Dark Fantasy', 'Entscheidungen', 'Zweisprachig', 'Browser & Handy'],
+    preview: shot('malazan-cyoa'),
+  },
+  {
     title: 'Incremental Adventure Rewritten',
     emoji: '⚔️',
     url: `${PAGES}/incremental-adventure-rewritten-live`,

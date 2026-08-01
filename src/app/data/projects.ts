@@ -58,6 +58,7 @@ export const LANGUAGES: Record<string, string> = {
   'isekai-idle-mockups': 'HTML',
   'archmage-idle': 'TypeScript',
   'incremental-adventure-rewritten': 'TypeScript',
+  'malazan-cyoa': 'TypeScript',
 };
 
 export const LANGUAGE_COLORS: Record<string, string> = {
@@ -287,6 +288,46 @@ export const PROJECTS: Project[] = [
   },
 
   // ===== Fun =====
+  {
+    name: 'malazan-cyoa',
+    category: 'fun',
+    tech: ['TypeScript', 'Vite', 'Vitest', 'i18n', 'FLUX.2', 'Game Design'],
+    description: {
+      en: 'A bilingual, illustrated choose-your-own-adventure retelling Book 1 of Steven Erikson\u2019s '
+        + '*Malazan Book of the Fallen*. Branch-and-bottleneck structure with a twist: the story graph is '
+        + 'in-fiction a card reading, and you can jump back to any scene you have reached and get exactly '
+        + 'the state you had then \u2014 what you *know* stays, what you *are* rolls back. Every page carries '
+        + 'its own oil-painted illustration, generated through a versioned prompt pipeline. '
+        + 'Prologue and chapter 1 are playable; nine chapters to go.',
+      de: 'Ein zweisprachiges, illustriertes Choose-your-own-Adventure, das Band 1 von Steven Eriksons '
+        + '\u201eDas Buch der Gefallenen\u201c nacherz\u00e4hlt. Branch-and-Bottleneck mit einem Dreh: Der '
+        + 'Story-Graph ist in-fiction eine Kartenlegung, und man springt zu jeder erreichten Szene zur\u00fcck '
+        + 'und bekommt exakt den Zustand von damals \u2014 was man *wei\u00df*, bleibt; was man *ist*, rollt '
+        + 'zur\u00fcck. Jede Seite tr\u00e4gt ihre eigene, in \u00d6l gemalte Illustration aus einer versionierten '
+        + 'Prompt-Pipeline. Prolog und Kapitel 1 sind spielbar, neun Kapitel fehlen.',
+    },
+    knowledge: {
+      en: 'Keeping a story spoiler-free by construction rather than by discipline \u2014 an unreached card '
+        + 'yields neither title nor summary nor artwork, enforced in the core and covered by tests, not '
+        + 'hidden in the view. Building an image pipeline where prompts are versioned content: a locked '
+        + 'style anchor, a world anchor against period drift, character and rank sheets copied verbatim so '
+        + 'the same person survives hundreds of pictures \u2014 and cost protection, so improving a prompt '
+        + 'does not silently invalidate every image already paid for.',
+      de: 'Eine Geschichte spoilerfrei by construction halten statt durch Disziplin \u2014 eine nie erreichte '
+        + 'Karte gibt weder Titel noch Zusammenfassung noch Bild her, durchgesetzt im Core und durch Tests '
+        + 'abgedeckt, nicht in der Ansicht versteckt. Eine Bild-Pipeline bauen, in der Prompts versionierter '
+        + 'Content sind: ein gesperrter Stil-Anker, ein Welt-Anker gegen Epochen-Drift, Figuren- und '
+        + 'Standesbl\u00e4tter, die wortgleich eingesetzt werden, damit dieselbe Person hunderte Bilder '
+        + '\u00fcbersteht \u2014 und Bestandsschutz, damit eine bessere Formulierung nicht still jedes bereits '
+        + 'bezahlte Bild entwertet.',
+    },
+    commits: 31,
+    started: '2026-07',
+    lastTouched: '2026-08',
+    estHours: 25,
+    demo: `${PAGES}/malazan-cyoa/`,
+    preview: true,
+  },
   {
     name: 'incremental-adventure-rewritten',
     category: 'fun',
