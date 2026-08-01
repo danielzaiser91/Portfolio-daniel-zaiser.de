@@ -57,6 +57,44 @@ const TARGETS = {
   // Quell-Repo privat, Demo aus dem oeffentlichen Build-Spiegel. Der Live-Build startet
   // bei null — ein leerer Keller sagt nichts. Also erst ein paar Minuten vorspielen und
   // dann waehrend eines echten Kampfes aufnehmen.
+  // Der Startbildschirm ist ein Formular \u2014 das verkauft nichts. Also erst ein
+  // Profil anlegen und ein paar Seiten weiterbl\u00e4ttern, damit der Screenshot
+  // zeigt, worum es geht: Prosa neben einer gemalten Illustration.
+  'malazan-cyoa': {
+    url: `${PAGES}/malazan-cyoa/`,
+    wait: 9000,
+    prepare: `
+      const pick = (sel, text) => [...document.querySelectorAll(sel)]
+        .find((x) => (x.textContent || '').includes(text));
+      // Gestaffelt, weil jeder Schritt den naechsten erst einblendet: Der
+      // Startbildschirm zeigt nur Profil-Slots, das Formular klappt danach auf,
+      // und die Zeichen-Reihe erscheint erst mit gewaehlter Herkunft.
+      const slot = pick('button', 'Neues Profil'); if (slot) slot.click();
+      setTimeout(() => {
+        const input = document.querySelector('input[type=text]');
+        if (input) { input.value = 'Tesk'; input.dispatchEvent(new Event('input', { bubbles: true })); }
+        const bg = pick('[role=radio]', 'Sappeur'); if (bg) bg.click();
+        setTimeout(() => {
+          const sigil = document.querySelector('.chip--sigil'); if (sigil) sigil.click();
+          const start = pick('button', 'Auslegung'); if (start) start.click();
+          setTimeout(() => {
+            // Der Inhaltshinweis (Krieg, Massaker, Folter) erscheint erst hier,
+            // nicht beim Laden — deshalb reicht das dismiss-Feld oben nicht.
+            // (Und kein Backtick in diesem Kommentar: er steht selbst in einem
+            // Template-String und wuerde ihn beenden.)
+            const ok = pick('button', 'Verstanden'); if (ok) ok.click();
+            // Drei Seiten weiter: dort steht eine Illustration neben genug Text.
+            let steps = 0;
+            const tick = setInterval(() => {
+              const next = document.querySelector('.story__next');
+              if (next) next.click();
+              if (++steps >= 3) clearInterval(tick);
+            }, 900);
+          }, 500);
+        }, 400);
+      }, 500);
+    `,
+  },
   'incremental-adventure-rewritten': {
     url: `${PAGES}/incremental-adventure-rewritten-live`,
     wait: 26000,
