@@ -1,0 +1,8 @@
+# SPA-Fallback für die Angular-App:
+# Alle Pfade, die keine echte Datei/kein echtes Verzeichnis sind (z. B. /arcade,
+# /projects, /for-recruiters), liefern index.html aus — das Routing übernimmt Angular.
+FallbackResource /index.html
+
+# Der Apache des Hosters kennt .webp nicht (liefert sonst KEINEN Content-Type-Header;
+# Browser retten das per Sniffing, korrekt ist es trotzdem nicht).
+AddType image/webp .webp

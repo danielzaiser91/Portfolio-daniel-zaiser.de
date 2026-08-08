@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      ::selection {
+        background-color: transparent;
+      }
+      * {
+        touch-action: manipulation;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #fffac8;
+      }
+      .notification {
+        position: fixed;
+        top: 50px;
+        right: 0;
+        min-width: 200px;
+        min-height: 30px;
+        background-color: lightblue;
+        border: 1px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        transition: right 0.5s;
+      }
+      .from-right {
+        right: -100% !important;
+      }
+      .h { display: none !important }
+      .score { text-align: center; font-size: 1.7rem; font-weight: bold; }
+      #training-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        flex-direction: column;
+      }
+      #punch-bag {
+        width: 50vh;
+        position: relative;
+        /* https://www.svgrepo.com/svg/307071/punch-fist-hit */
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='128' height='128' fill='none'><path fill='%23fff' d='M128.1,96.7H94.7c-5.4,0-9.7,4.3-9.7,9.7c0,5.4,4.3,9.7,9.7,9.7h33.2c5.4,0,9.7-4.3,9.7-9.7 C137.8,101,133.5,96.7,128.1,96.7z M94.7,61.5h23.5V41.9H94.7c-5.4,0-9.7,4.3-9.7,9.7S89.3,61.5,94.7,61.5z M128.1,124h-23.5 c-5.4,0-9.7,4.3-9.7,9.7s4.3,9.7,9.7,9.7h23.5c5.4,0,9.7-4.3,9.7-9.7S133.5,124,128.1,124z M200.3,65.5l-30.2-30.4l0,0 c-1.8-1.8-4.3-2.9-6.8-2.9h-27.5c-5.4,0-9.7,4.3-9.7,9.7v37.2c0,5.4,4.3,9.7,9.7,9.7c5.4,0,9.7-4.3,9.7-9.7V57.6l0,0 c0-2.2,1.8-4,4-4s4,1.8,4,4l0,0l0,0c0,23.7,19.4,42.9,42.9,42.9c2.2,0,4,1.8,4,4c0,2.2-1.8,4-4,4c-18.5,0-34.7-9.9-43.5-24.8 c-1.3,4.1-3.8,7.5-7.2,10.1c0,0,0,34.7,0,40.1c0,3.6-1.3,7-2.9,9.7h28.4c12,0,22.8-6.3,29.3-15.6h54.6V65.5H200.3z M94.7,88.8h26.4 c-2-2.7-2.9-6.3-2.9-9.7v-9.7H94.7c-5.4,0-9.7,4.3-9.7,9.7C84.9,84.5,89.3,88.8,94.7,88.8z M17.9,134.9c-1-1.9-0.2-4.3,1.7-5.3 l40.9-21c1.9-1,4.3-0.2,5.3,1.7c1,1.9,0.2,4.3-1.7,5.3l-40.9,21C21.3,137.6,18.9,136.8,17.9,134.9z M2.7,37.3 c-0.6-1.1-0.7-2.5,0-3.9c1-1.9,3.5-2.6,5.2-1.7l49.4,27.4c1.9,1,2.6,3.5,1.7,5.2c-1,1.9-3.5,2.6-5.2,1.7L4.4,38.9 C3.6,38.6,3.1,37.9,2.7,37.3z M60,185c-0.4-0.8-0.6-1.9-0.1-3l13.9-43.7c0.7-2.2,2.8-3.2,4.8-2.5c2.2,0.7,3.2,2.8,2.5,4.8L67,184.5 c-0.7,2.2-2.8,3.2-4.8,2.5C61.2,186.6,60.5,186,60,185z M18.2,83.9c-0.3-0.6-0.6-1.5-0.4-2.4c0.5-2.3,2.4-3.6,4.5-3.1L51,83 c2.3,0.5,3.6,2.4,3.1,4.5s-2.4,3.6-4.5,3.1L20.9,86C19.7,85.7,18.7,84.9,18.2,83.9z M66,48.8L44.9,7.7c-1-1.9-0.2-4.3,1.7-5.3 S51,2.2,52,4.1l21.1,41.1c1,1.9,0.2,4.3-1.7,5.3C69.4,51.4,67,50.7,66,48.8z'/></svg>") 12 12, auto;
+      }
+      .score { margin-bottom: 15px; }
+      .nav-area { display: flex; padding: 5px; border-bottom: 1px solid; gap: 5px; }
+      .impact { width:50px; display: flex; }
+      .circle-bg {
+        box-shadow: 0px 0px 15px 10px #ff7575;
+        position: absolute;
+        width: 100%;
+        height: calc(100% - 4px);
+        border-radius: 50%;
+        background: transparent;
+        opacity: 0;
+        transition: opacity 400ms ease-out;
+      }
+      .op-1 { opacity: 1; }
+      [is-known="true"][is-reached="true"] { color: green }
+      [is-known="true"][is-reached="true"]::before { 
+        content:'- ✔️';
+      }
+      [is-known="true"][is-reached="false"] { color: red }
+      [is-known="true"][is-reached="false"]::before { 
+        content:'- ❌';
+      }
+      [is-known="false"] { color: grey }
+      [is-known="false"] [goal-text] { display: none }
+      [is-known="false"]::after { content: '???' }
+      .goal-list .goal { margin-left: 5px; }
+      [reward] { color: black; margin-left: 5px; }
+      [is-reached="false"] [reward] { display: none }
+      [reward]::before { content: '- ' }
+      #achievement {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 999999;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0000008a;
+      }
+      .achievement-card {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+        background-color: white;
+        padding: 20px;
+        border-radius: 7px;
+        border: 10px solid #fb912f;
+      }
+      .achievement-card > * {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+      }
+      .inline-block { display: inline-block; }
+      .achievement-container {
+        min-height: 50vh;
+        display: flex;
+        min-width: 30vw;
+        align-items: stretch;
+        justify-content: space-evenly;
+      }
+      .achievement-card > * {
+        border-bottom: 1px solid;
+      }
+      .achievement-card :nth-child(1) {
+        flex: 0;
+      }
+      [opt-autosave]:not(:checked) ~ [next-save-info] { display: none; }
+      .btn {
+        border: 2px solid;
+        padding: 5px;
+        display: inline-block;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+      .btn:active { background-color: aliceblue; }
+      .btn:active:disabled { background-color: red !important; }
+      .btn:disabled { cursor: not-allowed !important; }
+      .btn:hover { cursor: pointer }
+      .green-btn { background-color: #b6f1c9; }
+      .danger-btn { background-color: rgb(247, 87, 87); }
+      .checkbox-autosave {
+        border: 1px solid;
+        border-radius: 5px;
+        background-color: white;
+        padding: 5px;
+        text-align: center;
+        min-width: 190px;
+        min-height: 66px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+      }
+      .flex-col { display: flex; flex-direction: column; }
+      .flex-row { display: flex; flex-direction: row; }
+      .xy-center { justify-content: center; align-items: center; }
+      .option-btns {
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .option-btns > * {
+        flex: 0 0 140px;
+      }
+      label[for], input[type="checkbox"] { cursor: pointer; }
+      [for="load-file"] { text-align: center; }
+      [game-version] {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        background-color: aqua;
+        padding: 20px;
+        border: 1px solid;
+      }
+      .cost-container {
+        margin: 10px;
+        padding: 5px;
+        border-top: 1px solid red;
+        border-bottom: 1px solid red;
+        color: black;
+      }
+      #upgrade-actions button { min-width: 200px; }
+      button:disabled {
+        background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+        color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+        border-color: #3d3030;
+      }
+    </style>
+  </head>
+  <body style="position: relative;">
+    <div id="achievement" class="h">
+      <div class="achievement-container">
+        <div class="achievement-card">
+          <div>Achievement Name!</div>
+          <div>image</div>
+          <div>Achievement Description, including reward</div>
+        </div>
+      </div>
+    </div>
+    <div id="notification-container">
+      <div class="notification h from-right" id="notification-reference">fail</div>
+    </div>
+    <div class="impact h" style="position: absolute;">
+      <!-- https://www.svgrepo.com/svg/320886/gooey-impact -->
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M298.428 20.486c-21.447 48.03-44.188 75.236-77.115 79.91-28.136 3.99-64.568-29.074-105.614-75.998 23.366 46.372 31.96 83.573 16.204 92.762-18.627 10.866-55.943-1.943-111.203-25.144v10.615c38.017 24.128 73.04 47.683 66.5 56.442-5.742 7.687-31.92 6.356-66.5 1.682v27.383c50.014 25.265 77.116 51.172 77.116 75.437 0 20.872-41.68 63.48-77.115 97.233v16.207c31.98-10.475 71.2-14.545 84.382 8.94 13.445 23.952 4.417 57.878-12.853 107.292h29.618c31.378-42.384 61.21-76.374 77.113-74.88 11.266 1.066 6.004 35.664-1.675 74.88h8.942c27.94-77.643 62.367-125.236 113.437-123.498 44.812 1.533 87.334 46.643 134.113 78.793-24.452-29.92-69.5-72.534-59.793-80.466 10.208-8.352 53.968 6.926 99.47 23.47v-14.53c-29.854-20.367-57.317-39.94-50.294-46.94 6.313-6.296 25.576-7.315 50.293-5.588v-29.058c-53.67-21.397-85.278-41.364-94.998-73.203-7.98-26.144 16.097-60.923 61.47-102.82-47.4 25.978-82.294 43.625-96.116 18.997-12.413-22.108 1.488-63.554 23.467-117.908H371.63c-17.527 27.747-32.458 48.79-38 43.588-4.828-4.536-4.882-20.853-2.792-43.588h-32.412l.002-.008zm7.265 32.06c-5.53 42.43-16.73 95.59-9.834 102.063 5.165 4.85 26.22-34.356 42.462-59.31-18.34 46.248-35.978 81.03-27.082 96.878 7.03 12.525 24.87 3.69 48.985-9.524-23.083 21.316-35.483 38.987-31.424 52.285 8.057 26.395 45.79 36.738 113.22 60.353-34.623-4.49-82.283-13.5-90.288-5.518-5.37 5.358 28.182 25.277 47.38 39.08-29.005-10.13-65.573-25.36-72.41-19.77-4.938 4.04 17.957 25.693 30.396 40.92-23.8-16.357-45.59-39.233-68.39-40-33.52-1.14-52.724 39.145-69.282 100.686 4.352-29.214 17.456-74.98 8.045-75.858-13.35-1.256-45.605 46.34-69.728 81.836 16.846-51.048 32.15-80.128 21.9-98.387-9.252-16.482-43.968-6.46-59 2.3 17.71-16.713 55.245-50.34 55.245-64.498 0-20.606-37.184-43.794-105.752-63.314 41.22 6.498 94.365 18.422 100.57 10.115 4.85-6.494-35.124-29.052-59.45-45.055 42.82 18.364 69.956 30.773 82.087 23.697 8.015-4.675 3.556-23.55-8.332-47.144 20.882 23.872 39.604 40.68 53.918 38.647 30.2-4.283 43.242-44.233 66.765-120.482z"/></svg>
+    </div>
+    <div class="nav-area h" unlockId="nav">
+      <span style="border-right: 1px solid; padding-right: 5px">navigate</span>
+      <div style="display: flex; justify-content: space-between; width: 100%;">
+        <div class="left">
+          <button nav-training class="btn green-btn">training</button>
+          <button nav-upgrades class="btn green-btn">upgrades</button>
+          <button nav-automation unlockId="automation" class="btn green-btn">automation</button>
+          <button nav-hire unlockId="hire" class="btn green-btn">scout</button>
+        </div>
+        <div class="right">
+          <button nav-options class="btn green-btn">options</button>
+        </div>
+      </div>
+    </div>
+    <div class="score"><span>SCORE: </span><span score>0</span></div>
+    <div class="actions">
+      <div id="training-actions" p-training>
+        <div id="punch-bag" punch-click>
+          <div class="circle-bg"></div>
+          <!-- https://www.svgrepo.com/svg/200180/punching-bag-boxer -->
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><circle style="fill:#FF7F4F;" cx="256" cy="256" r="256"/><path style="fill:#D35933;" d="M507.985,301.404L259.718,53.298l-19.808,277.404l-2.37,43.17L208.3,415.153l92.872,92.872 C406.271,489.315,489.179,406.471,507.985,301.404z"/><path style="fill:#FFFFFF;" d="M289.071,178.697l-27.9-55.798v-66.01c0-2.857-2.315-5.172-5.172-5.172s-5.172,2.315-5.172,5.172 v66.01l-27.9,55.798c-1.276,2.555-0.241,5.661,2.313,6.939c0.743,0.371,1.533,0.546,2.31,0.546c1.896,0,3.722-1.048,4.63-2.86 l18.646-37.292v53.081c0,2.857,2.315,5.172,5.172,5.172s5.172-2.315,5.172-5.172V146.03l18.646,37.293 c0.907,1.812,2.732,2.86,4.63,2.86c0.777,0,1.567-0.178,2.31-0.546C289.311,184.358,290.347,181.253,289.071,178.697z"/><path style="fill:#D0D1D3;" d="M289.071,178.697l-27.9-55.798v-66.01c0-2.857-2.315-5.172-5.172-5.172v152.566 c2.857,0,5.172-2.315,5.172-5.172V146.03l18.646,37.293c0.907,1.812,2.732,2.86,4.63,2.86c0.777,0,1.567-0.178,2.31-0.546 C289.311,184.358,290.347,181.253,289.071,178.697z"/><path id="svg-punchbag" style="fill:#3F3A3A;" d="M275.732,426.667h-39.464c-21.949,0-39.743-17.794-39.743-39.743V210.41 c0-21.949,17.794-39.743,39.743-39.743h39.464c21.949,0,39.743,17.794,39.743,39.743v176.514 C315.475,408.872,297.681,426.667,275.732,426.667z"/><path style="fill:#272525;" d="M275.732,170.667H256v256h19.732c21.949,0,39.743-17.794,39.743-39.743V210.41 C315.475,188.461,297.681,170.667,275.732,170.667z"/><g><rect x="196.525" y="355.987" style="fill:#FFC61B;" width="118.949" height="13.791"/><rect x="196.525" y="227.556" style="fill:#FFC61B;" width="118.949" height="13.791"/></g><g><rect x="256" y="355.987" style="fill:#EAA22F;" width="59.475" height="13.791"/><rect x="256" y="227.556" style="fill:#EAA22F;" width="59.475" height="13.791"/></g></svg>
+        </div>
+      </div>
+      <div class="hire" p-hire>
+        <div info class="flex-col h">
+          <div>here you can scout for a talented fighter, to punch the bag for you, so you don't have to do it yourself.</div>
+          <div>If you fulfill all requirements, you can press the button and after a certain time, you'll be offered some fighters to choose from.</div>
+          <div>Each fighter has a unique Bonus.</div>
+        </div>
+        <style>
+          [info] {border: 1px solid; padding:5px; background-color: rgb(110, 110, 226); color:#ffe159; font-size: 1.2rem; }
+        </style>
+        <button class="btn green-btn flex-col xy-center h" style="position: relative; background-color: transparent;" hire-search p-hire>
+          <div class="progress" style="position: absolute;" p="100"></div>
+          <div class="bg" style="position: absolute;"></div>
+          <span>search for a talented Boxer</span>
+          <span style="border-top: 1px solid red; margin-top: 4px; padding-top: 5px; ">estimated time: <span hire-time>1 minute</span></span>
+          <div class="conditions flex-col" style="align-items: start;">
+            conditions:
+            <div class="condition" hire-condition-1 met="true">have a score of at least 10k</div>
+            <div class="condition" hire-condition-2 met="false">gym level 2+</div>
+          </div>
+        </button>
+        <div class="hire-screen flex-col xy-center h" style="position: fixed; font-size: 1.2rem">
+          <div class="hire-container flex-col">
+            <div style="text-align:center;">
+              <span style=" margin-bottom: 5px; padding: 5px; border-bottom: 5px solid #2d0657; border-top: 5px solid #2d0657; display: inline-block;">Select a fighter to assist you</span>
+            </div>
+            <div class="hire-card-wrapper flex-row">
+              <div class="hire-card flex-col" hire-anni>
+                <div class="name">
+                  <div class="title">Anni</div>
+                </div>
+                <div class="level">
+                  <div class="title">
+                    Level:
+                  </div>
+                  <span lvl>1</span>
+                </div>
+                <div class="picture bg-anni-2"></div>
+                <div class="description">
+                  <div class="title">Description:</div>
+                  <span>
+                    <br>Female fighters are less common, often due to natural physical differences such as reduced upper-body strength. 
+                  </span>
+                  <span>
+                    <br>However, this young fighter from Germany compensates for her lack of raw power with remarkable agility and flexibility. 
+                  </span>
+                  <span>
+                    <br>Her speed, evasive movement, and rapid punches make her a feared opponent in the ring. 
+                  </span>
+                </div>
+                <div class="special-effect">
+                  <div class="title">Special:</div>
+                  <span special>+10% Speed</span>
+                </div>
+              </div>
+              <div class="hire-card flex-col" hire-mike>
+                <div class="name">
+                  <div class="title">Mike</div>
+                </div>
+                <div class="level">
+                  <div class="title">
+                    Level:
+                  </div>
+                  <span lvl>1</span>
+                </div>
+                <div class="picture bg-mike-2"></div>
+                <div class="description">
+                  <div class="title">Description:</div>
+                  <span>
+                    <br>Hailing from the United States, this fighter is a true force of nature, known for his immense power and larger-than-life presence. 
+                  </span>
+                  <span>
+                    <br>With superhuman strength and Hulk-like features, he dominates opponents with sheer brute force and an intimidating physique. 
+                  </span>
+                  <span>
+                    <br>Every strike he delivers carries overwhelming impact, making him one of the most feared fighters to ever step into the ring. 
+                  </span>
+                </div>
+                <div class="special-effect">
+                  <div class="title">Special:</div>
+                  <span special>+20% Strength</span>
+                </div>
+              </div>
+              <div class="hire-card flex-col" hire-ali>
+                <div class="name">
+                  <div class="title">Ali</div>
+                </div>
+                <div class="level">
+                  <div class="title">
+                    Level:
+                  </div>
+                  <span lvl>1</span>
+                </div>
+                <div class="picture bg-ali-2"></div>
+                <div class="description">
+                  <div class="title">Description:</div>
+                  <span>
+                    <br>From the Middle East emerges a fighter renowned for his balance of power, speed, and technique. 
+                  </span>
+                  <span>
+                    <br>An all-rounder in every sense, he possesses the strength to trade blows, the agility to outmaneuver, and the skill to adapt to any opponent. 
+                  </span>
+                  <span>
+                    <br>With no clear weaknesses and mastery across all aspects of combat, he stands among the elite, capable of competing with the very best in the world. 
+                  </span>
+                </div>
+                <div class="special-effect">
+                  <div class="title">Special:</div>
+                  <span special>+10% score multiplier</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <style>
+          .progress, .bg {
+            position: absolute;
+            left:0; top:0; height:100%;
+          }
+          .picture {
+            flex: 1;
+            background-size: contain;
+            background-repeat: no-repeat;
+          }
+          .bg-anni-2 { background-image: url('./images/fighter/Anni_2.jpg'); }
+          .bg-mike-2 { background-image: url('./images/fighter/Mike_2.jpg'); }
+          .bg-ali-2 { background-image: url('./images/fighter/Ali_2.jpg'); }
+          .hire-screen { left:0; top:0; height:100vh; width: 100vw; background:linear-gradient(45deg, #9b8080, #fff, #9b8080) }
+          .hire-container { border-radius: 8px; border: 5px solid; padding: 10px; background-color: #fff08c; }
+          .hire-card-wrapper { gap: 10px }
+          .hire-card { border-radius: 8px; border: 5px solid; padding: 10px; min-height: 60vh; min-width: 20vw; gap: 5px; }
+          .hire-card:hover { background-color: #ebcf1b; cursor: pointer; }
+          .hire-card .title { display: inline-block; border-bottom: 2px solid red; }
+          .bg { width: 100%; z-index: -2; background-color: #b6f1c9; }
+          .progress { width: 20%; z-index: -1; }
+          .progress[p="0"] { background-color: rgb(255, 255, 255); }
+          .progress[p="10"] { background-color: rgb(255, 220, 220); }
+          .progress[p="25"] { background-color: rgb(255, 154, 154); }
+          .progress[p="50"] { background-color: rgb(255, 80, 80); }
+          .progress[p="100"] { background-color: rgb(255, 1, 1); animation: pulse 1s ease infinite alternate; }
+          @keyframes pulse {
+            from { background-color: rgb(255, 1, 1);;}
+            to { background-color: rgb(255, 154, 154);;}
+          }
+          .conditions { color:black; border-top: 1px solid red; padding: 5px; margin-top: 4px; }
+          .condition[met="true"] { color: green }
+          .condition[met="true"]::before { content: '✔️' }
+          .condition[met="false"] { color: red }
+          .condition[met="false"]::before { content: '❌ ' }
+        </style>
+      </div>
+      <div id="upgrade-actions" p-upgrades class="h" upgrade-punch>
+        <button punch-strength class="btn green-btn">
+          <div str class="flex-col xy-center">
+            <span>Punch strength:</span>
+            <div class="cost-container">
+              <span>Cost </span><span cost>1</span><span> Score Points</span>
+            </div>
+            <div>
+              <span>Level </span><span lvl>1</span><span>/100</span>
+            </div>
+            <div>
+              <span>Damage per Punch: </span><span eff>1</span>
+            </div>
+          </div>
+        </button>
+        <button punch-speed unlockId="automation" class="btn green-btn">
+          <div spd class="flex-col xy-center">
+            <span>Punch speed: </span>
+            <div class="cost-container">
+              <span>Cost </span><span cost>1</span><span> Score Points</span>
+            </div>
+            <div>
+              <span>Level </span><span lvl>1</span><span>/100</span>
+            </div>
+            <div>
+              <span eff>1 Punch per second</span>
+            </div>
+          </div>
+        </button>
+        <button punch-scoreIncrease class="btn green-btn">
+          <div scoreIncrease class="flex-col xy-center">
+            <span>Punch score multiplier:</span>
+            <div class="cost-container">
+              <span>Cost </span><span cost>1</span><span> Score Points</span>
+            </div>
+            <div>
+              <span>Level </span><span lvl>1</span><span>/100</span>
+            </div>
+            <div>
+              <span>Multiply Score by: </span><span eff>1</span>
+            </div>
+          </div>
+        </button>
+      </div>
+      <div p-options class="h flex-row xy-center option-btns">
+        <span game-version></span>
+        <button opt-save class="btn green-btn">save current progress to file</button>
+        <button opt-save-to-file class="btn green-btn">save current progress to file</button>
+        <div class="flex-col">
+          <input opt-load-file type="file" id="load-file" accept="text/plain" style="opacity: 0; width:0; height: 0">
+          <label for="load-file" class="btn green-btn">load savegame from file</label>
+        </div>
+        <button opt-reset class="danger-btn btn">reset game-progress</button>
+        <div class="checkbox-autosave">
+          <label for="opt-autosave">Enable autosaving</label>
+          <input opt-autosave type="checkbox" id="opt-autosave">
+          <div next-save-info>next Automatic save in: <span save-countdown>0 seconds</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="pages">
+      <div p-hire>
+        <div unlockId="fighter" class="h">
+          <div class="list-of-fighters flex-row">
+            <div class="fighter flex-col">
+              <div class="name">Anni</div>
+              <div class="stats">
+                <span>Level 1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>.fighter { flex: 0; min-width: 200px; }</style>
+      <div id="training-effects" p-training>
+        <div id="punch-stats" unlockId="punchStats" style="display: flex; justify-content: center; align-items: center; padding: 5px;">
+          <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; border:1px solid; padding: 5px;">
+            <span style="border-top: 1px solid; border-bottom: 1px solid">punch stats:</span>
+            <span>score increase per punch: <span totalPunch>1</span></span>
+            <span unlockId="punchAutomation">punches per second: <span spd-eff>1</span></span>
+          </div>
+        </div>
+        <div class="goals" style="display: flex; justify-content: center; border-top: 1px solid; border-bottom: 1px solid">
+          <span>next Goal:</span>
+          <span currGoal>punch 10 times</span>
+        </div>
+        <div class="goal-list">
+          <div class="goal" is-known="true" is-reached="true"><span goal-text>punch 10 times</span><span reward>Reward: Punch Strength +1</span></div>
+          <div class="goal" is-known="false" is-reached="false"><span goal-text>reach a score of 100</span><span reward>Reward: Unlock Upgrades</span></div>
+          <div class="goal" is-known="false" is-reached="false"><span goal-text>reach a score of 10 thousand</span><span reward>Reward: Hire a boxer (punch automation)</span></div>
+          <div class="goal" is-known="false" is-reached="false"><span goal-text>reach a million score</span><span reward>Reward: Punch Strength +1</span></div>
+        </div>
+      </div>
+    </div>
+  
+    <script>
+      const devOverride = true;
+      const gameVersion = '0.0.1b';
+      const versionText = 'Game-version: "Demo" '+gameVersion+' (last updated: 23.08.2025)';
+      class Automation {
+        isUnlocked = false;
+        timebank = 0;
+        calcEffectInMs(ms) {}
+        unlock() { this.isUnlocked = true; }
+      }
+      class PunchAutomation extends Automation {
+        calcEffectInMs(ms) {
+          if (!this.isUnlocked) return;
+          // activate effect of automation, only once per second
+          // create timebank, and only react once timebank reaches 1sec
+          this.timebank += ms;
+          if (this.timebank >= 1000) {
+            stats.score += (this.timebank / 1000) * stats.punch.speed.effect * stats.punch.strength.effect;
+            this.timebank -= 1000;
+          }
+        }
+      }
+      class Automations {
+        automations = {
+          punch: new PunchAutomation(),
+        };
+        loopId;
+        constructor() {
+          this.startNewLoop();
+        }
+        startNewLoop() {
+          if (this.loopId) clearInterval(this.loopId);
+          const timeInterval = 10;
+          this.loopId = setInterval(() => {
+            Object.values(this.automations).forEach(automation => {
+              if (!automation.isUnlocked) return;
+              automation.calcEffectInMs(timeInterval);
+            });
+          }, timeInterval);
+        }
+      }
+      class Fighter {
+        level = 0;
+        onChoose() { this.level++; }
+      }
+      class Anni extends Fighter {
+        name = 'Anni';
+      }
+      class Mike extends Fighter {
+        name = 'Mike';
+      }
+      class Ali extends Fighter {
+        name = 'Ali';
+      }
+      class Scouting {
+        // 3 possible fighters to choose from, each having unique bonuses?
+
+        hireBtn = document.querySelector('[hire-search]');
+        hireScreen = document.querySelector('.hire-screen');
+        hireScreenChoices = [...document.querySelectorAll('.hire-card')];
+        constructor() { this.init() }
+        init() {
+          this.hireBtn.addEventListener('click', this.onSearch.bind(this));
+          this.hireScreenChoices.forEach((choiceEl, index) => {
+            choiceEl.addEventListener('click', () => this.onChoiceSelection.call(this, index));
+          });
+        }
+        choices = [new Anni(), new Mike(), new Ali()];
+        onChoiceSelection(index) {
+          this.choices[index].onChoose();
+          this.hireScreen.classList.add('h');
+        }
+        canSearch() {
+          return true;
+        }
+        onSearch() {
+          const allowedToSearch = this.canSearch();
+          if (!allowedToSearch) notify('you can not search for talents right now');
+          this.hireBtn.disabled = true;
+          this.hireScreen.classList.remove('h');
+        }
+      }
+      class Upgrade {
+        _level = 0;
+        get level() {
+          return this._level;
+        }
+        set level(val) {
+          const levelBefore = this._level;
+          this._level = val;
+          this.afterLevelIncrease(levelBefore, levelBefore < val);
+        }
+        constructor(max, baseCost) {
+          this.max = max;
+          this.baseCost = baseCost;
+        }
+        get cost() {
+          return this.costCalc();
+        }
+        costCalc() {
+          return this.baseCost + this.level;
+        }
+        afterLevelIncrease(levelBefore, wasIncreased) {}
+        buy() {
+          if (!this.canAfford()) {
+            notify("You do not have enough score to upgrade " + this.name);
+            return;
+          }
+          const alreadyMax = this.level >= this.max;
+          if (alreadyMax) {
+            notify("Upgrade reached max, you cant buy more of " + this.name);
+            return;
+          }
+
+          stats.score -= this.cost;
+          this.level++;
+          const maxed = this.level >= this.max;
+          if (maxed) {
+            this.upgradeBtn.disabled = true;
+          }
+          stats.punch.updateUi();
+        }
+        canAfford() {
+          return stats.score >= this.cost;
+        }
+        upgradeState() {
+          if (!this.upgradeBtn) return;
+          const maxed = this.level >= this.max;
+          this.upgradeBtn.disabled = !this.canAfford() || maxed;
+        }
+      }
+      class Strength extends Upgrade {
+        upgradeBtn = document.querySelector('#upgrade-actions [punch-strength]');
+        name = 'Strength';
+        _additiveBonus = 0;
+        get additiveBonus() {
+          return this._additiveBonus;
+        }
+        set additiveBonus(val) {
+          this._additiveBonus = val;
+          stats.punch.updateUi();
+        }
+        get effect() {
+          // total damage per punch
+          // base 1
+          // each level increases damage by a flat amount?
+          return 1 + this.level + this.additiveBonus;
+        }
+      }
+      class Speed extends Upgrade {
+        upgradeBtn = document.querySelector('#upgrade-actions [punch-speed]');
+        name = 'Speed';
+        automationUnlocked = false;
+        costCalc() {
+          return this.baseCost + this.baseCost * this.level;
+        }
+        afterLevelIncrease(lvlBeforeBuy, wasIncreased) {
+          if (!wasIncreased) {
+            return;
+          }
+          if (!this.automationUnlocked && lvlBeforeBuy === 0) {
+            // unlock automation after first purchase of upgrade
+            notify('Congratz, you unlocked automation for punching!');
+            stats.unlock('punchAutomation');
+            this.automationUnlocked = true;
+            game.automations.automations.punch.unlock();
+          }
+        }
+        get effect() {
+          return this.level / 10;
+        }
+      }
+      class ScoreIncrease extends Upgrade {
+        upgradeBtn = document.querySelector('#upgrade-actions [punch-scoreIncrease]');
+        name = 'Score';
+        get effect() {
+          // total score reward for each punch
+          // base 1
+          // each level increases damage by a flat amount?
+          return 1 + this.level / 10;
+        }
+      }
+      class Punch {
+        constructor() {
+          this.strength = new Strength(100, 1);
+          this.speed = new Speed(100, 1);
+          this.scoreIncrease = new ScoreIncrease(100, 1);
+        }
+        punchTimeout;
+        onPunch() {
+          stats.score += this.strength.effect;
+          const el = document.querySelector('.circle-bg');
+          el.classList.add('op-1');
+          const punchSplashClone = document.querySelector('.impact').cloneNode(true);
+          punchSplashClone.classList.remove('h');
+          // randomize x/y within limits of punching bag circle
+          this.randomizeXY(punchSplashClone, document.querySelector('#punch-bag'), document.querySelector('#svg-punchbag'));
+          // splashtime-out seperate, because punch is cleared, we cant clear, because element needs to be removed
+          setTimeout(() => {
+            punchSplashClone.remove();
+          }, 400);
+          if (this.punchTimeout) clearTimeout(this.punchTimeout);
+          this.punchTimeout = setTimeout(() => {
+            this.showPunchEffect = false;
+            el.classList.remove('op-1');
+          }, 400);
+        }
+        /** @param el {HTMLElement} @param targetEl {HTMLElement} @param targetWithin {HTMLElement} */
+        randomizeXY(el, targetEl, targetWithin) {
+          const opBefore = el.style.opacity;
+          el.style.opacity = '0';
+          targetEl.insertAdjacentElement('afterbegin', el);
+          const { top, left, width, height } = targetEl.getBoundingClientRect();
+          const targetWithinRect = targetWithin.getBoundingClientRect();
+          const elRect = el.getBoundingClientRect();
+          const y = random(0, targetWithinRect.height) + targetWithinRect.top - top - elRect.height / 2;
+          const x = random(0, targetWithinRect.width) + targetWithinRect.left - left - elRect.width / 2;
+          el.style.top = y + 'px';
+          el.style.left = x + 'px';
+          el.style.opacity = opBefore || '1';
+        }
+        updateUi() {
+          const speedEffectText = formatNum(this.speed.effect) + ' ' + (this.speed.level === 0 ? 'Punch' : 'Punches') + ' per Second';
+          const q = (select, val) =>
+            document.querySelector('[upgrade-punch] ' + select).textContent = val;
+          q("[str] [eff]", formatNum(this.strength.effect));
+          q("[str] [lvl]", this.strength.level);
+          q("[str] [cost]", this.strength.cost);
+          q("[spd] [cost]", this.speed.cost);
+          q("[spd] [eff]", speedEffectText);
+          q("[spd] [lvl]", this.speed.level);
+          q("[scoreIncrease] [cost]", this.scoreIncrease.cost);
+          q("[scoreIncrease] [eff]", formatNum(this.scoreIncrease.effect));
+          q("[scoreIncrease] [lvl]", this.scoreIncrease.level);
+          document.querySelector('[totalPunch]').textContent = formatNum(this.strength.effect * this.scoreIncrease.effect);
+          document.querySelector('[spd-eff]').textContent = formatNum(this.speed.effect);
+        }
+      }
+      class UI {
+        constructor() {
+          const pageName = 'p-' + this.pages[this.currentPage];
+          this.currentSelectedPageEls = [...document.querySelectorAll('[' + pageName + ']')];
+        }
+        pages = ['training', 'upgrades', 'options', 'hire', 'automation'];
+        currentPage = 0;
+        currentSelectedPageEls = [];
+        navTo(pageIndex) {
+          const pageName = 'p-' + this.pages[pageIndex];
+          this.currentSelectedPageEls.forEach(el => el.classList.add('h'));
+          this.currentSelectedPageEls = [...document.querySelectorAll('[' + pageName + ']')];
+          this.currentSelectedPageEls.forEach(el => el.classList.remove('h'));
+        }
+        updateAllUi() {
+          stats.punch.updateUi();
+          this.updateButtonState();
+        }
+        updateScoreUi() {
+          document.querySelector('[score]').textContent = formatNum(stats.score);
+        }
+        updateButtonState() {
+          stats.punch.strength.upgradeState();
+          stats.punch.speed.upgradeState();
+          stats.punch.scoreIncrease.upgradeState();
+        }
+      }
+
+      class Achievements {
+        elements = {
+          main: document.getElementById('achievement'),
+        };
+        achievements = {
+
+        }
+        constructor() {
+          click('#achievement', () => {
+            this.elements.main.classList.add('h');
+          }, this);
+        }
+        unlockAchievement() {
+
+        }
+      }
+
+      class Goals {
+        goalEls = [...document.querySelectorAll('.goal')];
+        scoreGoals = [
+          {
+            goal: 1e1,
+            isReached: false,
+            effect: () => {
+              stats.unlock('punchStats');
+              stats.punch.strength.additiveBonus++;
+            },
+            el: undefined,
+          },
+          {
+            goal: 1e2,
+            isReached: false,
+            effect: () => stats.unlock('nav'),
+            el: undefined,
+          },
+          {
+            goal: 1e4,
+            isReached: false,
+            effect: () => stats.unlock('hire'),
+            el: undefined,
+          },
+          {
+            goal: 1e6,
+            isReached: false,
+            effect: () => stats,
+            el: undefined,
+          },
+        ];
+        nextGoalId = 0;
+        allReached = false;
+
+        constructor(score) {
+          this.scoreGoals.forEach((goal, id) => {
+            goal.el = this.goalEls[id];
+          })
+          this.updateScoreGoals(score);
+        }
+
+        updateScoreGoals(_score) {
+          if (this.allReached) return;
+          const score = _score ?? stats.score;
+          this.scoreGoals.forEach((goal, id) => {
+            if (!goal.isReached && score >= goal.goal) {
+              goal.isReached = true;
+              goal.effect();
+            notify('you have successfully completed a goal!');
+            }
+            goal.el.setAttribute('is-reached', goal.isReached);
+
+            // update nextGoal
+            if (this.nextGoalId === id && goal.isReached) {
+              this.nextGoalId = id+1;
+              const nextText = this.scoreGoals[this.nextGoalId]?.el.querySelector('[goal-text]').textContent || 'all Score Goals Reached 🎉';
+              document.querySelector('[currGoal]').textContent = nextText;
+            }
+            goal.el.setAttribute('is-known', this.nextGoalId >= id);
+          });
+          if (this.scoreGoals[this.scoreGoals.length - 1].isReached) {
+            this.allReached = true;
+            notify('you have successfully completed all score goals!');
+            document.querySelector('.goals span').classList.add('h');
+          }
+        }
+      }
+
+      class Stats {
+        punch = new Punch();
+        _score = 0;
+        goals = new Goals(this.score);
+
+        constructor() {
+          this.updateUnlockedStates();
+        }
+
+        unlock(id) {
+          savegame.unlocks[id] = true;
+          this.updateUnlockedStates();
+          setTimeout(() => notify('You unlocked something!'));
+        }
+
+        updateUnlockedStates() {
+          [...document.querySelectorAll('[unlockId]')].forEach(el => {
+            const id = el.getAttribute('unlockId');
+            const isUnlocked = !!savegame.unlocks[id];
+            el.setAttribute('isUnlocked', ''+isUnlocked);
+            if (isUnlocked) el.classList.remove('h');
+            else el.classList.add('h');
+          });
+        }
+
+        get score() {
+          return this._score;
+        }
+        set score(val) {
+          const isIncrease = val >= this._score;
+          let newScore = val;
+          if (isIncrease) {
+            // multiply score increase
+            newScore = this._score + ((val - this._score) * this.punch.scoreIncrease.effect);
+          }
+          this._score = newScore;
+          game.ui.updateScoreUi();
+          game.ui.updateButtonState();
+          this.goals.updateScoreGoals();
+        }
+      }
+      class Settings {
+        elements = {
+          'save-checkbox': document.querySelector('[opt-autosave]'),
+          'save-countdown': document.querySelector('[save-countdown]'),
+          'opt-reset': document.querySelector('[opt-reset]'),
+          'opt-save': document.querySelector('[opt-save]'),
+          'opt-load-file': document.querySelector('[opt-load-file]'),
+          'opt-save-to-file': document.querySelector('[opt-save-to-file]'),
+        }
+        waitForSave = false;
+        timerForAutosave = 0;
+        constructor() {
+          setInterval(() => {
+            if (this.waitForSave) return;
+            if (savegame.settings.autosave) this.timerForAutosave++;
+            this.elements['save-countdown'].textContent = this.timerForAutosave + ' seconds';
+            if (savegame.settings.autosave && this.timerForAutosave === 15) {
+              this.save();
+            }
+          }, 1000);
+          this.elements['save-checkbox'].addEventListener('click', () => {
+            const checked = this.elements['save-checkbox'].checked;
+            savegame.settings.autosave = checked;
+            if (!checked) {
+              this.timerForAutosave = 0;
+              this.elements['save-countdown'].textContent = this.timerForAutosave + ' seconds';
+            }
+          });
+          this.elements['opt-reset'].addEventListener('click', this.reset);
+          this.elements['opt-save'].addEventListener('click', this.save.bind(this));
+          this.elements['opt-save-to-file'].addEventListener('click', this.saveToFile.bind(this));
+          this.elements['opt-load-file'].addEventListener('change', this.loadFile.bind(this));
+        }
+        loadFile(e) {
+          const el = this.elements['opt-load-file'];
+          const file = el.files[0];
+          if (!file) {
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = (function(e) {
+            const contents = el.result;
+            this.load(contents);
+            el.value = '';
+          }).bind(this);
+          reader.readAsText(file);
+        }
+        saveToFile() {
+          this.applyCurrentStatsToSavegame();
+          download(JSON.stringify(savegame));
+        }
+        save() {
+          if (this.waitForSave) return notify('save is currently in progress, please wait');
+          this.timerForAutosave = 0;
+          this.waitForSave = true;
+          this.elements['save-countdown'].textContent = 'saving...';
+          notify('saving game...');
+          this.applyCurrentStatsToSavegame();
+          localStorage.setItem('punch-save', JSON.stringify(savegame));
+          setTimeout(() => {
+            this.elements['save-countdown'].textContent = 'saved!';
+            notify('game saved!');
+            setTimeout(() => {
+              this.timerForAutosave = 0;
+              this.elements['save-countdown'].textContent = this.timerForAutosave + ' seconds';
+              this.waitForSave = false;
+            }, 1000);
+          }, 1000);
+        }
+        load(savegame_toLoad) {
+          const save = savegame_toLoad ?? localStorage.getItem('punch-save');
+          if (!save) return;
+          _preventNotify = true;
+          Object.assign(savegame, JSON.parse(save));
+          
+          if (devOverride) {
+            savegame.unlocks.fighter = true;
+          }
+          // manually apply? --- kinda tedious...
+          stats.score = savegame.score;
+          this._loadPunch();
+          Object.entries(savegame.unlocks).forEach(([key,value]) => {
+            if (value) stats.unlock(key);
+          });
+          // update ui for automation values
+          game.settings.elements['save-checkbox'].checked = savegame.settings.autosave;
+          setTimeout(() => {
+            _preventNotify = false;
+            notify('savegame loaded successfully!');
+            if (savegame.gameVersion && savegame.gameVersion !== gameVersion) {
+              notify('new Changes since last time you played!<br>last gameversion played on this savefile:'+savegame.gameVersion+'<br>current game version: '+gameVersion+'<br>find out whats new and enjoy 🥳', 10000);
+            }
+          });
+        }
+        _loadPunch() {
+          const { strength, speed, scoreIncrease } = savegame.punch;
+          stats.punch.strength.additiveBonus = strength.additiveBonus;
+          stats.punch.strength.level = strength.level;
+          stats.punch.speed.automationUnlocked = speed.automationUnlocked;
+          stats.punch.speed.level = speed.level;
+          stats.punch.scoreIncrease.level = scoreIncrease.level;
+          if (speed.automationUnlocked) game.automations.automations.punch.unlock();
+        }
+        reset() {
+          localStorage.removeItem('punch-save');
+          location.reload();
+        }
+        applyCurrentStatsToSavegame() {
+          savegame.score = stats.score;
+          const { strength, speed, scoreIncrease } = stats.punch;
+          savegame.punch = {
+            strength: {
+              additiveBonus: strength.additiveBonus,
+              level: strength.level
+            },
+            speed: {
+              automationUnlocked: speed.automationUnlocked,
+              level: speed.level,
+            },
+            scoreIncrease: {
+              level: scoreIncrease.level,
+            },
+          }
+          savegame.gameVersion = gameVersion;
+        }
+      }
+      /* consts: stats, game */
+      const savegame = {
+        gameVersion: '',
+        score: 0,
+        unlocks: {
+          nav: false,
+        },
+        punch: {
+          strength: {
+            additiveBonus: 0,
+            level: 0,
+          },
+          speed: {
+            automationUnlocked: false,
+            level: 0,
+          },
+          scoreIncrease: {
+            level: 0,
+          },
+        },
+        settings: {
+          autosave: false,
+        }
+      }
+      const stats = new Stats();
+      const game = {
+        ui: new UI(),
+        automations: new Automations(),
+        achievements: new Achievements(),
+        settings: new Settings(),
+        scouting: new Scouting(),
+      };
+      /* bindings */
+      click('#upgrade-actions [punch-strength]', stats.punch.strength.buy, stats.punch.strength);
+      click('#upgrade-actions [punch-speed]', stats.punch.speed.buy, stats.punch.speed);
+      click('#upgrade-actions [punch-scoreIncrease]', stats.punch.scoreIncrease.buy, stats.punch.scoreIncrease);
+      click('#training-actions [punch-click]', stats.punch.onPunch, stats.punch);
+      click('[nav-training]', () => game.ui.navTo(0), game.ui);
+      click('[nav-upgrades]', () => game.ui.navTo(1), game.ui);
+      click('[nav-options]', () => game.ui.navTo(2), game.ui);
+      click('[nav-hire]', () => game.ui.navTo(3), game.ui);
+      click('[nav-automation]', () => game.ui.navTo(4), game.ui);
+
+      /* helper */
+      function click(selector, fn, context) {
+        document.querySelector(selector).addEventListener('click', fn.bind(context));
+      }
+      function onCantAfford() {
+        notify("cant afford that");
+      }
+      function formatNum(num) {
+        const config = ['en',{maximumFractionDigits: 0,notation:'scientific'}];
+        if (num < 1e15) config[1].notation = 'compact';
+        if (num < 1e5) config[1].maximumFractionDigits = 2;
+        return Number(num).toLocaleString(...config);
+      }
+      let notifyQueue = [];
+      let _preventNotify = false;
+      function notify(html, showTime) {
+        if (_preventNotify) return;
+        notifyQueue.push([html, showTime]);
+      }
+      let notifyBusy = false;
+      let currentlyAcceptedNotifications = 0;
+      let freeSlots = [0,0,0,0];
+      function _notifyQueueTaskInit() {
+        setInterval(() => {
+          if (!notifyQueue.length || currentlyAcceptedNotifications > 4) return;
+          const maxSpace = window.innerHeight - 50; // max height able to use
+          currentlyAcceptedNotifications++;
+          const [html, showTime] = notifyQueue.shift();
+          const copy = document.getElementById('notification-reference').cloneNode(true);
+          copy.classList.remove('h');
+          copy.innerHTML = html;
+          document.getElementById('notification-container').insertAdjacentElement('afterbegin', copy);
+          const height = copy.getBoundingClientRect().height;
+          const freeSlotIndex = freeSlots.findIndex(val => val === 0);
+          freeSlots[freeSlotIndex] = height;
+          copy.style.padding = '0 10px 0 10px';
+          copy.style.top = (freeSlots.slice(0, freeSlotIndex+1).reduce((acc,el)=>acc+el, 0) + height) + 'px';
+          setTimeout(() => {
+            copy.classList.remove('from-right');
+            copy.addEventListener('click', () => copy.classList.add('from-right'));
+            setTimeout(() => {
+              copy.classList.add('from-right');
+              setTimeout(() => copy.remove(), 1200);
+              setTimeout(() => {currentlyAcceptedNotifications--; freeSlots[freeSlotIndex] = 0;}, 100);
+            }, showTime ?? 5000);
+          }, 100);
+        }, 100);
+      }
+      function random(min, max) {
+        if (max <= min) {
+          throw 'max can not be smaller or equal to min';
+        }
+        const diff = max - min;
+        return min + Math.random() * diff;
+      }
+
+      function initGame() {
+        game.settings.load();
+        game.ui.updateAllUi();
+      }
+      const dateFormatter = new Intl.DateTimeFormat('en-US', { dateStyle: 'short', timeStyle: 'short' });
+      function nowDateFormatted() {
+        return dateFormatter.format(new Date()).replace(',','').replaceAll(' ','__').replaceAll(':','_').replaceAll('/','.');
+      }
+      // copied from https://stackoverflow.com/questions/13405129/create-and-save-a-file-with-javascript
+      // example: download('file text', 'myfilename.txt', 'text/plain')
+      // Function to download data to a file
+      function download(data, filename = 'punch_save__'+(nowDateFormatted())+'.txt', type = 'text/plain') {
+        const file = new Blob([data], {type: type});
+        if (window.navigator.msSaveOrOpenBlob) // IE10+
+            window.navigator.msSaveOrOpenBlob(file, filename);
+        else { // Others
+          const a = document.createElement("a"),
+              url = URL.createObjectURL(file);
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+          }, 0); 
+        }
+      }
+      initGame();
+      _notifyQueueTaskInit();
+      document.querySelector('[game-version]').textContent = versionText;
+      document.addEventListener(
+        "dblclick",
+        function (event) {
+          event.preventDefault();
+        },
+        { passive: false }
+      );
+    </script>
+  </body>
+</html>
+<!-- ideen -->
+<!-- ----------------- -->
+<!-- Anni: Boxer den man einstellen kann, der einem hilft und mit-boxt. -->
+<!--  -->
+<!-- ----------------- -->
+<!-- ----------------- -->
+<!-- TODOs -->
+<!-- ----------------- -->
+<!-- 1. dialog beim laden eines spielstandes anzeigen, falls für aktuelles game ein neuer spielstand erforderlich ist -->
+<!-- => Aufforderung zum reset -->
+<!--  -->
+<!-- 2. hire button -> 1min warten -> bildschirm mit auswahl eines von 3 fightern -> rechts neben punchingbag (unten auf mobile) -->
+<!--  ... zeige ich an, welche Fighter im gym untätig sind und an ein Gerät geschickt werden können.  -->
