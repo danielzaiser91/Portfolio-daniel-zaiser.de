@@ -97,6 +97,10 @@
     opacity: 0.7;
   }
 
+  &.guides::before {
+    background: linear-gradient(90deg, #a78bfa, transparent 70%);
+  }
+
   &.fun::before {
     background: linear-gradient(90deg, var(--accent-2), transparent 70%);
   }

@@ -35,6 +35,7 @@
           <article
             class="card project"
             [class.highlight]="p.highlight"
+            [class.guides]="section.id === 'guides'"
             [class.fun]="section.id === 'fun'"
             [class.abandoned]="section.id === 'abandoned'"
             (mouseenter)="showPreview(p, $event)"

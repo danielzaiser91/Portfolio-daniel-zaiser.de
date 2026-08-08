@@ -3,7 +3,7 @@ import { LText } from '../core/i18n';
 export interface Project {
   /** Repository name on GitHub. */
   name: string;
-  category: 'serious' | 'fun' | 'abandoned';
+  category: 'serious' | 'guides' | 'fun' | 'abandoned';
   tech: string[];
   description: LText;
   knowledge: LText;
@@ -307,9 +307,11 @@ export const PROJECTS: Project[] = [
     demo: `${PAGES}/geoguessr-hints`,
     preview: true,
   },
+
+  // ===== Guides & tooling =====
   {
     name: 'pc-noise-reduction',
-    category: 'serious',
+    category: 'guides',
     tech: ['Technical Writing', 'Windows', 'Telemetry', 'Prompt Design'],
     description: {
       en: 'A method for making a loud Windows PC quiet without changing hardware — power plan, background load, fan curve, in that order because each cause hides the next. Ships a layperson guide, a ready-made prompt for an AI with terminal access, a fully measured case study including the wrong turns, and the measurement methodology behind it.',

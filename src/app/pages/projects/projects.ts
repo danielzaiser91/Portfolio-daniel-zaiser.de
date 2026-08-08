@@ -28,6 +28,7 @@ export class Projects {
 
   protected readonly sections = [
     { id: 'serious', icon: '💼', titleKey: 'projects.serious', hintKey: '', items: PROJECTS.filter((p) => p.category === 'serious') },
+    { id: 'guides', icon: '📘', titleKey: 'projects.guides', hintKey: '', items: PROJECTS.filter((p) => p.category === 'guides') },
     { id: 'fun', icon: '🎮', titleKey: 'projects.fun', hintKey: '', items: PROJECTS.filter((p) => p.category === 'fun') },
     { id: 'abandoned', icon: '🚧', titleKey: 'projects.abandoned', hintKey: 'projects.abandoned.hint', items: PROJECTS.filter((p) => p.category === 'abandoned') },
   ];
