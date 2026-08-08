@@ -21,12 +21,14 @@ export interface Project {
   highlight?: boolean;
   /** True when the repo is private — hide the (dead-for-visitors) repo link, show a badge instead. */
   repoPrivate?: boolean;
+  /** Public companion repo (e.g. a build mirror) to link instead when the source repo is private. */
+  publicRepo?: string;
 }
 
 const GH = 'https://github.com/danielzaiser91';
 const PAGES = 'https://danielzaiser91.github.io';
 
-export const repoUrl = (p: Project) => `${GH}/${p.name}`;
+export const repoUrl = (p: Project) => `${GH}/${p.publicRepo ?? p.name}`;
 export const previewUrl = (p: Project) => `images/previews/projects/${p.name}.webp`;
 
 /** Primary GitHub language per repo (from the API, 2026-07-05). */
@@ -190,7 +192,7 @@ export const PROJECTS: Project[] = [
       de: 'Ein zertifiziertes Soloprojekt komplett liefern: Anforderungen, Doku, Maps-API-Integration, Präsentation.',
     },
     commits: 3,
-    started: '2020-12',
+    started: '2021-03',
     lastTouched: '2021-03',
     estHours: 150,
     highlight: true,
@@ -400,7 +402,7 @@ export const PROJECTS: Project[] = [
       en: 'A pure core (game logic without DOM or audio) that the UI only reads; a visual language that avoids numbers entirely — every value is told through rings, orbiting orbs and fill levels; shipping a private source repo to public Pages through a build-only mirror repo.',
       de: 'Ein purer Core (Spiellogik ohne DOM und Audio), den die UI nur liest; eine visuelle Sprache ganz ohne Zahlen — jeder Wert wird über Ringe, kreisende Orbs und Füllstände erzählt; ein privates Quell-Repo über ein reines Build-Spiegel-Repo auf öffentliche Pages bringen.',
     },
-    commits: 118,
+    commits: 167,
     started: '2026-07',
     lastTouched: '2026-07',
     estHours: 70,
@@ -408,6 +410,7 @@ export const PROJECTS: Project[] = [
     preview: true,
     highlight: true,
     repoPrivate: true,
+    publicRepo: 'archmage-idle-live',
   },
   {
     name: 'incremental-adventure',
