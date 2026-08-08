@@ -22,9 +22,7 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
 
 ### 4 · Warten auf dein Feedback
 
-| Task | Stand |
-|------|-------|
-| **Link-Vorschau: WhatsApp-Sichttest** — beide Links (daniel-zaiser.de und /arcade) einmal in WhatsApp einfügen, Vorschau anschauen. Technisch bereits verifiziert (08.08.): beide Routen liefern die richtige Karte, /arcade per 301 auf /arcade/ mit eigener index.html, beide Bilder 200 image/jpeg | nur Sichttest offen |
+— nichts offen.
 
 ## Deploy
 
@@ -85,7 +83,8 @@ sie richten sich per `prepare`-Snippet erst einen sehenswerten Spielstand ein.
    Arcade-Empfehlung, Arcade-Hover-Vorschau.
 5. **08.08.2026:** OG-Vorschau technisch verifiziert (Crawler-UA-Check): beide Routen liefern
    ihre eigene Karte, die /arcade-Fallback-Befürchtung war unbegründet (301 → /arcade/ →
-   eigene index.html greift VOR FallbackResource). Offen nur noch der WhatsApp-Sichttest.
+   eigene index.html greift VOR FallbackResource). WhatsApp-Sichttest von Daniel
+   bestanden (08.08.2026) — Link-Vorschau damit vollständig abgenommen.
 6. **08.08.2026:** archmage-idle-Entscheidung umgesetzt — Repo bleibt privat, Karte verlinkt
    den Build-Spiegel (`publicRepo`-Feld), Snapshot-Zahlen kommen ab jetzt aus
    `tools/update-private-stats.js` (Lauf vom 08.08.: 118 → 167 Commits; nebenbei
