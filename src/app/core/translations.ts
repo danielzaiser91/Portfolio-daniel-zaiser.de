@@ -37,6 +37,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Everything public on my GitHub — split into serious work and fun experiments. ' +
       'Time invested is an honest estimate; the stats come straight from the repositories.',
     'projects.serious': 'Serious projects',
+    'projects.guides': 'Guides & tooling',
     'projects.fun': 'Fun & experiments',
     'projects.abandoned': 'Unfinished & abandoned',
     'projects.abandoned.hint':
@@ -142,6 +143,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Alles Öffentliche von meinem GitHub — aufgeteilt in ernsthafte Projekte und Spaß-Experimente. ' +
       'Der Zeitaufwand ist eine ehrliche Schätzung, die Statistiken kommen direkt aus den Repositories.',
     'projects.serious': 'Ernsthafte Projekte',
+    'projects.guides': 'Anleitungen & Werkzeuge',
     'projects.fun': 'Spaß & Experimente',
     'projects.abandoned': 'Unfertig & aufgegeben',
     'projects.abandoned.hint':
