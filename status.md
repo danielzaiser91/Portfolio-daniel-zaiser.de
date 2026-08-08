@@ -18,18 +18,13 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
 
 ### 3 · Zu besprechen
 
-| Thema |
-|-------|
-| `archmage-idle` ist als **privates** Quell-Repo eingetragen (`repoPrivate: true`) — die Live-Stats von GitHub greifen dafür nicht, die Karte zeigt den Snapshot aus `projects.ts`. Falls die Zahlen mitwachsen sollen, müsste das Repo öffentlich werden. |
+— nichts offen.
 
 ### 4 · Warten auf dein Feedback
 
 | Task | Stand |
 |------|-------|
-| **Link-Vorschau (Open Graph), zwei Varianten** — normale Karte für daniel-zaiser.de, eigene für /arcade. Vorbild: `arturs webseite` (Westerwald-Pianoservice). Beim Teilen in WhatsApp/Discord/Slack einmal gegenchecken | live nach dem Push |
-| **archmage-idle in der Arcade** — als empfohlenes Spiel ganz oben, Kategorie Idle | live nach dem Push |
-| **Hover-Vorschau in der Arcade** — gleiches schwebendes Panel wie auf der Projekte-Seite; die Screenshots kommen aus `images/previews/projects/`, Archiv-Einträge fallen auf ihr Kapsel-Bild zurück, Einträge ganz ohne Bild zeigen kein leeres Panel | live nach dem Push |
-| **archmage-idle in die Projekte aufgenommen** — Kategorie „Fun", Highlight, Live-Demo auf den öffentlichen Build-Spiegel, privates Quell-Repo mit Schloss-Badge, Vorschaubild aus einem weit gespielten Stand | live nach dem Push |
+| **Link-Vorschau: WhatsApp-Sichttest** — beide Links (daniel-zaiser.de und /arcade) einmal in WhatsApp einfügen, Vorschau anschauen. Technisch bereits verifiziert (08.08.): beide Routen liefern die richtige Karte, /arcade per 301 auf /arcade/ mit eigener index.html, beide Bilder 200 image/jpeg | nur Sichttest offen |
 
 ## Deploy
 
@@ -55,6 +50,16 @@ dieselbe App startet, nur die Vorschau-Tags unterscheiden sich.
 `arcade/index.html` auflöst und nicht die SPA-Fallback-Regel vorher greift — sonst
 zeigen beide Links dieselbe Vorschau (Funktion der Seite bleibt in beiden Fällen gleich).
 
+## Private-Repo-Stats
+
+Die Live-Stats der Projektseite (anonyme GitHub-API) sehen private Repos nicht — deren
+Karten zeigen den Snapshot aus `projects.ts`. `node tools/update-private-stats.js`
+liest die echten Zahlen (Commits, Zeitraum) über das lokal angemeldete `gh` und
+schreibt den Snapshot neu. Auf Zuruf laufen lassen oder wenn ohnehin am Portfolio
+gearbeitet wird. Entscheidung 08.08.2026: `archmage-idle` bleibt privat; die Karte
+verlinkt stattdessen den öffentlichen Build-Spiegel `archmage-idle-live`
+(`publicRepo`-Feld in `projects.ts`).
+
 ## Vorschaubilder
 
 `node tools/capture-previews.js [name…]` schreibt 800×420-webp nach
@@ -76,3 +81,12 @@ sie richten sich per `prepare`-Snippet erst einen sehenswerten Spielstand ein.
 3. **26.07.2026:** Link-Vorschau nach Vorbild des Westerwald-Repos: OG-/Twitter-Tags in
    `src/index.html`, zwei gerenderte Karten (`tools/og-cards.js`) und ein Build-Schritt,
    der /arcade eine eigene `index.html` mit eigener Vorschau gibt (`tools/social-preview.js`).
+4. **08.08.2026:** Abnahme bestanden (Daniel): archmage-idle-Projektkarte, archmage-idle als
+   Arcade-Empfehlung, Arcade-Hover-Vorschau.
+5. **08.08.2026:** OG-Vorschau technisch verifiziert (Crawler-UA-Check): beide Routen liefern
+   ihre eigene Karte, die /arcade-Fallback-Befürchtung war unbegründet (301 → /arcade/ →
+   eigene index.html greift VOR FallbackResource). Offen nur noch der WhatsApp-Sichttest.
+6. **08.08.2026:** archmage-idle-Entscheidung umgesetzt — Repo bleibt privat, Karte verlinkt
+   den Build-Spiegel (`publicRepo`-Feld), Snapshot-Zahlen kommen ab jetzt aus
+   `tools/update-private-stats.js` (Lauf vom 08.08.: 118 → 167 Commits; nebenbei
+   ng-abschlussprojekt-reisekarte-Snapshot korrigiert).
