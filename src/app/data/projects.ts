@@ -31,6 +31,7 @@ export const previewUrl = (p: Project) => `images/previews/projects/${p.name}.we
 
 /** Primary GitHub language per repo (from the API, 2026-07-05). */
 export const LANGUAGES: Record<string, string> = {
+  'anime-kalender-de': 'TypeScript',
   'chrome-utilities': 'JavaScript',
   'homestream': 'Shell',
   'bubble-notifications': 'JavaScript',
@@ -82,6 +83,25 @@ export const LANGUAGE_COLORS: Record<string, string> = {
  */
 export const PROJECTS: Project[] = [
   // ===== Serious =====
+  {
+    name: 'anime-kalender-de',
+    category: 'serious',
+    tech: ['TypeScript', 'React 19', 'Vite', 'Tailwind v4', 'Cloudflare Workers', 'D1', 'Playwright'],
+    description: {
+      en: 'A calendar for anime released with a German dub — the one thing no API will tell you. Week, month, agenda and database views, filters for platform, genre, FSK rating and keywords, Google Calendar and ICS subscription feeds, and a double-opt-in newsletter that mails what is coming up.',
+      de: 'Ein Kalender für Anime mit deutscher Synchro — genau die Information, die keine API hergibt. Wochen-, Monats-, Agenda- und Datenbankansicht, Filter für Plattform, Genre, FSK und Schlagworte, Google-Calendar- und ICS-Abo-Feeds, dazu ein Newsletter mit Double-Opt-in.',
+    },
+    knowledge: {
+      en: 'Building a dataset nobody publishes: German dub times exist only inside a JavaScript-rendered streaming calendar and one provider API that happens to expose a language code per episode. Everything derived is marked as derived, and a claimed date with no evidence in the scanned window gets dropped rather than shown. Also: hash routing cannot carry a link preview, so every release gets a real prerendered page — and the address bar rewrites itself to it.',
+      de: 'Einen Datenbestand aufbauen, den niemand veröffentlicht: Deutsche Sendezeiten stehen nur in einem JS-gerenderten Streaming-Kalender und in einer Anbieter-Schnittstelle, die je Folge den Sprachcode ausweist. Abgeleitetes wird als abgeleitet gekennzeichnet, und ein behaupteter Termin ohne Beleg im abgesuchten Zeitraum fliegt raus, statt angezeigt zu werden. Außerdem: Hash-Routing kann keine Linkvorschau tragen — deshalb bekommt jedes Release eine echte vorgerenderte Seite, und die Adressleiste schreibt sich selbst darauf um.',
+    },
+    commits: 28,
+    started: '2026-08',
+    lastTouched: '2026-08',
+    estHours: 40,
+    demo: 'https://anime-kalender.de',
+    highlight: true,
+  },
   {
     name: 'chrome-utilities',
     category: 'serious',
