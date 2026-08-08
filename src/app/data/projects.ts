@@ -55,6 +55,7 @@ export const LANGUAGES: Record<string, string> = {
   'QuizCheater': 'TypeScript',
   'ng-cyberpunk-minigame': 'TypeScript',
   'geoguessr-hints': 'Python',
+  'pc-noise-reduction': 'Markdown',
   'isekai-idle-mockups': 'HTML',
   'archmage-idle': 'TypeScript',
   'incremental-adventure-rewritten': 'TypeScript',
@@ -285,6 +286,23 @@ export const PROJECTS: Project[] = [
     estHours: 18,
     demo: `${PAGES}/geoguessr-hints`,
     preview: true,
+  },
+  {
+    name: 'pc-noise-reduction',
+    category: 'serious',
+    tech: ['Technical Writing', 'Windows', 'Telemetry', 'Prompt Design'],
+    description: {
+      en: 'A method for making a loud Windows PC quiet without changing hardware — power plan, background load, fan curve, in that order because each cause hides the next. Ships a layperson guide, a ready-made prompt for an AI with terminal access, a fully measured case study including the wrong turns, and the measurement methodology behind it.',
+      de: 'Ein Verfahren, einen lauten Windows-PC ohne Hardwarewechsel leise zu bekommen — Energieplan, Hintergrundlast, Lüfterkurve, in dieser Reihenfolge, weil jede Ursache die nächste verdeckt. Enthält eine Anleitung für Laien, einen fertigen Auftragstext für eine KI mit Terminalzugriff, ein durchgemessenes Fallbeispiel samt Irrwegen und die Messmethodik dahinter.',
+    },
+    knowledge: {
+      en: 'Reading hardware sensors headlessly via a local JSON endpoint, load-normalised comparison of measurement runs, thermal settling times that make short runs actively misleading, percentile-based thresholds instead of averages, and writing a prompt that constrains an agent to a cheap, verifiable path.',
+      de: 'Hardware-Sensoren headless über einen lokalen JSON-Endpunkt auslesen, lastbereinigter Vergleich von Messläufen, thermische Einschwingzeiten, die kurze Läufe aktiv irreführend machen, perzentilbasierte Schwellen statt Mittelwerte, und einen Auftragstext schreiben, der einen Agenten auf einen günstigen, überprüfbaren Weg zwingt.',
+    },
+    commits: 1,
+    started: '2026-08',
+    lastTouched: '2026-08',
+    estHours: 5,
   },
 
   // ===== Fun =====
