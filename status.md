@@ -14,7 +14,12 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
 
 ### 2 · Queue
 
-— leer.
+1. **Neuen Webhost suchen** (notiert 28.09.2026): Plesk hat am 27. und 28.09.2026 mehrfach
+   stundenlang ausgefallen — das ist nicht tragbar. Ziel: Anbieter mit **99,9 % (besser 100 %)
+   Uptime**, hoher Qualität, niedrigen Kosten, am besten kostenlos. Vor der Entscheidung prüfen:
+   öffentliche Status-/Uptime-Historie statt Werbeversprechen, statisches Hosting reicht
+   (Push auf `main` → GitHub Action → `deploy`-Branch), Domäne und HTTPS inklusive, und wie der
+   Umzug von Plesk abläuft (aktuell Webhook auf `deploy`).
 
 ### 3 · Zu besprechen
 
