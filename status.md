@@ -57,10 +57,36 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
       und Autodiscover müssen dort vollständig neu angelegt werden, sonst stirbt mit dem Umzug
       die Mailadresse.
 
-   **Schnelle Alternative ohne Umzug:** Der `deploy`-Branch enthält die fertige Seite bereits —
-   GitHub Pages wäre eine **Einstellung** („Publish from branch `deploy`"), keine Codeänderung.
-   Dagegen sprechen der Vorfall vom 13.09. (Pages betroffen) und die Klausel, dass Pages nicht
-   als Host für eine geschäftliche Seite gedacht ist.
+   **Rangliste (28.09.2026, Quellen unten)** — für daniel-zaiser.de, wo **Website und Mail auf
+   derselben IP** liegen (`84.19.26.101`: Apex, `www` und `mail.` zeigen alle dorthin; MX =
+   `mail.daniel-zaiser.de`). Ein Wechsel, der nur die A/CNAME-Records für Apex und `www` ändert,
+   **lässt die Mail in Ruhe** — das ist das wichtigste Kriterium.
+
+   | # | Anbieter | Apex ohne Nameserver-Umzug | Störungen 28.08.–28.09. (gemessen) | Kosten | Nutzung | Aufwand |
+   |---|---|---|---|---|---|---|
+   | 1 | **Cloudflare Pages** | ✗ verlangt die Zone bei Cloudflare → Nameserver-Umzug | **keine ungeplante, keine zur Auslieferung** | 0 €, statische Abrufe unbegrenzt | jede | mittel: NS + Mail-Records neu anlegen |
+   | 2 | **GitHub Pages** | ✅ A-Records `185.199.108–111.153` | 1 critical (13.09., **Pages**), 2 major | 0 € | Doku: **nicht** für geschäftliche Seiten gedacht | **minimal**: Einstellung + Records + `CNAME`-Datei im Build |
+   | 3 | **Netlify** | ✅ A-Record `75.2.60.5` (Fallback der Doku) | 2 major — „Error accessing Netlify-hosted sites" | 0 € (300 Credits/Monat) | jede | klein |
+   | 4 | **Vercel** | ✅ A-Record `76.76.21.21` | 3 major (u. a. Deployments) | Hobby nur **nicht kommerziell** | ✗ für eine Seite mit Leistungen | klein |
+   | 5 | **Firebase Hosting** (Google) | ? nicht geprüft | Google-Statusseite | 0 € (Spark: 10 GB, 360 MB/Tag) | jede | mittel |
+
+   **Empfehlung:** Platz 1, wenn ein einmaliger Nameserver-Umzug zu Cloudflare in Ordnung ist (dann
+   müssen `mail`, MX und SPF/DKIM dort neu stehen — das ist der einzige heikle Schritt, danach hat
+   die Seite die beste gemessene Verfügbarkeit und keine Nutzungsbeschränkung). Platz 2, wenn es
+   **heute** aufhören soll, stundenlang auszufallen: Der `deploy`-Branch enthält die fertige Seite
+   schon, es sind eine Einstellung, vier A-Records, ein `www`-CNAME und eine `CNAME`-Datei in
+   `public/` (sonst löscht sie der `force_orphan`-Deploy). Für Platz 4 spricht nur der geringe
+   Aufwand — die Hobby-Stufe ist für eine Seite mit Leistungen die falsche.
+
+   **Was Platz 3 und 4 ausschließt:** Ihre Ausfälle treffen genau das, worum es geht — die
+   Auslieferung der *gehosteten Seiten* (Netlify, zweimal) und die Deployments (Vercel, dreimal).
+
+   **Noch ein Fund am Rande:** Für `daniel-zaiser.de` ist **kein SPF-Record** zu sehen (TXT-Abfrage
+   am 28.09.2026). Das betrifft die Zustellbarkeit seiner Mails — unabhängig vom Webhost.
+
+   Quellen: `cloudflarestatus.com`/`githubstatus.com`/`netlifystatus.com`/`vercel-status.com`
+   (`/api/v2/incidents.json`), Cloudflare Pages „Custom domains", GitHub „Managing a custom domain",
+   Netlify „Configure external DNS", Vercel „Add a domain" — alle am 28.09.2026 gelesen.
 
    **Offen:** Daniels Entscheidung; danach der Umzug selbst (zuerst DNS und Mail, dann
    Pages-Projekt, `_redirects`, Deploy-Schritt, Plesk abklemmen).
