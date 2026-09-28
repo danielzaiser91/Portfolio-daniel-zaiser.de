@@ -23,24 +23,47 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    liefert **Plesk** die Seite aus, der GitHub-Action-Lauf baut nur und schiebt den Output auf
    den `deploy`-Branch, von dem Plesk ihn per Webhook holt.
 
-   **Vorarbeit 28.09.2026 (Primärquellen, keine Werbeseiten):** Die Störungshistorien der beiden
-   naheliegenden Kandidaten ausgelesen (`cloudflarestatus.com/history.rss`,
-   `githubstatus.com/history.rss`, Stand 28.09.2026).
+   **Messung 28.09.2026** (Primärquellen: die Statuspage-API der Anbieter,
+   `…/api/v2/incidents.json`, Fenster 28.08.–28.09.2026; Limits aus der jeweiligen Doku):
 
-   - **Cloudflare Pages:** im Fenster 13.09.–28.09. **keine einzige ungeplante Störung** — nur
-     angekündigte Wartungen einzelner Randstandorte (Delhi, Mumbai, Singapur, Sydney, Osaka,
-     Seoul, Kathmandu, Dhaka), die den Datenverkehr ausweichen lassen. Die freie Stufe liefert
-     unbegrenzte Bandbreite; ein Cloudflare-Konto besteht bereits (aus einem anderen Projekt) —
-     das ist eine Bequemlichkeit, **kein** Argument aus dieser Seite heraus.
-   - **GitHub Pages:** im selben Fenster **mehrere Störungen**, darunter der 13.09.2026
-     („28 Dienste betroffen", ausdrücklich **Pages**, Actions und API, rund zwei Stunden), der
-     20.09.2026 (Pull Requests, verzögerte Merge-Commits → auch Actions-Läufe) und der 24.09.2026
-     (Datenbank-Replikate, API und Projects). Bemerkenswert, weil diese Seite ihre Auslieferung
-     ohnehin über GitHub Actions baut: Bei GitHub Pages hingen **Auslieferung und
-     Auslieferungsweg am selben Anbieter**.
-   - **Offen:** Preis-/Leistungsvergleich weiterer Kandidaten (Netlify, Vercel) und die
-     Umzugsprobe — die Websuche war am 28.09. abends nicht verfügbar, deshalb steht hier nur die
-     aus den Originalquellen belegte Vorarbeit. **Entscheidung:** Daniel.
+   | Kandidat | ungeplante Störungen | davon schwer | Auslieferung der Seite betroffen? | Freie Stufe |
+   |---|---|---|---|---|
+   | **Cloudflare Pages** | 50 (11× „none", 39× „minor") | **keine** | nein — kein Eintrag zu Pages oder statischer Auslieferung; die Treffer liegen auf CASB, Replicate, Queues, Tunnel, 1.1.1.1 und einzelnen Regionen | statische Abrufe **unbegrenzt**, 500 Builds/Monat, 100 eigene Domains je Projekt |
+   | **GitHub Pages** | 14 | **1 critical** (13.09.), 2 major | **ja** — der Vorfall vom 13.09. nennt ausdrücklich **Pages**, Actions und API | 100 GB/Monat (weich), 10 Builds/Stunde; laut Doku **nicht** als Host für eine geschäftliche Seite gedacht |
+   | **Netlify** | 7 | **2 major** | **ja** — „Error accessing Netlify-hosted sites" am 21. und 24.09. | Free rechnet in Credits: 300/Monat, Bandbreite 20 Credits je GB (≈ 15 GB) |
+   | **Vercel** | 10 | **3 major** (u. a. „Increased deployment failures", 01.09.) | ja, die Deployments | Hobby ist laut Doku für **„personal, non-commercial use"** — für eine Seite, die Leistungen anbietet, die falsche Stufe |
+
+   **Empfehlung: Cloudflare Pages.** Keine schwere Störung im Fenster und keine, die die
+   statische Auslieferung traf; statische Abrufe sind ausdrücklich unbegrenzt und ohne
+   Kommerz-Vorbehalt. Der Anime-Kalender läuft bereits auf Cloudflare; ob die Zone
+   `daniel-zaiser.de` dort schon liegt, klärt der Umzug — ein Vorteil, **kein** Argument aus
+   dieser Seite heraus.
+
+   **Was der Umzug konkret verlangt** (drei Punkte, davon einer heikel):
+
+   1. **Auslieferung:** Die Seite liefert heute **Plesk** aus; der Action-Lauf baut nur
+      (`yarn build`) und schiebt `./dist/portfolio/browser` auf den `deploy`-Branch, Plesk holt
+      ihn per Webhook. Bei Cloudflare Pages tritt statt des Webhooks ein Schritt ans Ende des
+      Workflows (`wrangler pages deploy ./dist/portfolio/browser`); der Build bleibt wie er ist.
+   2. **SPA-Routing:** `provideRouter(routes)` heißt Pfad-Routing ohne `#`, und im Repo liegt
+      **keine** `_redirects`/`.htaccess` — die Regel, die unbekannte Pfade auf `index.html` legt,
+      steckt heute irgendwo in der Plesk-Konfiguration. Beim Wechsel gehört sie als
+      `_redirects`-Datei (`/* /index.html 200`) ins Repo, sonst laufen Direktaufrufe von
+      Unterseiten und jedes Aktualisieren auf eine 404.
+   3. **DNS — der heikle Punkt:** Nameserver sind `ns1/ns2.tldns.net` (der jetzige Hoster), die
+      Domain zeigt auf `84.19.26.101` (Plesk). Eine Apex-Domain lässt sich bei fremdem DNS nicht
+      auf Cloudflare zeigen, es braucht also den **Zug der Nameserver zu Cloudflare**. Achtung:
+      **über dieselbe Domain läuft Mail** (`MX 10 mail.daniel-zaiser.de`) — MX, SPF/DKIM/DMARC
+      und Autodiscover müssen dort vollständig neu angelegt werden, sonst stirbt mit dem Umzug
+      die Mailadresse.
+
+   **Schnelle Alternative ohne Umzug:** Der `deploy`-Branch enthält die fertige Seite bereits —
+   GitHub Pages wäre eine **Einstellung** („Publish from branch `deploy`"), keine Codeänderung.
+   Dagegen sprechen der Vorfall vom 13.09. (Pages betroffen) und die Klausel, dass Pages nicht
+   als Host für eine geschäftliche Seite gedacht ist.
+
+   **Offen:** Daniels Entscheidung; danach der Umzug selbst (zuerst DNS und Mail, dann
+   Pages-Projekt, `_redirects`, Deploy-Schritt, Plesk abklemmen).
 
 ### 3 · Zu besprechen
 
