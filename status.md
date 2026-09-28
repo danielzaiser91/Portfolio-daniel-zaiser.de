@@ -21,6 +21,25 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    (Push auf `main` → GitHub Action → `deploy`-Branch), Domäne und HTTPS inklusive, und wie der
    Umzug von Plesk abläuft (aktuell Webhook auf `deploy`).
 
+   **Vorarbeit 28.09.2026 (Primärquellen, keine Werbeseiten):** Die Störungshistorien der beiden
+   naheliegenden Kandidaten ausgelesen (`cloudflarestatus.com/history.rss`,
+   `githubstatus.com/history.rss`, Stand 28.09.2026).
+
+   - **Cloudflare** (Pages): im Fenster 13.09.–28.09. **keine einzige ungeplante Störung** — nur
+     angekündigte Wartungen einzelner Randstandorte (Delhi, Mumbai, Singapur, Sydney, Osaka,
+     Seoul, Kathmandu, Dhaka), die den Datenverkehr ausweichen lassen. Dazu: Der Anime-Kalender
+     läuft ohnehin schon auf Cloudflare (Worker + D1), das Konto ist da, und die freie Stufe
+     liefert unbegrenzte Bandbreite.
+   - **GitHub** (Pages): im selben Fenster **mehrere Störungen**, darunter der 13.09.2026
+     („28 Dienste betroffen", ausdrücklich **Pages**, Actions und API, rund zwei Stunden), der
+     20.09.2026 (Pull Requests, verzögerte Merge-Commits → auch Actions-Läufe) und der 24.09.2026
+     (Datenbank-Replikate, API und Projects). Für eine Seite, die per Action auf einen Branch
+     gebaut und von dort ausgeliefert wird, hängen **Auslieferung und Auslieferungsweg am selben
+     Anbieter**.
+   - **Offen:** Preis-/Leistungsvergleich weiterer Kandidaten (Netlify, Vercel, Cloudflare Pages
+     direkt) und die Umzugsprobe — die Websuche war heute Abend nicht verfügbar, deshalb steht
+     hier nur die aus den Originalquellen belegte Vorarbeit. **Entscheidung:** Daniel.
+
 ### 3 · Zu besprechen
 
 — nichts offen.
