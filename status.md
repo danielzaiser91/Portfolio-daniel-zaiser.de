@@ -14,31 +14,33 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
 
 ### 2 · Queue
 
-1. **Neuen Webhost suchen** (notiert 28.09.2026): Plesk hat am 27. und 28.09.2026 mehrfach
-   stundenlang ausgefallen — das ist nicht tragbar. Ziel: Anbieter mit **99,9 % (besser 100 %)
-   Uptime**, hoher Qualität, niedrigen Kosten, am besten kostenlos. Vor der Entscheidung prüfen:
-   öffentliche Status-/Uptime-Historie statt Werbeversprechen, statisches Hosting reicht
-   (Push auf `main` → GitHub Action → `deploy`-Branch), Domäne und HTTPS inklusive, und wie der
-   Umzug von Plesk abläuft (aktuell Webhook auf `deploy`).
+1. **Neuen Webhost für daniel-zaiser.de suchen** (notiert 28.09.2026): Plesk hat am 27. und
+   28.09.2026 mehrfach stundenlang ausgefallen — das ist nicht tragbar. **Gemeint ist diese
+   Seite (daniel-zaiser.de), nicht der Anime-Kalender** (Daniel, 28.09.2026). Ziel: Anbieter mit
+   **99,9 % (besser 100 %) Uptime**, hoher Qualität, niedrigen Kosten, am besten kostenlos.
+   Vor der Entscheidung prüfen: öffentliche Status-/Uptime-Historie statt Werbeversprechen,
+   statisches Hosting reicht, Domäne und HTTPS inklusive, und wie der Umzug läuft — heute
+   liefert **Plesk** die Seite aus, der GitHub-Action-Lauf baut nur und schiebt den Output auf
+   den `deploy`-Branch, von dem Plesk ihn per Webhook holt.
 
    **Vorarbeit 28.09.2026 (Primärquellen, keine Werbeseiten):** Die Störungshistorien der beiden
    naheliegenden Kandidaten ausgelesen (`cloudflarestatus.com/history.rss`,
    `githubstatus.com/history.rss`, Stand 28.09.2026).
 
-   - **Cloudflare** (Pages): im Fenster 13.09.–28.09. **keine einzige ungeplante Störung** — nur
+   - **Cloudflare Pages:** im Fenster 13.09.–28.09. **keine einzige ungeplante Störung** — nur
      angekündigte Wartungen einzelner Randstandorte (Delhi, Mumbai, Singapur, Sydney, Osaka,
-     Seoul, Kathmandu, Dhaka), die den Datenverkehr ausweichen lassen. Dazu: Der Anime-Kalender
-     läuft ohnehin schon auf Cloudflare (Worker + D1), das Konto ist da, und die freie Stufe
-     liefert unbegrenzte Bandbreite.
-   - **GitHub** (Pages): im selben Fenster **mehrere Störungen**, darunter der 13.09.2026
+     Seoul, Kathmandu, Dhaka), die den Datenverkehr ausweichen lassen. Die freie Stufe liefert
+     unbegrenzte Bandbreite; ein Cloudflare-Konto besteht bereits (aus einem anderen Projekt) —
+     das ist eine Bequemlichkeit, **kein** Argument aus dieser Seite heraus.
+   - **GitHub Pages:** im selben Fenster **mehrere Störungen**, darunter der 13.09.2026
      („28 Dienste betroffen", ausdrücklich **Pages**, Actions und API, rund zwei Stunden), der
      20.09.2026 (Pull Requests, verzögerte Merge-Commits → auch Actions-Läufe) und der 24.09.2026
-     (Datenbank-Replikate, API und Projects). Für eine Seite, die per Action auf einen Branch
-     gebaut und von dort ausgeliefert wird, hängen **Auslieferung und Auslieferungsweg am selben
-     Anbieter**.
-   - **Offen:** Preis-/Leistungsvergleich weiterer Kandidaten (Netlify, Vercel, Cloudflare Pages
-     direkt) und die Umzugsprobe — die Websuche war heute Abend nicht verfügbar, deshalb steht
-     hier nur die aus den Originalquellen belegte Vorarbeit. **Entscheidung:** Daniel.
+     (Datenbank-Replikate, API und Projects). Bemerkenswert, weil diese Seite ihre Auslieferung
+     ohnehin über GitHub Actions baut: Bei GitHub Pages hingen **Auslieferung und
+     Auslieferungsweg am selben Anbieter**.
+   - **Offen:** Preis-/Leistungsvergleich weiterer Kandidaten (Netlify, Vercel) und die
+     Umzugsprobe — die Websuche war am 28.09. abends nicht verfügbar, deshalb steht hier nur die
+     aus den Originalquellen belegte Vorarbeit. **Entscheidung:** Daniel.
 
 ### 3 · Zu besprechen
 
