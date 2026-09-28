@@ -81,8 +81,14 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    **Was Platz 3 und 4 ausschließt:** Ihre Ausfälle treffen genau das, worum es geht — die
    Auslieferung der *gehosteten Seiten* (Netlify, zweimal) und die Deployments (Vercel, dreimal).
 
-   **Noch ein Fund am Rande:** Für `daniel-zaiser.de` ist **kein SPF-Record** zu sehen (TXT-Abfrage
-   am 28.09.2026). Das betrifft die Zustellbarkeit seiner Mails — unabhängig vom Webhost.
+   **Noch ein Fund am Rande (korrigiert am 29.09.2026):** Ein SPF-Record **ist** vorhanden
+   (`v=spf1 a mx ip4:… ~all`), meine erste TXT-Abfrage war unvollständig. **DMARC und DKIM fehlen**
+   dagegen: kein `_dmarc`-TXT, kein `*._domainkey` unter den üblichen Namen. Das betrifft die
+   Zustellbarkeit seiner Mails — unabhängig vom Webhost.
+
+   **Der Sammelstand für den Umzug** steht in `docs/umzug-cloudflare-pages.md` (vollständige
+   DNS-Aufnahme, Konto-Stand, was gebaut werden muss, Risiken und Rückweg). Die ausführliche
+   Anleitung folgt auf Daniels Anweisung.
 
    Quellen: `cloudflarestatus.com`/`githubstatus.com`/`netlifystatus.com`/`vercel-status.com`
    (`/api/v2/incidents.json`), Cloudflare Pages „Custom domains", GitHub „Managing a custom domain",
