@@ -45,10 +45,11 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
 
    **Überbrückung GitHub Pages (29.09.2026):** TLDHost gibt die Nameserver nicht selbst frei
    (Kundenbereich kann nur DNS-Einträge), der Support-Antrag läuft. Damit die verseuchte Plesk-
-   Seite sofort verschwindet, ist zusätzlich **GitHub Pages** eingerichtet: `public/CNAME`
-   (`daniel-zaiser.de`), `404.html`-Fallback (`tools/github-pages-fallback.cjs`), Pages-Quelle
-   `deploy`-Branch. Es fehlt nur noch der A-Record-Tausch im TLDHost-DNS-Editor (Daniel) —
-   danach liefert GitHub die Seite, bis Cloudflare übernimmt.
+   Seite sofort verschwindet, ist zusätzlich **GitHub Pages** eingerichtet und **live**:
+   `public/CNAME` (`daniel-zaiser.de`), `404.html`-Fallback (`tools/github-pages-fallback.cjs`),
+   Pages-Quelle `deploy`-Branch; Apex-A-Records + `www`-CNAME im TLDHost-DNS umgestellt, HTTPS-
+   Zertifikat ausgestellt. **Offen:** Nameserver-Wechsel durch TLDHost; danach GitHub-Überbrückung
+   abschalten (Schritt 5 in `docs/anleitung-cloudflare-pages.md`).
 
    **Messung 28.09.2026** (Primärquellen: die Statuspage-API der Anbieter,
    `…/api/v2/incidents.json`, Fenster 28.08.–28.09.2026; Limits aus der jeweiligen Doku):

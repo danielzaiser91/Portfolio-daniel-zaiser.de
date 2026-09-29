@@ -37,6 +37,10 @@ Schritte 0–3 sind durch, die Seite liegt fertig auf Cloudflare:
   **sauber, keine Malware**. Custom Domains `daniel-zaiser.de` und `www.daniel-zaiser.de` sind
   angelegt, ihre CNAMEs stehen; sie werden gültig, sobald die Zone aktiv ist.
 - **Action** (`.github/workflows/deploy.yml`) deployt ab jetzt zusätzlich nach Pages.
+- **Überbrückung GitHub Pages (29.09.2026):** Damit die verseuchte Plesk-Seite sofort verschwindet,
+  zeigt die Domain bereits auf GitHub Pages (`public/CNAME`, `404.html`-Fallback, Pages-Quelle
+  `deploy`-Branch). Apex + `www` laufen dort sauber, HTTPS-Zertifikat ist ausgestellt (Trigger war
+  das erneute Setzen der Custom Domain — siehe `ai_agent_learnings.md`, Kategorie 2).
 
 **Es fehlt nur der Schnitt in Schritt 4.**
 
@@ -117,16 +121,23 @@ ohnehin — eigenes Thema.)
 
 ## Schritt 4 — Der Schnitt: Nameserver umstellen (der heikle Schritt)
 
-**Registrar/Zone: TLDHost.** Die Nameserver stehen bei `tldns.net`. Umstellen:
+**Registrar/Zone: TLDHost** (Inklusivdomain, registriert seit 02.02.2021). Die Nameserver stehen bei
+`tldns.net`. **Der TLDHost-Kundenbereich gibt die Delegation nicht frei** — geprüft am 29.09.2026:
 
-1. **TLDHost-Kundenlogin** (nicht Plesk): https://www.tldhost.de → oben rechts **Kundenlogin** →
-   **Meine Domains** → `daniel-zaiser.de` → Nameserver. Dafür wird die **Kundennummer** gebraucht
-   (nicht `web2832`; das ist nur der Plesk-Login).
-2. Dort die zwei Cloudflare-Namen eintragen — **`alex.ns.cloudflare.com`** und
-   **`alexandra.ns.cloudflare.com`** — und die alten (`ns1/ns2.tldns.net`) ersetzen.
-3. Falls der Eintrag dort nicht möglich ist: Den Registrar über die DENIC-Webwhois bestätigen
-   (https://www.denic.de/services/whois-service/) — er steht dort im Feld *Registrar* — und dort
-   ändern. Der TLDHost-Support kann das ebenfalls einleiten.
+- „Meine Domains" zeigt nur die Zeilen `daniel-zaiser.de`, DNS `[Konfiguration]`, Art
+  *Inklusivdomain*. **Kein Nameserver-Feld.**
+- „DNS Service" im Menü ist ein separates Produkt und für das Konto **nicht aktiviert** (leere
+  Liste) — das ist die richtige Erklärung, keine Rechtefrage.
+- Der `[Konfiguration]`-Knopf öffnet nur den Einträge-Editor (A/AAAA/CNAME/MX/SRV/TXT). Die
+  `NS`-Zeilen darin sind Zoneneinträge, **nicht** die Delegation — sie zu ändern hat keine Wirkung.
+
+**Also ein Support-Auftrag:** an `info@tldhost.de` (oder als Antwort auf die Vorfallsmail):
+
+> Bitte stellen Sie die Nameserver von daniel-zaiser.de von ns1/ns2.tldns.net auf
+> alex.ns.cloudflare.com und alexandra.ns.cloudflare.com um. Die neue Zone ist vorbereitet.
+
+**Falls TLDHost keine externen Nameserver zulässt:** Plan B ist GitHub Pages über die A-Records im
+Kundenbereich (kein Nameserver-Wechsel nötig) — genau die Überbrückung, die bereits läuft.
 
 Danach bei Cloudflare unter **DNS** kontrollieren, dass die Einträge aus Schritt 2 noch stehen, und
 in **Pages → Custom domains** `daniel-zaiser.de` und `www.daniel-zaiser.de` hinzufügen. Eine der
@@ -134,29 +145,48 @@ beiden als Hauptadresse festlegen (die andere leitet um).
 
 **Dauer: Minuten** (SOA-TTL war 600 s), nicht Stunden.
 
-## Schritt 5 — Prüfen
+## Schritt 5 — Wenn Cloudflare sitzt: was zu prüfen und zu tun ist
 
-Website:
+**A · Kontrolle, sofort nach dem Schnitt (5 Minuten)**
 
-```powershell
-curl.exe -sSI https://daniel-zaiser.de/          # 200, Server: cloudflare
-curl.exe -sSI https://daniel-zaiser.de/projects   # 200 (SPA-Fallback greift)
-curl.exe -sSI https://www.daniel-zaiser.de/       # 200 oder Weiterleitung auf die Hauptadresse
-```
+1. **Zone aktiv?** Cloudflare → Übersicht der Zone zeigt **Active**;
+   `Resolve-DnsName daniel-zaiser.de -Type NS -Server 1.1.1.1` liefert `alex`/`alexandra`.
+2. **Website:** Apex, `www`, ein tiefer Link und `/arcade/` (eigene Vorschau).
+3. **Kein Malware-String** (der Anlass):
+   `curl -sS https://daniel-zaiser.de/index.html | Select-String 'ushort|urshort|location.replace'`
+4. **Zertifikat gültig** (kein `ERR_CERT_COMMON_NAME_INVALID`), `http` leitet auf `https`.
+5. **Custom Domains in Pages** stehen auf **Active** (nicht „pending").
+6. **Zone gegenprüfen:** die Records der Cloudflare-Zone mit der TLDHost-Zone vergleichen —
+   besonders `send.send` (MX + SPF) und `resend._domainkey.send` (DKIM). Fehlt einer, bricht der
+   Resend-Versand. Diese drei fehlten in der ersten Aufnahme, weil `tools/dns-aufnahme.cjs` nur
+   eine feste Namensliste kennt — deshalb im Hoster-Editor **alles** anzeigen lassen.
 
-**Kein Malware-Test vergessen** (der Anlass des Umzugs):
-
-```powershell
-curl.exe -sS https://daniel-zaiser.de/index.html | Select-String 'ushort|urshort|location.replace'
-```
-
-Mail — das Wichtigste:
+**B · Mail — das Wichtigste**
 
 1. Eine Mail **an** `daniel@daniel-zaiser.de` schicken und den Eingang abwarten.
 2. Eine Mail **von** dort senden; im Kopf einer Testmail an ein Gmail-Konto steht `spf=pass`.
-3. `nslookup mail.daniel-zaiser.de 1.1.1.1` → muss weiter `84.19.26.101` liefern.
+3. `Resolve-DnsName mail.daniel-zaiser.de -Server 1.1.1.1` → weiter `84.19.26.101`; MX ebenso.
+4. Ein Testversand über die Resend-Sendedomain `send.daniel-zaiser.de` (falls genutzt).
 
-Faustregel: Kommt eine der beiden Mailrichtungen nicht an, sofort zurück (Schritt 6).
+Kommt eine Mailrichtung nicht an: sofort zurück (Schritt 6).
+
+**C · Aufräumen (erst, wenn die Website nachweislich stabil läuft)**
+
+- **GitHub-Pages-Überbrückung abschalten:** im Repo die Custom Domain entfernen
+  (`gh api -X PUT repos/…/pages` mit `cname:null` oder in den Settings) — sonst hält GitHub die
+  Domain weiter belegt und kann später „Domain already taken" melden. Danach liefert nur Cloudflare.
+- **Plesk-Webhook / `deploy`-Branch** können weg, müssen aber nicht sofort.
+- **Hoster:** die fremden PHP-Dateien im `httpdocs` durch den Hoster entfernen lassen (die Seite
+  wird nicht mehr gebraucht, die **Mail** schon). **Plesk-/FTP-Passwörter erneuern.**
+- Optional und unabhängig: **DMARC und DKIM** einrichten (fehlen heute).
+
+**D · Bekannte Fußangeln**
+
+- **Subdomains, die früher nur über `*` liefen, lösen jetzt nicht mehr auf** — das ist Absicht
+  (kein erfundener Name zeigt mehr auf den alten Server). Vorher prüfen, ob etwas Gebrauchtes
+  dabei war (Mail-Namen sind einzeln gesetzt).
+- **Cache/TTL:** Alte A-Antworten können bis zu einer Stunde nachhängen.
+- **Mail-Records nie proxied** (graue Wolke), sonst bricht der Mailverkehr.
 
 ## Schritt 6 — Rückweg
 
