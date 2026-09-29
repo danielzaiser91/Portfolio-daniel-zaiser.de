@@ -42,6 +42,17 @@ const RECORDS = [
       'ip4:62.108.41.0/24 ip4:62.108.44.0/24 ip4:84.19.26.0/24 ip4:84.19.24.0/24 ~all',
     ttl: 3600,
   },
+  // Resend-Sendedomain `send.daniel-zaiser.de` (Versand über Amazon SES eu-west-1).
+  // Ohne diese drei Einträge bricht der Mailversand nach dem Nameserver-Wechsel.
+  { type: 'MX', name: 'send.send', content: 'feedback-smtp.eu-west-1.amazonses.com', priority: 10, ttl: 3600 },
+  { type: 'TXT', name: 'send.send', content: 'v=spf1 include:amazonses.com ~all', ttl: 3600 },
+  {
+    type: 'TXT',
+    name: 'resend._domainkey.send',
+    content:
+      'p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqAlEIbLF6qg1pebym6N/IUZiwUv85dEyNZuNv1CHY9D14/046snMU0pApVDxlWwHqFbIBc6nv3pwplE+YNvR0C1T0lqGFrcKLfQIpSBKudaEvpjBXq97kxRFoN3SeguzQECd1nOZLG+1bck0p3F7XVN7sgqHwg9ZJ2EylaXZh/QIDAQAB',
+    ttl: 3600,
+  },
   // Die Namen, die im Mail- und Zugangsbetrieb gebraucht werden. Heute deckt
   // sie der Wildcard ab; hier stehen sie einzeln, damit Plesk erreichbar bleibt,
   // ohne dass jeder erfundene Subdomain-Name dorthin zeigt.
