@@ -1,0 +1,6 @@
+# SPA-Fallback für die Angular-App (Cloudflare Pages).
+# Alle Pfade, die keine echte Datei/kein echtes Verzeichnis sind (z. B. /projects,
+# /for-recruiters), liefern index.html aus — das Routing übernimmt Angular.
+# Vorhandene Dateien/Ordner (z. B. /arcade/index.html) haben Vorrang.
+# Ersetzt bei Cloudflare Pages die .htaccess-Regel `FallbackResource /index.html`.
+/* /index.html 200
