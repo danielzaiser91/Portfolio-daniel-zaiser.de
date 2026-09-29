@@ -14,7 +14,18 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
 
 ### 2 · Queue
 
-1. **Neuen Webhost für daniel-zaiser.de suchen** (notiert 28.09.2026): Plesk hat am 27. und
+1. **🚨 Sicherheitsvorfall `server14.tldhost.de` — Live-Seite liefert Malware aus** (gefunden
+   29.09.2026): `daniel-zaiser.de/` antwortet **503** mit einer gefälschten „WordPress-Wartung"-
+   Seite, und HTML- **und** JS-Antworten sind server-seitig um ein `<script>` ergänzt, das
+   Mobilgeräte auf `urshort.com`/`ushort.company` (bekanntes Malware-Kurz-URL-Netz) umleitet.
+   Unser `deploy`-Branch und die Action-Läufe sind **sauber** — es ist die Auslieferung durch den
+   Server. Auch `displator.com` (503) und `grossenmarpe.de` (200) auf derselben IP sind befallen,
+   also **server-/webspace-übergreifend**, kein Einzelfall. Befunde und Prüfgriffe:
+   `docs/sicherheitsvorfall-server14.md`. **Erledigt:** Diagnose + Dokumentation (29.09.2026).
+   **Offen:** Daniel/Hoster — Hoster als Server-Kompromittierung informieren, Zugangsdaten
+   erneuern, Auslieferung dem Server entziehen (macht Punkt 2 dringlich).
+
+2. **Neuen Webhost für daniel-zaiser.de suchen** (notiert 28.09.2026): Plesk hat am 27. und
    28.09.2026 mehrfach stundenlang ausgefallen — das ist nicht tragbar. **Gemeint ist diese
    Seite (daniel-zaiser.de), nicht der Anime-Kalender** (Daniel, 28.09.2026). Ziel: Anbieter mit
    **99,9 % (besser 100 %) Uptime**, hoher Qualität, niedrigen Kosten, am besten kostenlos.

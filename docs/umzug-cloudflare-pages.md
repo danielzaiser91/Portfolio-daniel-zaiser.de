@@ -6,7 +6,10 @@ Gemessene**, damit die Anleitung selbst kurz bleibt. Die Schritte sind bewusst n
 
 ## Warum überhaupt
 
-Plesk (der jetzige Hoster) fiel am 27. und 28.09.2026 mehrfach stundenlang aus. Im Messfenster
+Plesk (der jetzige Hoster) fiel am 27. und 28.09.2026 mehrfach stundenlang aus. **Am 29.09.2026
+kam hinzu: `server14.tldhost.de` ist kompromittiert und liefert fremden Code aus** (gefälschte
+Wartungsseite + Malware-Umleitung für Mobilgeräte; siehe `sicherheitsvorfall-server14.md`). Der
+Umzug beseitigt genau diesen Auslieferungspfad. Im Messfenster
 28.08.–28.09.2026 hatte **Cloudflare keine einzige ungeplante Störung** und keine, die die
 statische Auslieferung traf; GitHub Pages hatte einen kritischen (13.09., Pages betroffen) und zwei
 größere, Netlify zwei größere („hosted sites nicht erreichbar"), Vercel drei.
