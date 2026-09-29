@@ -43,6 +43,13 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    angelegt, Action deployt ab jetzt zusätzlich nach Pages. **Offen: der Schnitt** — Nameserver
    im TLDHost-Kundenlogin umstellen (**Kundennummer** nötig, siehe Anleitung).
 
+   **Überbrückung GitHub Pages (29.09.2026):** TLDHost gibt die Nameserver nicht selbst frei
+   (Kundenbereich kann nur DNS-Einträge), der Support-Antrag läuft. Damit die verseuchte Plesk-
+   Seite sofort verschwindet, ist zusätzlich **GitHub Pages** eingerichtet: `public/CNAME`
+   (`daniel-zaiser.de`), `404.html`-Fallback (`tools/github-pages-fallback.cjs`), Pages-Quelle
+   `deploy`-Branch. Es fehlt nur noch der A-Record-Tausch im TLDHost-DNS-Editor (Daniel) —
+   danach liefert GitHub die Seite, bis Cloudflare übernimmt.
+
    **Messung 28.09.2026** (Primärquellen: die Statuspage-API der Anbieter,
    `…/api/v2/incidents.json`, Fenster 28.08.–28.09.2026; Limits aus der jeweiligen Doku):
 
