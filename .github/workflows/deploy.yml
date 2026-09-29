@@ -26,6 +26,17 @@ jobs:
       - name: Build
         run: yarn build
 
+      # Auslieferung über Cloudflare Pages (löst Plesk als Webhost ab).
+      # SPA-Fallback: public/_redirects → /* /index.html 200.
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/portfolio/browser --project-name=daniel-zaiser-de --branch=main
+
+      # Übergangsweise noch der Plesk-Weg (Webhook holt den Branch). Kann weg,
+      # sobald daniel-zaiser.de nachweislich über Cloudflare läuft.
       - name: Deploy build output to 'deploy' branch
         uses: peaceiris/actions-gh-pages@v4
         with:

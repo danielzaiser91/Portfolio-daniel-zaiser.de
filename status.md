@@ -23,9 +23,9 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    also **server-/webspace-übergreifend**, kein Einzelfall. Befunde und Prüfgriffe:
    `docs/sicherheitsvorfall-server14.md`. **Erledigt:** Diagnose + Dokumentation (29.09.2026),
    Mechanismus aus der Plesk-Dateiliste belegt (fremde PHP-Backdoors in `/httpdocs`, u. a.
-   `index.php` = die Wartungsseite; HTML/JS dateiseitig verändert). **Offen:** Hoster-Meldung
-   (Text in der Doku) und die Auslieferung abklemmen — beides über TLDHost; danach Punkt 2
-   (Umzug), der den Pfad endgültig beseitigt.
+   `index.php` = die Wartungsseite; HTML/JS dateiseitig verändert). **Meldung an TLDHost ist raus**
+   (29.09.2026, Text in der Doku) — **Offen:** TLDHost prüft und schaltet ab; danach Zugangsdaten
+   erneuern. Der Umzug (Punkt 2) beseitigt den Pfad endgültig.
 
 2. **Neuen Webhost für daniel-zaiser.de suchen** (notiert 28.09.2026): Plesk hat am 27. und
    28.09.2026 mehrfach stundenlang ausgefallen — das ist nicht tragbar. **Gemeint ist diese
@@ -35,6 +35,13 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    statisches Hosting reicht, Domäne und HTTPS inklusive, und wie der Umzug läuft — heute
    liefert **Plesk** die Seite aus, der GitHub-Action-Lauf baut nur und schiebt den Output auf
    den `deploy`-Branch, von dem Plesk ihn per Webhook holt.
+
+   **Stand 29.09.2026 — Umzug läuft:** Cloudflare-Zone `daniel-zaiser.de` angelegt
+   (Nameserver `alex.ns.cloudflare.com` / `alexandra.ns.cloudflare.com`), Mail-Einträge + SPF
+   vollständig gesetzt, Pages-Projekt `daniel-zaiser-de` mit `_redirects` deployt und live
+   geprüft (`daniel-zaiser-de.pages.dev`, sauber), Custom Domains `daniel-zaiser.de` + `www`
+   angelegt, Action deployt ab jetzt zusätzlich nach Pages. **Offen: der Schnitt** — Nameserver
+   im TLDHost-Kundenlogin umstellen (**Kundennummer** nötig, siehe Anleitung).
 
    **Messung 28.09.2026** (Primärquellen: die Statuspage-API der Anbieter,
    `…/api/v2/incidents.json`, Fenster 28.08.–28.09.2026; Limits aus der jeweiligen Doku):

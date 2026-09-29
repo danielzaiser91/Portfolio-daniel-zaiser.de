@@ -23,6 +23,23 @@ Der einzige heikle Moment ist der **Nameserver-Wechsel** (Schritt 4). Alles davo
 für den Live-Betrieb und damit gefahrlos: Solange die Nameserver bei `tldns.net` stehen, liest
 niemand die neue Cloudflare-Zone.
 
+## Bereits erledigt (29.09.2026)
+
+Schritte 0–3 sind durch, die Seite liegt fertig auf Cloudflare:
+
+- **Token** `daniel-zaiser-de` mit Pages/Zone/DNS-Edit angelegt (Wert als GitHub-Secret
+  `CLOUDFLARE_API_TOKEN` gesetzt, `CLOUDFLARE_ACCOUNT_ID` ebenso).
+- **Zone** `daniel-zaiser.de` angelegt. Nameserver: **`alex.ns.cloudflare.com`** und
+  **`alexandra.ns.cloudflare.com`**.
+- **DNS** aus `tools/cloudflare-dns.mjs`: MX, SPF/TXT und die neun Mail-/Zugangsnamen (DNS only).
+- **Pages-Projekt** `daniel-zaiser-de` mit `public/_redirects`, deployt; geprüft:
+  `https://daniel-zaiser-de.pages.dev` (Start, `/projects`, `/arcade/` mit eigener Vorschau) —
+  **sauber, keine Malware**. Custom Domains `daniel-zaiser.de` und `www.daniel-zaiser.de` sind
+  angelegt, ihre CNAMEs stehen; sie werden gültig, sobald die Zone aktiv ist.
+- **Action** (`.github/workflows/deploy.yml`) deployt ab jetzt zusätzlich nach Pages.
+
+**Es fehlt nur der Schnitt in Schritt 4.**
+
 ---
 
 ## Schritt 0 — Token mit den richtigen Rechten anlegen
@@ -105,8 +122,8 @@ ohnehin — eigenes Thema.)
 1. **TLDHost-Kundenlogin** (nicht Plesk): https://www.tldhost.de → oben rechts **Kundenlogin** →
    **Meine Domains** → `daniel-zaiser.de` → Nameserver. Dafür wird die **Kundennummer** gebraucht
    (nicht `web2832`; das ist nur der Plesk-Login).
-2. Dort die **zwei Cloudflare-Namen** aus Schritt 1 als Nameserver eintragen und die alten
-   (`ns1/ns2.tldns.net`) ersetzen.
+2. Dort die zwei Cloudflare-Namen eintragen — **`alex.ns.cloudflare.com`** und
+   **`alexandra.ns.cloudflare.com`** — und die alten (`ns1/ns2.tldns.net`) ersetzen.
 3. Falls der Eintrag dort nicht möglich ist: Den Registrar über die DENIC-Webwhois bestätigen
    (https://www.denic.de/services/whois-service/) — er steht dort im Feld *Registrar* — und dort
    ändern. Der TLDHost-Support kann das ebenfalls einleiten.
