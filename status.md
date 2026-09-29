@@ -21,9 +21,11 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    Unser `deploy`-Branch und die Action-Läufe sind **sauber** — es ist die Auslieferung durch den
    Server. Auch `displator.com` (503) und `grossenmarpe.de` (200) auf derselben IP sind befallen,
    also **server-/webspace-übergreifend**, kein Einzelfall. Befunde und Prüfgriffe:
-   `docs/sicherheitsvorfall-server14.md`. **Erledigt:** Diagnose + Dokumentation (29.09.2026).
-   **Offen:** Daniel/Hoster — Hoster als Server-Kompromittierung informieren, Zugangsdaten
-   erneuern, Auslieferung dem Server entziehen (macht Punkt 2 dringlich).
+   `docs/sicherheitsvorfall-server14.md`. **Erledigt:** Diagnose + Dokumentation (29.09.2026),
+   Mechanismus aus der Plesk-Dateiliste belegt (fremde PHP-Backdoors in `/httpdocs`, u. a.
+   `index.php` = die Wartungsseite; HTML/JS dateiseitig verändert). **Offen:** Hoster-Meldung
+   (Text in der Doku) und die Auslieferung abklemmen — beides über TLDHost; danach Punkt 2
+   (Umzug), der den Pfad endgültig beseitigt.
 
 2. **Neuen Webhost für daniel-zaiser.de suchen** (notiert 28.09.2026): Plesk hat am 27. und
    28.09.2026 mehrfach stundenlang ausgefallen — das ist nicht tragbar. **Gemeint ist diese

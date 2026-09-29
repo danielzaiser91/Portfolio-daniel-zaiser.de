@@ -27,6 +27,39 @@ Die Umleitung läuft nur auf Geräten mit grobem Zeiger / Mobile-User-Agent — 
 sehen die (verseuchte) Seite. Die Ziele `ushort.company` und `urshort.com` sind bekannte
 Malware-Kurz-URL-Netze (u. a. `ushort.observer`, `u-short.net`) hinter DDoS-Guard.
 
+## Mechanismus — die Dateiliste im Webspace (Plesk, 29.09.2026)
+
+Über das Plesk-Panel (`web2832`, abonnement `daniel-zaiser.de`) die Dateien in `/httpdocs` gelesen.
+Der Befund erklärt beides: die Malware **und** die Wartungsseite.
+
+**Injizierte Nutzdateien** (Größe live vs. `deploy`-Branch → die Malware steckt in der Datei, nicht
+in einem Auslieferungsfilter):
+
+| Datei | Branch | live | Differenz |
+|---|---|---|---|
+| `index.html` | 3.663 Zeichen | 3.939 B | + das `<script>` |
+| `main-V36NUDVE.js` | 726 Zeichen | 953 B | +227 B (Beginnt mit dem Injekt-Skript) |
+| `chunk-335HBDYV.js` | 7.517 Zeichen | 7.744 B | +227 B |
+
+**Fremde Backdoor-Dateien im Webspace** (nicht aus unserem Repo, alle **2.022 B**, **ohne
+Änderungsdatum** — das Muster „gleich große PHP-Dateien ohne Zeitstempel" ist typisch für einen
+Abfall, der hunderte Dateien auf einmal anlegt):
+
+`config.php`, `configuration.php`, `default.php`, `index.php`, `main.php`, `wp-blog-header.php`,
+`wp-load.php`, `wp-settings.php`
+
+**Der `index.php` ist die gefälschte Wartungsseite.** Apache nimmt für `/` zuerst `index.php`
+(frisch angelegt, 28.09. 01:04) statt `index.html` — daher die „WordPress"-Seite mit der
+Weiterleitung.
+
+**Zusätzlich verändert:** `.htaccess` (live 304 B; unser Branch hat 408 B) und `index.php`
+(28.09. 01:04), sowie eine `php.ini` (105 B, 15.09.), die nicht aus dem Repo stammt.
+
+Damit ist es **datei- und server-seitig**: Die Dateien wurden auf dem Server verändert/ergänzt,
+und der Angreifer hält sich serverseitig (mehrere Konten derselben Maschine betroffen). Ein
+Säubern nur unseres Webspaces hilft nur, solange er nicht erneut zuschlägt — deshalb muss der
+Hoster den Server prüfen.
+
 ## Gegenprobe: es ist nicht unser Build
 
 - `deploy`-Branch (aus dem Plesk zieht) enthält **sauberes** `index.html`; die
@@ -62,7 +95,26 @@ Störung ist auf `server14`/den betroffenen Konten.
 
 1. **Hoster informieren** (TLDHost) und den Vorfall als **Server-Kompromittierung** melden,
    mit den Abrufen oben — nicht als „meine Seite ist kaputt". Ein sauberer Server ist erst
-   wieder vertrauenswürdig, wenn der Hoster ihn geprüft hat.
+   wieder vertrauenswürdig, wenn der Hoster ihn geprüft hat. Vorlage:
+
+   > Betreff: Sicherheitsvorfall auf server14 — fremder Code in daniel-zaiser.de
+   >
+   > Auf server14.tldhost.de (84.19.26.101) wird fremder Code ausgeliefert. Betroffen sind
+   > mindestens daniel-zaiser.de, displator.com und grossenmarpe.de — es ist also nicht auf
+   > mein Abonnement begrenzt.
+   >
+   > In meinem Webspace `/httpdocs` liegen PHP-Dateien, die ich nicht angelegt habe
+   > (config.php, configuration.php, default.php, index.php, main.php, wp-blog-header.php,
+   > wp-load.php, wp-settings.php, je 2.022 Byte, ohne Zeitstempel). `index.php` liefert unter
+   > https://daniel-zaiser.de/ eine gefälschte „WordPress-Wartung"-Seite (HTTP 503) aus, und
+   > HTML- und JavaScript-Dateien wurden um ein Skript ergänzt, das Mobilgeräte auf
+   > ushort.company / urshort.com weiterleitet.
+   >
+   > Bitte: (1) den Server prüfen und die Hintertür entfernen, (2) die Auslieferung von
+   > daniel-zaiser.de vorläufig abschalten, (3) mir mitteilen, welche Zugänge ich neu setzen muss.
+   >
+   > Nachweis: `curl -sS https://daniel-zaiser.de/index.html | Select-String ushort,urshort`
+   > `curl -sSI https://daniel-zaiser.de/` (erwartet 200, aktuell 503)
 2. **Zugangsdaten erneuern**, die über den Server laufen: Plesk, FTP/SFTP, ggf. SSH; danach
    Registrars-/INWX-Zugang prüfen.
 3. **Auslieferung dem Server entziehen** — der Umzug auf Cloudflare Pages (siehe
