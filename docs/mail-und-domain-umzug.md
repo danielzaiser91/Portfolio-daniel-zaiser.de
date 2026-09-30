@@ -105,6 +105,30 @@ Header **`Purelymail-Api-Token`**) angelegt und geprüft:
 
 **Noch offen:** Domain-Transfer (Auth-Code) und Kündigung.
 
+## Domain-Transfer vollzogen (30.09.2026)
+
+`daniel-zaiser.de` ist per „Domain transfer" im INWX-Kundenbereich umgezogen (Auth-Code
+`PTRRd+dTKcrCsM`). Ergebnis laut `domain.info`:
+
+| Feld | Wert |
+|---|---|
+| Registrar | **INWX** (Kundennr. 258229, roId 5440205) |
+| Nameserver | **`alex.ns.cloudflare.com`, `alexandra.ns.cloudflare.com`** — unverändert |
+| Verlängerung | `AUTORENEW`, nächster Termin 29.09.2027 |
+| Laufzeit | bis 30.09.2027 (Transfer inkl. 1 Jahr) |
+| Inhaber | Kontakt 1068290 (Daniel Zaiser), bestätigt |
+| `transferLock` | an (schützt vor fremdem Wegzug) |
+
+Der entscheidende Punkt war die Warenkorb-Zeile **„Aktuelle Nameserver nicht verändern"** — hätte
+INWX seine eigenen Nameserver gesetzt, wäre die Delegation gekippt und Website **und** Mail wären
+ausgefallen. Website (200), MX/Purelymail, DKIM und DMARC sind nach dem Transfer unverändert.
+
+**Kosten:** 4,65 € für den Transfer (inkl. erstem Jahr), danach jährlich ~5–6 €. Bezahlt wird vom
+INWX-Guthaben; das Konto stand auf 0 €, in der Übersicht lag „Offene Aufträge: 1".
+
+**Noch zu tun (Daniel):** die 4,65 € begleichen bzw. eine Zahlungsart im INWX-Konto hinterlegen,
+damit die automatische Verlängerung 2027 nicht ins Leere läuft.
+
 ## Weiterleitung nach Gmail (30.09.2026, erledigt)
 
 Daniel liest die Adresse **nirgendwo** — gewünscht ist, dass **alles** an `daniel-zaiser.de` an

@@ -23,10 +23,10 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    Befunde und Prüfgriffe: `docs/sicherheitsvorfall-server14.md`.
    **Erledigt:** Diagnose + Dokumentation (29.09.2026), Meldung an TLDHost (29.09.2026),
    **Website abgelöst** — seit 30.09.2026 liefert Cloudflare die Seite, nicht mehr Plesk.
-   **Offen:** TLDHost bearbeitet `server14` laut eigener Aussage **diese Woche** (Sicherheits-
-   lücken, alle Kunden einzeln) und soll dabei die fremden PHP-Dateien im `httpdocs` entfernen
-   sowie die zwei fremden Postfächer (`info-hetj@`, `info-lqfp@`) prüfen/entfernen. **Kein
-   WordPress** in diesem Account (statische Seite) — der Hinweis steht in der Mail.
+   **TLDHost-Antwort (30.09.2026):** Server wurde gescannt, auch Kunden **ohne** WordPress betroffen
+   → serverseitig; Vorfall an den Softwarehersteller gemeldet; Bereinigung läuft; die Domain wurde
+   in Plesk gesperrt; das Hosting-Paket ist zum **31.01.2027** gekündigt. Damit ist der Vorgang von
+   unserer Seite abgeschlossen (die Domain liegt seit 30.09.2026 bei INWX, siehe Punkt 2).
 
 2. **Komplett weg von TLDHost: Mail umziehen + Domain zu INWX transferieren** (Daniel,
    30.09.2026: „mail umziehen, kein tldhost mehr"). Ziel: Domain behalten, Mail bei einem
@@ -42,6 +42,12 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    **Weiterleitung (Daniel, 30.09.2026):** Alles an `daniel-zaiser.de` geht per Routing-Regel/Catch-all
    an `danielzaiser91@googlemail.com` (das Purelymail-Postfach bleibt leer). Newsletter-`Reply-To`
    zeigt auf `info@daniel-zaiser.de`. Tote Resend-Einträge der Zone entfernt.
+   **Domain-Transfer erledigt (30.09.2026):** `daniel-zaiser.de` liegt jetzt bei **INWX**
+   (Kundennr. 258229, roId 5440205), Nameserver **weiterhin Cloudflare**, `AUTORENEW` aktiv,
+   Inhaber bestätigt, `transferLock` an. Website 200, Mail unverändert, DKIM/DMARC intakt.
+   **Offen:** die 4,65 € des Transfers begleichen bzw. eine Zahlungsart bei INWX hinterlegen
+   (Kontostand war 0 €, in der Übersicht stand „Offene Aufträge: 1"); TLDHost-Kündigung steht auf
+   31.01.2027 (kann bei Bedarf früher beendet werden — die Domain hängt nicht mehr daran).
    Fahrplan: `docs/mail-und-domain-umzug.md`.
 
 ### 3 · Zu besprechen
