@@ -86,6 +86,26 @@ Domain nach DNS-Verifikation aktivieren, Transfer zu INWX auslösen, alles nachp
    DNS ändert sich nichts.
 6. **Erst nach abgeschlossenem Transfer kündigen** — Webspace-/Hosting-Paket.
 
+## Stand 30.09.2026 — Purelymail ist eingerichtet und live
+
+Anbieter **Purelymail** (10 $/Jahr, API). Über die API (`POST https://purelymail.com/api/v0/…`,
+Header **`Purelymail-Api-Token`**) angelegt und geprüft:
+
+| Schritt | Ergebnis |
+|---|---|
+| Domain `daniel-zaiser.de` | angelegt; `passesMx/Spf/Dkim/Dmarc` **alle true** |
+| DNS in Cloudflare | SPF ersetzt (`v=spf1 include:_spf.purelymail.com ~all`), Ownership-TXT, 3 DKIM-CNAMEs (`purelymail1–3._domainkey` → `keyN.dkimroot.purelymail.com`, DNS only), `_dmarc` → `dmarcroot.purelymail.com` |
+| **MX** | **`mailserver.purelymail.com`, Prio 50** (ersetzt `mail.daniel-zaiser.de`) |
+| Postfach | `daniel-zaiser@daniel-zaiser.de` (Passwort im Chat an Daniel; er sollte es ändern) |
+| Aliase | `business`, `info`, `kontakt`, `danielzaiser`, `danielzaiser91`, `danielzeiser`, `daniel-zeiser` → Postfach (Routing-Regeln) |
+| Sendetest | SMTP **250**; Mail kam im Postfach an, `Delivered-To: daniel-zaiser@…` bei `To: info@…` |
+| Symbolische Subadressierung | **aus** — sonst wäre `daniel-zaiser` als Subadresse von `daniel` gewertet worden |
+
+**Client-Zugang:** IMAP `imap.purelymail.com:993` (SSL), SMTP `smtp.purelymail.com:465` (SSL).
+
+**Noch offen:** alte Mails per IMAP von `mail.daniel-zaiser.de` (TLDHost) herüberziehen — dafür
+wird das **alte Postfach-Passwort** gebraucht; danach Domain-Transfer (Auth-Code) und Kündigung.
+
 ## Was parallel schon läuft
 
 - Die TLDHost-Mail (30.09.2026) bittet um Auth-Code + Transfer-Lock-Freigabe, Abschaltung des
