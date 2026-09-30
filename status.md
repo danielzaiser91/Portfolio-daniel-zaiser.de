@@ -39,6 +39,9 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    Versand 250, Empfang über Alias `info@` mit `Delivered-To: daniel-zaiser@…`.
    **Offen:** Domain-Transfer zu INWX (**Auth-Code**) und danach TLDHost kündigen.
    Alte Mails sind migriert (18 Nachrichten), altes Postfach-Passwort dazu neu gesetzt.
+   **Weiterleitung (Daniel, 30.09.2026):** Alles an `daniel-zaiser.de` geht per Routing-Regel/Catch-all
+   an `danielzaiser91@googlemail.com` (das Purelymail-Postfach bleibt leer). Newsletter-`Reply-To`
+   zeigt auf `info@daniel-zaiser.de`. Tote Resend-Einträge der Zone entfernt.
    Fahrplan: `docs/mail-und-domain-umzug.md`.
 
 ### 3 · Zu besprechen

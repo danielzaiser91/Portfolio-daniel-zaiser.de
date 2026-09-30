@@ -105,6 +105,28 @@ Header **`Purelymail-Api-Token`**) angelegt und geprüft:
 
 **Noch offen:** Domain-Transfer (Auth-Code) und Kündigung.
 
+## Weiterleitung nach Gmail (30.09.2026, erledigt)
+
+Daniel liest die Adresse **nirgendwo** — gewünscht ist, dass **alles** an `daniel-zaiser.de` an
+`danielzaiser91@googlemail.com` weitergeht (mit sichtbarem ursprünglichem Absender und der
+`daniel-zaiser.de`-Empfängeradresse im Kopf).
+
+Purelymail-Routing (Catch-all greift für JEDE Adresse, auch für einen vorhandenen Benutzer; das
+Postfach bleibt leer):
+
+| Adresse | Ziel |
+|---|---|
+| Catch-all `*@daniel-zaiser.de` | `danielzaiser91@googlemail.com` |
+| zusätzlich exakt: `daniel-zaiser`, `info`, `kontakt`, `business`, `danielzaiser`, `danielzaiser91`, `danielzeiser`, `daniel-zeiser` | dito |
+
+**Wichtig für den API-Weg:** Ein Catch-all entsteht nur mit
+`{matchUser:"*", prefix:true, catchall:true}` — mit `matchUser:""` oder `prefix:false` meldet die
+API Erfolg, fängt aber nichts (`User isn't located here`). Exakte Regeln (`catchall:false`) wirken
+sofort. Geprüft, indem eine Probemail **ohne** Kopie und **ohne** Bounce im Postfach blieb.
+
+**Ergebnis:** Postfach enthält nur noch den Altbestand (17+1). Newsletter-Antworten gehen über
+`Reply-To: info@daniel-zaiser.de` und landen so ebenfalls in Gmail.
+
 ## Mail-Migration (30.09.2026, erledigt)
 
 Das alte Postfach-Passwort war nicht bekannt — Plesk zeigt es nicht an, nur setzen. Über das
