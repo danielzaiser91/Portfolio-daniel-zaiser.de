@@ -23,8 +23,21 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    Befunde und Prüfgriffe: `docs/sicherheitsvorfall-server14.md`.
    **Erledigt:** Diagnose + Dokumentation (29.09.2026), Meldung an TLDHost (29.09.2026),
    **Website abgelöst** — seit 30.09.2026 liefert Cloudflare die Seite, nicht mehr Plesk.
-   **Offen:** TLDHost soll die fremden PHP-Dateien im `httpdocs` entfernen (Website aus);
-   danach Plesk-/FTP-Passwörter erneuern. Mail-Test (senden/empfangen) durch Daniel.
+   **Offen:** TLDHost bearbeitet `server14` laut eigener Aussage **diese Woche** (Sicherheits-
+   lücken, alle Kunden einzeln) und soll dabei die fremden PHP-Dateien im `httpdocs` entfernen
+   sowie die zwei fremden Postfächer (`info-hetj@`, `info-lqfp@`) prüfen/entfernen. **Kein
+   WordPress** in diesem Account (statische Seite) — der Hinweis steht in der Mail.
+
+2. **Komplett weg von TLDHost: Mail umziehen + Domain zu INWX transferieren** (Daniel,
+   30.09.2026: „mail umziehen, kein tldhost mehr"). Ziel: Domain behalten, Mail bei einem
+   sicheren/günstigen Anbieter.
+   **Erledigt:** Newsletter geprüft — der Anime-Kalender nutzt `daniel-zaiser.de` **nicht**
+   (Versand über `kalender@send.anime-kalender.de`/Resend, Kontakt `danielzaiser91@googlemail.com`);
+   Anbieter-Recherche (Empfehlung **Migadu Micro**, ≈17 €/Jahr; Alternative mailbox.org Standard,
+   36 €/Jahr, oder Zoho free ohne IMAP); Mail an TLDHost mit Auth-Code-Bitte, Abschaltung,
+   Malware-Löschung und **Kündigung erst nach abgeschlossenem Transfer** (30.09.2026 gesendet).
+   **Offen:** Auth-Code/Transfer-Lock von TLDHost, Anbieterwahl durch Daniel, dann Mailumzug
+   (IMAP), MX-Umstellung in Cloudflare, Transfer zu INWX. Fahrplan: `docs/mail-und-domain-umzug.md`.
 
 ### 3 · Zu besprechen
 

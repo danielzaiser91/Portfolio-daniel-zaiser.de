@@ -1,0 +1,64 @@
+# Mail- und Domain-Umzug: weg von TLDHost
+
+**Angelegt 30.09.2026.** Ziel: `daniel-zaiser.de` behalten, aber **kein TLDHost mehr** — Mail zu
+einem anderen Anbieter, Domain zu einem anderen Registrar. Auslöser war die Kompromittierung von
+`server14.tldhost.de` (`docs/sicherheitsvorfall-server14.md`).
+
+## Die eiserne Reihenfolge
+
+**Erst Domain sichern und Mail umziehen, dann kündigen.** `daniel-zaiser.de` ist eine
+**Inklusivdomain** am Webspace-Paket: Wird das Paket gekündigt, bevor die Domain transferiert ist,
+läuft die Registrierung mit dem Paket aus, die Domain geht in die Löschfrist und kann danach frei
+werden. Die Kündigung steht deshalb in der TLDHost-Mail ausdrücklich **hinten**.
+
+## Ausgangslage (gemessen)
+
+- **Postfach:** `daniel-zaiser@daniel-zaiser.de` (Beschreibung „meine Email für alles"),
+  **7 Aliase**: `business@`, `info@`, `kontakt@`, `danielzaiser@`, `danielzaiser91@`,
+  `danielzeiser@`, `daniel-zeiser@`. Belegung winzig (**243 KB**).
+- **Weitere Postfächer:** `info-hetj@daniel-zaiser.de`, `info-lqfp@daniel-zaiser.de` — **nicht von
+  Daniel angelegt**, in der TLDHost-Mail zur Prüfung/Löschung gemeldet (möglicher Spam-Versand).
+- **DNS (Cloudflare, aktiv):** `MX 10 mail.daniel-zaiser.de`, A `mail.… → 84.19.26.101`, SPF-TXT;
+  zusätzlich die Resend-Sendedomain `send.daniel-zaiser.de` (MX/SPF/DKIM) — **hostunabhängig**.
+- **Website:** läuft über Cloudflare Pages (fertig, nicht Teil dieses Umzugs).
+
+## Anbieterwahl (recherchiert 30.09.2026)
+
+| Anbieter | Kosten | Eigene Domain | Anmerkung |
+|---|---|---|---|
+| **Migadu** (CH) | **19 $/Jahr** (Micro) | ✅ | unbegrenzt Adressen/Aliase, IMAP/SMTP/Webmail, 5 GB; passt zu den 7 Aliassen |
+| **mailbox.org** (DE) | 36 €/Jahr (Standard) | ✅ | Server in DE, 20 GB, 50 Aliase, Migrationsservice; *Light (12 €) kann keine eigene Domain* |
+| **Zoho Mail** | 0 € (Free) | ✅ | **kein IMAP/POP** in der kostenlosen Stufe |
+
+**Empfehlung: Migadu Micro.** Domain-Registrar: **INWX** (dort liegt schon `anime-kalender.de`).
+
+## Ablauf
+
+1. **Postfach beim neuen Anbieter anlegen** — `daniel-zaiser@daniel-zaiser.de` plus die 7 Aliase
+   (bei Migadu unbegrenzt, sonst als Aliase/Catch-all).
+2. **Alte Mails herüberziehen** (IMAP-Migration). Bei 243 KB ein Minutenjob; mailbox.org bietet
+   dafür einen Migrationsservice. TLDHost-Mail dafür **noch aktiv** lassen.
+3. **MX umstellen** in der Cloudflare-Zone: MX auf den neuen Anbieter, dessen SPF/DKIM ergänzen.
+   Alten SPF-Eintrag (`v=spf1 a mx ip4:… ~all`) durch den neuen ersetzen, nicht danebenlegen
+   (zwei SPF-Sätze = keiner wirkt). **DMARC** gleich mitnehmen (fehlt bisher).
+4. **Ein paar Wochen parallel** laufen lassen: TLDHost-Postfach weiter erreichbar, dann prüfen,
+   ob noch Mail dorthin kommt (Log/Impressum/Kontakte, die die alte Adresse nutzen).
+5. **Domain-Transfer zu INWX:** Auth-Code (EPP) von TLDHost, Transfer-Lock aufheben, Transfer bei
+   INWX starten. Nameserver bleiben **Cloudflare** (`alex`/`alexandra.ns.cloudflare.com`) — am
+   DNS ändert sich nichts.
+6. **Erst nach abgeschlossenem Transfer kündigen** — Webspace-/Hosting-Paket.
+
+## Was parallel schon läuft
+
+- Die TLDHost-Mail (30.09.2026) bittet um Auth-Code + Transfer-Lock-Freigabe, Abschaltung des
+  Webspaces, Löschung der Backdoors und der fremden Postfächer — und die Kündigung erst nach
+  abgeschlossenem Transfer.
+- TLDHost bearbeitet `server14` laut eigener Aussage **diese Woche**.
+
+## Prüfgriffe
+
+```powershell
+Resolve-DnsName daniel-zaiser.de -Type MX -Server 1.1.1.1     # neuer Anbieter nach der Umstellung
+Resolve-DnsName daniel-zaiser.de -Type TXT -Server 1.1.1.1    # genau EIN v=spf1 …; DMARC vorhanden
+Resolve-DnsName mail.daniel-zaiser.de -Type A -Server 1.1.1.1 # bis zum Umzug: 84.19.26.101
+```
