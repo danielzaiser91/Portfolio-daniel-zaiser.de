@@ -5,9 +5,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -34,13 +31,3 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist/portfolio/browser --project-name=daniel-zaiser-de --branch=main
-
-      # Übergangsweise noch der Plesk-Weg (Webhook holt den Branch). Kann weg,
-      # sobald daniel-zaiser.de nachweislich über Cloudflare läuft.
-      - name: Deploy build output to 'deploy' branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/portfolio/browser
-          publish_branch: deploy
-          force_orphan: true
