@@ -1,5 +1,9 @@
 # Anleitung: daniel-zaiser.de auf Cloudflare Pages
 
+**Ergebnis: vollzogen am 30.09.2026** — die Domain läuft über Cloudflare Pages (Zone aktiv,
+Custom Domains aktiv, Zertifikat gültig), die verseuchte Plesk-Seite ist als Website abgelöst.
+Was danach noch offen ist, steht in Schritt 7.
+
 **Stand 29.09.2026, überarbeitet.** Zwei Annahmen des ersten Entwurfs waren falsch und sind hier
 korrigiert:
 
@@ -23,7 +27,7 @@ Der einzige heikle Moment ist der **Nameserver-Wechsel** (Schritt 4). Alles davo
 für den Live-Betrieb und damit gefahrlos: Solange die Nameserver bei `tldns.net` stehen, liest
 niemand die neue Cloudflare-Zone.
 
-## Bereits erledigt (29.09.2026)
+## Abgeschlossen (29./30.09.2026)
 
 Schritte 0–3 sind durch, die Seite liegt fertig auf Cloudflare:
 
@@ -37,12 +41,12 @@ Schritte 0–3 sind durch, die Seite liegt fertig auf Cloudflare:
   **sauber, keine Malware**. Custom Domains `daniel-zaiser.de` und `www.daniel-zaiser.de` sind
   angelegt, ihre CNAMEs stehen; sie werden gültig, sobald die Zone aktiv ist.
 - **Action** (`.github/workflows/deploy.yml`) deployt ab jetzt zusätzlich nach Pages.
-- **Überbrückung GitHub Pages (29.09.2026):** Damit die verseuchte Plesk-Seite sofort verschwindet,
-  zeigt die Domain bereits auf GitHub Pages (`public/CNAME`, `404.html`-Fallback, Pages-Quelle
-  `deploy`-Branch). Apex + `www` laufen dort sauber, HTTPS-Zertifikat ist ausgestellt (Trigger war
-  das erneute Setzen der Custom Domain — siehe `ai_agent_learnings.md`, Kategorie 2).
-
-**Es fehlt nur der Schnitt in Schritt 4.**
+- **Überbrückung GitHub Pages (29.09.2026, inzwischen entfernt):** Damit die verseuchte Plesk-Seite
+  sofort verschwand, zeigte die Domain vorübergehend auf GitHub Pages. Mit dem Nameserver-Wechsel
+  (30.09.2026) wurde sie überflüssig und wieder abgebaut — Custom Domain im Repo gelöscht, Pages
+  deaktiviert, `public/CNAME` und der `404.html`-Schritt entfernt, Workflow nur noch Cloudflare.
+  **Grund für das Entfernen:** die für GitHub gebaute `404.html` verdrängte auf Cloudflare die
+  `_redirects`-Regel (SPA-Fallback aus) — siehe `ai_agent_learnings.md`, Kategorie 24.
 
 ---
 
@@ -194,11 +198,18 @@ Die alte Zone bei `tldns.net` bleibt unangetastet. Nameserver beim Registrar zur
 `ns1.tldns.net` und `ns2.tldns.net` — nach wenigen Minuten ist alles wie vorher. **Nichts löschen**,
 solange die Mail nicht nachweislich läuft.
 
-## Schritt 7 — Danach
+## Schritt 7 — Danach / offene Reste
 
-- Plesk liefert die Website nicht mehr aus; **für die Mail bleibt es erreichbar** (`mail.`, `smtp.`,
-  `webmail.` … zeigen weiter dorthin).
-- Der `deploy`-Branch und der Plesk-Webhook können später weg.
-- **Aus Sicherheitsgründen:** Plesk-/FTP-Zugangsdaten erneuern, auch wenn die Website weg ist — die
-  Mail liegt weiter auf dem kompromittierten Server.
-- Optional und unabhängig: DMARC und DKIM einrichten (fehlen heute).
+**Erledigt am 30.09.2026:** Zone aktiv, Custom Domains aktiv, Zertifikat gültig; Startseite, `www`,
+tiefe Links (`/projects`, `/impressum`, `/for-recruiters`, unbekannte Pfade) und `/arcade/` liefern
+200; kein Malware-String; Mail-DNS unverändert (`MX → mail.daniel-zaiser.de`,
+`mail → 84.19.26.101`, Port 993 offen); Resend-Sende-Einträge (`send.send`,
+`resend._domainkey.send`) vorhanden. GitHub-Überbrückung entfernt, Workflow nur noch Cloudflare.
+
+**Noch offen:**
+
+- **Hoster:** die fremden PHP-Dateien im `httpdocs` durch TLDHost entfernen lassen; danach
+  **Plesk-/FTP-Passwörter erneuern**. Plesk bleibt nur für die Mail erreichbar.
+- **Mail-Test (Daniel):** eine Mail hin, eine zurück, `spf=pass` im Kopf prüfen — das kann nur er.
+- Optional: **DMARC und DKIM** einrichten (fehlen heute).
+- Der `deploy`-Branch auf GitHub ist jetzt ungenutzt und kann gelöscht werden.

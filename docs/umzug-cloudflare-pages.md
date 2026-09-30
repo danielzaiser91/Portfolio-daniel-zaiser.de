@@ -1,5 +1,9 @@
 # Umzug von daniel-zaiser.de auf Cloudflare Pages — Sammelstand
 
+> **Erledigt am 30.09.2026.** Der Umzug ist vollzogen (Zone aktiv, Custom Domains aktiv,
+> Zertifikat gültig); offene Reste stehen in `docs/anleitung-cloudflare-pages.md`, Schritt 7.
+> Dieses Dokument bleibt als Mess- und Entscheidungsgrundlage erhalten.
+
 **Angelegt am 28./29.09.2026 auf Daniels Wunsch** („cloudflare pages, sammle alle infos um mich
 anleiten zu können, tatsächliche anleitung erst morgen, auf anweisung"). Hier steht **alles
 Gemessene**, damit die Anleitung selbst kurz bleibt. Die Schritte sind bewusst nur skizziert.
