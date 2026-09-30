@@ -124,7 +124,6 @@ INWX seine eigenen Nameserver gesetzt, wäre die Delegation gekippt und Website 
 ausgefallen. Website (200), MX/Purelymail, DKIM und DMARC sind nach dem Transfer unverändert.
 
 
-damit die automatische Verlängerung 2027 nicht ins Leere läuft.
 
 ## Weiterleitung nach Gmail (30.09.2026, erledigt)
 
