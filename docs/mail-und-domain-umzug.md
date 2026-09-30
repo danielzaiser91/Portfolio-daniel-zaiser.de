@@ -32,6 +32,27 @@ werden. Die Kündigung steht deshalb in der TLDHost-Mail ausdrücklich **hinten*
 
 **Empfehlung: Migadu Micro.** Domain-Registrar: **INWX** (dort liegt schon `anime-kalender.de`).
 
+## Übernahme per API (geprüft 30.09.2026)
+
+Beide Dienste lassen sich automatisieren — **Migadu** vollständig:
+
+- **Migadu:** REST-API unter `https://api.migadu.com/v1/`, HTTP-Basic (Konto-Adresse + **API-Key**
+  aus *My Account → API Keys*). Abgedeckt: `domains` (anlegen, Records abrufen, `activate`,
+  `diagnostics`), `mailboxes` (anlegen/ändern), `aliases`, `identities`, `forwardings`, `rewrites`.
+  Damit lege ich Domain, Postfach und die 7 Aliase an und hole die nötigen DNS-Werte.
+- **INWX:** DomRobot-API (JSON-RPC, `https://api.domrobot.com/jsonrpc/`) mit **Domain-Transfer**
+  inkl. Auth-Code. Der vorhandene Unterbenutzer `dns-automation` hat Domain-/DNS-Rechte; für den
+  Transfer ggf. einen Unterbenutzer mit Transfer-Recht nötig.
+
+**Was nur Daniel machen kann:** Migadu-Konto anlegen und bezahlen (Stripe/PayPal), den **API-Key**
+erzeugen, den **Auth-Code** von TLDHost weitergeben, das **Postfach-Passwort** des alten
+TLDHost-Postfachs für die IMAP-Migration bereitstellen (liegt nicht in den Secrets), und kündigen
+(Vertragsinhaber).
+
+**Was ich dann übernehme:** Migadu-Domain + Postfach + Aliase anlegen, DNS-Records holen, in
+Cloudflare MX/SPF/DKIM/DMARC setzen und auf Migadu umstellen, alte Mails per IMAP migrieren,
+Domain nach DNS-Verifikation aktivieren, Transfer zu INWX auslösen, alles nachprüfen.
+
 ## Ablauf
 
 1. **Postfach beim neuen Anbieter anlegen** — `daniel-zaiser@daniel-zaiser.de` plus die 7 Aliase
