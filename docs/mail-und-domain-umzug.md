@@ -126,8 +126,9 @@ ausgefallen. Website (200), MX/Purelymail, DKIM und DMARC sind nach dem Transfer
 **Kosten:** 4,65 € für den Transfer (inkl. erstem Jahr), danach jährlich ~5–6 €. Bezahlt wird vom
 INWX-Guthaben; das Konto stand auf 0 €, in der Übersicht lag „Offene Aufträge: 1".
 
-**Noch zu tun (Daniel):** die 4,65 € begleichen bzw. eine Zahlungsart im INWX-Konto hinterlegen,
-damit die automatische Verlängerung 2027 nicht ins Leere läuft.
+**Bezahlt:** 4,65 € per PayPal am 30.09.2026 (Kontoauszug: Einzahlung 4,65 € / Proformarechnung
+−4,65 €, Endstand 0 €). Für die Verlängerungen (zwei Domains × zwei Jahre = 4 × 4,65 €) sind
+**18,60 €** aufzuladen; Verlängerungstermine 07.08.2027 und 29.09.2027.
 
 ## Weiterleitung nach Gmail (30.09.2026, erledigt)
 

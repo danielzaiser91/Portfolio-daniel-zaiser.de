@@ -45,8 +45,8 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    **Domain-Transfer erledigt (30.09.2026):** `daniel-zaiser.de` liegt jetzt bei **INWX**
    (Kundennr. 258229, roId 5440205), Nameserver **weiterhin Cloudflare**, `AUTORENEW` aktiv,
    Inhaber bestätigt, `transferLock` an. Website 200, Mail unverändert, DKIM/DMARC intakt.
-   **Offen:** die 4,65 € des Transfers begleichen bzw. eine Zahlungsart bei INWX hinterlegen
-   (Kontostand war 0 €, in der Übersicht stand „Offene Aufträge: 1"); TLDHost-Kündigung steht auf
+   **Offen:** nur noch Guthaben für die Verlängerungen (2 Jahre, beide Domains: **18,60 €**);
+   der Transfer selbst ist bezahlt (PayPal 4,65 €, 30.09.2026). TLDHost-Kündigung steht auf
    31.01.2027 (kann bei Bedarf früher beendet werden — die Domain hängt nicht mehr daran).
    Fahrplan: `docs/mail-und-domain-umzug.md`.
 
