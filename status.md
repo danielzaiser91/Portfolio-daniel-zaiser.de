@@ -31,13 +31,15 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
 2. **Komplett weg von TLDHost: Mail umziehen + Domain zu INWX transferieren** (Daniel,
    30.09.2026: „mail umziehen, kein tldhost mehr"). Ziel: Domain behalten, Mail bei einem
    sicheren/günstigen Anbieter.
-   **Erledigt:** Newsletter geprüft — der Anime-Kalender nutzt `daniel-zaiser.de` **nicht**
-   (Versand über `kalender@send.anime-kalender.de`/Resend, Kontakt `danielzaiser91@googlemail.com`);
-   Anbieter-Recherche (Empfehlung **Migadu Micro**, ≈17 €/Jahr; Alternative mailbox.org Standard,
-   36 €/Jahr, oder Zoho free ohne IMAP); Mail an TLDHost mit Auth-Code-Bitte, Abschaltung,
-   Malware-Löschung und **Kündigung erst nach abgeschlossenem Transfer** (30.09.2026 gesendet).
-   **Offen:** Auth-Code/Transfer-Lock von TLDHost, Anbieterwahl durch Daniel, dann Mailumzug
-   (IMAP), MX-Umstellung in Cloudflare, Transfer zu INWX. Fahrplan: `docs/mail-und-domain-umzug.md`.
+   **Erledigt:** Newsletter geprüft — der Anime-Kalender nutzt `daniel-zaiser.de` **nicht**;
+   Anbieter-Wahl **Purelymail** (10 $/Jahr, API); per API eingerichtet (30.09.2026):
+   Domain `daniel-zaiser.de` angelegt (SPF/DKIM/DMARC/MX alle „pass"), Postfach
+   `daniel-zaiser@daniel-zaiser.de`, die 7 Aliase als Routing-Regeln; DNS in Cloudflare gesetzt
+   und **MX auf `mailserver.purelymail.com` (Prio 50) umgestellt**. Ende-zu-Ende getestet:
+   Versand 250, Empfang über Alias `info@` mit `Delivered-To: daniel-zaiser@…`.
+   **Offen:** alte Mails per IMAP herüberziehen (braucht das **alte Postfach-Passwort** von
+   TLDHost), Domain-Transfer zu INWX (**Auth-Code**), danach TLDHost kündigen.
+   Fahrplan: `docs/mail-und-domain-umzug.md`.
 
 ### 3 · Zu besprechen
 
