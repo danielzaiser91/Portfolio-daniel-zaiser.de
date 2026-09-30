@@ -32,6 +32,23 @@ werden. Die Kündigung steht deshalb in der TLDHost-Mail ausdrücklich **hinten*
 
 **Empfehlung: Migadu Micro.** Domain-Registrar: **INWX** (dort liegt schon `anime-kalender.de`).
 
+## Weitere Anbieter mit API (geprüft 30.09.2026)
+
+Migadu hat die API erst ab **Mini** (90 $/Jahr) — deshalb hier die Alternativen, die **günstig sind
+und trotzdem eine API** haben:
+
+| Anbieter | Preis/Jahr | Eigene Domain | IMAP | API | Anmerkung |
+|---|---|---|---|---|---|
+| **Purelymail** | **10 $** | ✅ unbegrenzt | ✅ | ✅ (v0, **nicht offiziell dokumentiert**, funktioniert — Clients/MCP-Server existieren) | klein, ein Betreiber; API-Feldnamen teils inkonsistent → jeden Schritt nachprüfen |
+| **Zoho Mail Lite** | ~12 $ (1 Nutzer) | ✅ | ✅ | ✅ (Mail-Admin-API, **OAuth**, dokumentiert) | großer Anbieter; OAuth-Einrichtung aufwendiger, Free-Stufe hat **kein IMAP** |
+| **Migadu Mini** | 90 $ | ✅ | ✅ | ✅ (dokumentiert, Basic-Auth) | am einfachsten zu automatisieren, aber ~9× teurer als Purelymail |
+| MXroute | 59 $ | ✅ | ✅ | ~ (DirectAdmin, kein sauberes Provisioning) | unbegrenzt Mailboxen/Domains |
+| mailbox.org | 36 € | ✅ | ✅ | ❌ | kein Provisioning-API |
+
+**Fazit:** Für „günstig **und** mit API" ist **Purelymail (10 $/Jahr)** der klare Sieger. Will man
+die sauberste, dokumentierte Automatisierung, ist **Migadu Mini** die Wahl — kostet aber 90 $/Jahr.
+Zoho Lite ist der Mittelweg (dokumentierte API, großer Anbieter, OAuth-Aufwand).
+
 ## Übernahme per API (geprüft 30.09.2026)
 
 Beide Dienste lassen sich automatisieren — **Migadu** vollständig:
