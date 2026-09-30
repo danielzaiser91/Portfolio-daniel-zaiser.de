@@ -103,8 +103,17 @@ Header **`Purelymail-Api-Token`**) angelegt und geprüft:
 
 **Client-Zugang:** IMAP `imap.purelymail.com:993` (SSL), SMTP `smtp.purelymail.com:465` (SSL).
 
-**Noch offen:** alte Mails per IMAP von `mail.daniel-zaiser.de` (TLDHost) herüberziehen — dafür
-wird das **alte Postfach-Passwort** gebraucht; danach Domain-Transfer (Auth-Code) und Kündigung.
+**Noch offen:** Domain-Transfer (Auth-Code) und Kündigung.
+
+## Mail-Migration (30.09.2026, erledigt)
+
+Das alte Postfach-Passwort war nicht bekannt — Plesk zeigt es nicht an, nur setzen. Über das
+Plesk-Formular (`/smb/email-address/edit/id/1/domainId/4`) neu gesetzt: **`Umzug-TLD-2026!x`**
+(damit brechen alte Mail-Client-Zugänge zur TLDHost-Adresse — gewollt, die läuft aus).
+
+Alle Ordner per IMAP kopiert (`imaplib`, Skript lag nur temporär): **INBOX 17, Sent 1**;
+`INBOX.Spam/Trash/Drafts` waren leer. Auf Purelymail liegt damit der komplette Altbestand;
+am alten Server wurde **nichts gelöscht** (dient als Rückfall, bis gekündigt wird).
 
 ## Was parallel schon läuft
 

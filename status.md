@@ -37,8 +37,8 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    `daniel-zaiser@daniel-zaiser.de`, die 7 Aliase als Routing-Regeln; DNS in Cloudflare gesetzt
    und **MX auf `mailserver.purelymail.com` (Prio 50) umgestellt**. Ende-zu-Ende getestet:
    Versand 250, Empfang über Alias `info@` mit `Delivered-To: daniel-zaiser@…`.
-   **Offen:** alte Mails per IMAP herüberziehen (braucht das **alte Postfach-Passwort** von
-   TLDHost), Domain-Transfer zu INWX (**Auth-Code**), danach TLDHost kündigen.
+   **Offen:** Domain-Transfer zu INWX (**Auth-Code**) und danach TLDHost kündigen.
+   Alte Mails sind migriert (18 Nachrichten), altes Postfach-Passwort dazu neu gesetzt.
    Fahrplan: `docs/mail-und-domain-umzug.md`.
 
 ### 3 · Zu besprechen
