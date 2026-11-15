@@ -1,4 +1,5 @@
 import { LText } from '../core/i18n';
+import { PREVIEW_VERSIONS } from './preview-versions';
 
 export interface Project {
   /** Repository name on GitHub. */
@@ -42,7 +43,10 @@ const GH = 'https://github.com/danielzaiser91';
 const PAGES = 'https://danielzaiser91.github.io';
 
 export const repoUrl = (p: Project) => `${GH}/${p.publicRepo ?? p.name}`;
-export const previewUrl = (p: Project) => `images/previews/projects/${p.name}.webp`;
+/** The content hash gives a replaced image a new URL, so it loads at once instead of from cache. */
+export const previewPath = (name: string) =>
+  `images/previews/projects/${name}.webp?v=${PREVIEW_VERSIONS[name] ?? ''}`;
+export const previewUrl = (p: Project) => previewPath(p.name);
 
 /** Primary GitHub language per repo (from the API, 2026-11-15). */
 export const LANGUAGES: Record<string, string> = {
