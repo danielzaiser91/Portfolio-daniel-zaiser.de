@@ -115,7 +115,8 @@ const TARGETS = {
     `,
   },
   // Public repos without a live demo: the GitHub repo page (dark via --force-dark-mode).
-  'chrome-utilities': { url: `${GH}/chrome-utilities`, wait: 2500 },
+  // chrome-utilities is not captured here: its cover is built by tools/promo-covers.js
+  // (a repo file list says nothing about what the extension does).
   'bubble-notifications': { url: `${GH}/bubble-notifications`, wait: 2500 },
   'best_posts': { url: `${GH}/best_posts`, wait: 2500 },
   'custom-scrollbars': { url: `${GH}/custom-scrollbars`, wait: 2500 },
