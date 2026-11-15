@@ -22,7 +22,20 @@
       color: var(--text-2);
       font-size: 0.82rem;
     }
+
+    .sub {
+      margin-top: 0.15rem;
+      color: var(--text-2);
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      opacity: 0.85;
+    }
   }
+}
+
+.auto {
+  opacity: 0.75;
+  cursor: help;
 }
 
 .live-indicator {

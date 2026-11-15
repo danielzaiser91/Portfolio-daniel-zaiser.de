@@ -15,7 +15,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     // Home
     'home.hello': 'Hi, I’m',
     'home.role': 'Senior Software Developer',
-    'home.tagline': 'Frontend specialist — working professionally with Angular since July 2018.',
+    'home.tagline': 'Frontend specialist — working professionally with Angular since August 2018.',
     'home.pitch':
       'I build maintainable, fast web applications for a living — and playful experiments for fun. ' +
       'Currently migrating enterprise legacy systems to modern Angular at Funk Gruppe in Hamburg.',
@@ -61,7 +61,12 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.repo.private.tooltip': 'This repository is private — the code isn’t publicly browsable.',
     'projects.demo': 'Live demo',
     'projects.summary.projects': 'projects',
-    'projects.summary.commits': 'commits total',
+    'projects.summary.commits': 'commits by hand',
+    'projects.summary.auto': 'by bots',
+    'projects.summary.total': 'total',
+    'projects.commits.auto': 'by bots',
+    'projects.commits.auto.tooltip':
+      'Automated commits (data updates, version bumps via GitHub Actions and bots) are counted separately from hand-made ones.',
     'projects.summary.hours': 'estimated hours',
     'projects.summary.years': 'years of side projects',
     'projects.archive.title': 'The old website',
@@ -129,7 +134,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     // Home
     'home.hello': 'Hallo, ich bin',
     'home.role': 'Senior Software-Entwickler',
-    'home.tagline': 'Frontend-Spezialist — professionell mit Angular unterwegs seit Juli 2018.',
+    'home.tagline': 'Frontend-Spezialist — professionell mit Angular unterwegs seit August 2018.',
     'home.pitch':
       'Beruflich baue ich wartbare, schnelle Webanwendungen — privat verspielte Experimente. ' +
       'Aktuell migriere ich bei der Funk Gruppe in Hamburg Enterprise-Altsysteme in eine moderne Angular-Welt.',
@@ -175,7 +180,12 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.repo.private.tooltip': 'Dieses Repository ist privat — der Code ist nicht öffentlich einsehbar.',
     'projects.demo': 'Live-Demo',
     'projects.summary.projects': 'Projekte',
-    'projects.summary.commits': 'Commits gesamt',
+    'projects.summary.commits': 'Commits von Hand',
+    'projects.summary.auto': 'von Bots',
+    'projects.summary.total': 'gesamt',
+    'projects.commits.auto': 'von Bots',
+    'projects.commits.auto.tooltip':
+      'Automatische Commits (Daten-Updates, Versionssprünge per GitHub Actions und Bots) zähle ich getrennt von denen, die von Hand entstanden sind.',
     'projects.summary.hours': 'geschätzte Stunden',
     'projects.summary.years': 'Jahre Nebenprojekte',
     'projects.archive.title': 'Die alte Webseite',

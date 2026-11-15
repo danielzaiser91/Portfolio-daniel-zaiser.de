@@ -15,9 +15,9 @@ export class Home {
   protected readonly linkedin = LINKEDIN_URL;
   protected readonly github = GITHUB_URL;
 
-  /** Professional Angular experience, counted from July 2018. */
+  /** Professional Angular experience, counted from August 2018. */
   protected readonly yearsOfAngular = Math.floor(
-    (Date.now() - new Date(2018, 6, 1).getTime()) / (365.25 * 24 * 3600 * 1000),
+    (Date.now() - new Date(2018, 7, 1).getTime()) / (365.25 * 24 * 3600 * 1000),
   );
   protected readonly repoCount = PROJECTS.length;
 

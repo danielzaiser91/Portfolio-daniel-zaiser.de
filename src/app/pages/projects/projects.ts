@@ -61,6 +61,17 @@ export class Projects {
     return this.live.stats()[p.name]?.commits ?? p.commits;
   }
 
+  /** Commits made by hand; bot commits (see Project.manualCommits) are counted separately. */
+  protected manualOf(p: Project): number {
+    const total = this.commitsOf(p);
+    return Math.min(p.manualCommits ?? total, total);
+  }
+
+  /** Automated commits (data/version bots) = live total minus the hand-made snapshot. */
+  protected autoOf(p: Project): number {
+    return this.commitsOf(p) - this.manualOf(p);
+  }
+
   protected startedOf(p: Project): string {
     return this.live.stats()[p.name]?.started ?? p.started;
   }
@@ -84,6 +95,8 @@ export class Projects {
   // ===== Summary strip =====
   protected readonly projectCount = PROJECTS.length;
   protected readonly totalCommits = computed(() => PROJECTS.reduce((sum, p) => sum + this.commitsOf(p), 0));
+  protected readonly totalManual = computed(() => PROJECTS.reduce((sum, p) => sum + this.manualOf(p), 0));
+  protected readonly totalAuto = computed(() => this.totalCommits() - this.totalManual());
   protected readonly totalHours = PROJECTS.reduce((sum, p) => sum + p.estHours, 0);
   protected readonly yearsActive = computed(
     () => new Date().getFullYear() - Math.min(...PROJECTS.map((p) => +this.startedOf(p).slice(0, 4))),
