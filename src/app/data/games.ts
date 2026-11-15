@@ -4,6 +4,8 @@
  * Content is intentionally German only (target audience: friends).
  */
 
+import { previewPath } from './projects';
+
 export type GameCategory = 'idle' | 'party' | 'action' | 'story' | 'kreativ' | 'experiment' | 'tool';
 
 /** Section on the arcade page. Games only — minis/tools are deliberately not sold as games. */
@@ -51,7 +53,7 @@ export interface Game {
 const PAGES = 'https://danielzaiser91.github.io';
 const GH = 'https://github.com/danielzaiser91';
 /** Screenshot of the projects page (same repo name) — no second capture needed. */
-const shot = (repo: string) => `images/previews/projects/${repo}.webp`;
+const shot = previewPath;
 
 /** What the hover preview shows: the wide shot, else the capsule image, else nothing. */
 export const gamePreview = (g: Game): string | undefined => g.preview ?? g.image;
