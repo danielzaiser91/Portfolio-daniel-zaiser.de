@@ -21,62 +21,84 @@
 .featured-card {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.2rem 1.3rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 230px;
   border-radius: var(--radius);
   border: 1px solid var(--glass-border);
   color: var(--text-1);
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  isolation: isolate;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
-  &:hover {
-    text-decoration: none;
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-
-    .play-hint {
-      opacity: 1;
-    }
+  /* Screenshot fills the card; a dark gradient keeps the text readable on any image. */
+  .fshot {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.3s ease;
   }
 
-  .femoji {
-    font-size: 3rem;
-    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(5, 8, 18, 0) 0%, rgba(5, 8, 18, 0.35) 25%, rgba(5, 8, 18, 0.88) 55%, rgba(5, 8, 18, 0.97) 100%);
+  }
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: none;
+    transform: translateY(-3px);
+    border-color: rgba(53, 208, 186, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+
+    .fshot {
+      transform: scale(1.04);
+    }
   }
 
   .finfo {
-    flex: 1;
+    padding: 1rem 1.1rem 0.95rem;
 
     h3 {
       margin: 0 0 0.2rem;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
     }
 
     p {
-      margin: 0 0 0.4rem;
+      margin: 0 0 0.5rem;
       font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.88);
     }
   }
 
   .fmeta {
     display: flex;
-    gap: 1rem;
-    font-size: 0.8rem;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 1rem;
+    font-size: 0.78rem;
     font-family: var(--mono);
     color: rgba(255, 255, 255, 0.9);
   }
 
+  /* Always visible: touch devices have no hover, and it says what a tap does. */
   .play-hint {
-    position: absolute;
-    right: 1rem;
-    bottom: 0.8rem;
-    font-size: 0.8rem;
-    font-weight: 700;
+    margin-left: auto;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(184, 255, 158, 0.14);
+    border: 1px solid rgba(184, 255, 158, 0.45);
     color: #b8ff9e;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+    font-family: inherit;
+    font-weight: 700;
   }
 }
 
@@ -111,7 +133,8 @@
 }
 
 .chip {
-  padding: 0.35rem 0.9rem;
+  padding: 0.4rem 0.9rem;
+  min-height: 36px;
   border-radius: 999px;
   border: 1px solid var(--glass-border);
   background: transparent;
@@ -188,7 +211,7 @@
 /* ===== Library grid (Steam capsule cards) ===== */
 .library {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 1.1rem;
 }
 
@@ -201,13 +224,14 @@
   .capsule {
     display: grid;
     place-items: center;
-    aspect-ratio: 16 / 7;
+    aspect-ratio: 800 / 420;
     overflow: hidden;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: top center;
       transition: transform 0.25s ease;
     }
 
@@ -282,8 +306,101 @@
 }
 
 .empty {
-  grid-column: 1 / -1;
   text-align: center;
   padding: 2.5rem 0;
   font-size: 1.05rem;
+
+  p {
+    margin: 0 0 1rem;
+  }
+}
+
+.sec-count {
+  color: var(--text-2);
+  font-size: 0.8em;
+  font-weight: 400;
+}
+
+/* ===== Phones ===== */
+@media (max-width: 640px) {
+  /* Featured: one swipeable row instead of a tall stack, so the library stays close. */
+  .featured-grid {
+    display: flex;
+    gap: 0.8rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    margin-inline: -1.25rem;
+    padding: 0 1.25rem 0.6rem;
+    scroll-padding-inline: 1.25rem;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .featured-card {
+    flex: 0 0 82%;
+    min-height: 190px;
+    scroll-snap-align: start;
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .browse {
+    padding: 0.8rem;
+    gap: 0.7rem;
+  }
+
+  /* Chips in one scrolling row instead of four wrapped lines. */
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -0.8rem;
+    padding: 0 0.8rem 0.2rem;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .chip {
+    flex: 0 0 auto;
+    padding: 0.5rem 0.95rem;
+  }
+
+  .library {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .game {
+    .body {
+      padding: 0.95rem 1rem 1rem;
+    }
+
+    .desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .play {
+      align-self: stretch;
+      text-align: center;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-card,
+  .featured-card .fshot,
+  .game .capsule img,
+  .game .capsule .cemoji {
+    transition: none;
+  }
 }
