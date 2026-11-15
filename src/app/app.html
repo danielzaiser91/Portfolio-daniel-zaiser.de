@@ -10,7 +10,7 @@
       type="button"
       [class.open]="menuOpen()"
       (click)="menuOpen.set(!menuOpen())"
-      aria-label="Menu"
+      [attr.aria-label]="i18n.lang() === 'de' ? 'Menü' : 'Menu'"
       [attr.aria-expanded]="menuOpen()"
     >
       <span></span><span></span><span></span>
@@ -27,10 +27,10 @@
       }
 
       <div class="header-meta">
-        <div class="lang-toggle" role="group" aria-label="Language">
-          <button type="button" [class.active]="i18n.lang() === 'de'" (click)="i18n.set('de')">DE</button>
+        <div class="lang-toggle" role="group" [attr.aria-label]="i18n.lang() === 'de' ? 'Sprache' : 'Language'">
+          <button type="button" [class.active]="i18n.lang() === 'de'" [attr.aria-pressed]="i18n.lang() === 'de'" lang="de" aria-label="Deutsch" (click)="i18n.set('de')">DE</button>
           <span>/</span>
-          <button type="button" [class.active]="i18n.lang() === 'en'" (click)="i18n.set('en')">EN</button>
+          <button type="button" [class.active]="i18n.lang() === 'en'" [attr.aria-pressed]="i18n.lang() === 'en'" lang="en" aria-label="English" (click)="i18n.set('en')">EN</button>
         </div>
 
         <a [href]="github" target="_blank" rel="noopener" class="icon-link" aria-label="GitHub">

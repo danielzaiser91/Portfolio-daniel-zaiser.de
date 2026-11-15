@@ -20,7 +20,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'I build maintainable, fast web applications for a living — and playful experiments for fun. ' +
       'Currently migrating enterprise legacy systems to modern Angular at Funk Gruppe in Hamburg.',
     'home.stat.years': 'years of professional Angular',
-    'home.stat.repos': 'public repositories',
+    'home.stat.repos': 'side projects on GitHub',
     'home.stat.companies': 'companies',
     'home.stat.cert': 'certified Angular & TypeScript (top 10%)',
     'home.visitor.title': 'Here to look around?',
@@ -34,8 +34,16 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     // Projects
     'projects.title': 'Projects',
     'projects.lead':
-      'Everything public on my GitHub — split into serious work and fun experiments. ' +
-      'Time invested is an honest estimate; the stats come straight from the repositories.',
+      'What I build next to my job: the strongest projects first, everything else compact below. ' +
+      'Time invested is an honest estimate; commits and dates come straight from GitHub.',
+    'projects.featured': 'Selected projects',
+    'projects.featured.hint':
+      'In real use, technically deep, maintained over time — and ready to try right now.',
+    'projects.more': 'More projects',
+    'projects.cta.open': 'Open',
+    'projects.cta.code': 'Code',
+    'projects.repo.privateShort': 'private',
+    'projects.fresh': 'Worked on in the last 6 months',
     'projects.serious': 'Serious projects',
     'projects.guides': 'Guides & tooling',
     'projects.fun': 'Fun & experiments',
@@ -52,7 +60,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.repo.private': 'Private repository',
     'projects.repo.private.tooltip': 'This repository is private — the code isn’t publicly browsable.',
     'projects.demo': 'Live demo',
-    'projects.summary.projects': 'public projects',
+    'projects.summary.projects': 'projects',
     'projects.summary.commits': 'commits total',
     'projects.summary.hours': 'estimated hours',
     'projects.summary.years': 'years of side projects',
@@ -126,7 +134,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Beruflich baue ich wartbare, schnelle Webanwendungen — privat verspielte Experimente. ' +
       'Aktuell migriere ich bei der Funk Gruppe in Hamburg Enterprise-Altsysteme in eine moderne Angular-Welt.',
     'home.stat.years': 'Jahre professionelles Angular',
-    'home.stat.repos': 'öffentliche Repositories',
+    'home.stat.repos': 'Nebenprojekte auf GitHub',
     'home.stat.companies': 'Unternehmen',
     'home.stat.cert': 'zertifiziert in Angular & TypeScript (Top 10%)',
     'home.visitor.title': 'Einfach nur stöbern?',
@@ -140,8 +148,16 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     // Projects
     'projects.title': 'Projekte',
     'projects.lead':
-      'Alles Öffentliche von meinem GitHub — aufgeteilt in ernsthafte Projekte und Spaß-Experimente. ' +
-      'Der Zeitaufwand ist eine ehrliche Schätzung, die Statistiken kommen direkt aus den Repositories.',
+      'Was ich neben dem Beruf baue: oben die stärksten Projekte, darunter kompakt der Rest. ' +
+      'Der Zeitaufwand ist eine ehrliche Schätzung, Commits und Daten kommen direkt von GitHub.',
+    'projects.featured': 'Ausgewählte Projekte',
+    'projects.featured.hint':
+      'Im echten Einsatz, technisch tief, über längere Zeit gepflegt — und sofort ausprobierbar.',
+    'projects.more': 'Weitere Projekte',
+    'projects.cta.open': 'Ansehen',
+    'projects.cta.code': 'Code',
+    'projects.repo.privateShort': 'privat',
+    'projects.fresh': 'In den letzten 6 Monaten bearbeitet',
     'projects.serious': 'Ernsthafte Projekte',
     'projects.guides': 'Anleitungen & Werkzeuge',
     'projects.fun': 'Spaß & Experimente',
@@ -158,7 +174,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'projects.repo.private': 'Privates Repository',
     'projects.repo.private.tooltip': 'Dieses Repository ist privat — der Code ist nicht öffentlich einsehbar.',
     'projects.demo': 'Live-Demo',
-    'projects.summary.projects': 'öffentliche Projekte',
+    'projects.summary.projects': 'Projekte',
     'projects.summary.commits': 'Commits gesamt',
     'projects.summary.hours': 'geschätzte Stunden',
     'projects.summary.years': 'Jahre Nebenprojekte',

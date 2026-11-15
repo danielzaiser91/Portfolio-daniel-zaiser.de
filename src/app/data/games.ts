@@ -60,7 +60,7 @@ export const GAMES: Game[] = [
   // ===== 🎮 Spiele (fertig & spielbar) =====
   {
     title: 'Malazan \u2014 Das Buch der Gefallenen',
-    emoji: '\U0001F0CF',
+    emoji: '🃏',
     url: `${PAGES}/malazan-cyoa/`,
     kind: 'game',
     // Prolog und Kapitel 1 von elf. Spielbar und fertig erz\u00e4hlt bis dahin,
@@ -122,8 +122,8 @@ export const GAMES: Game[] = [
     playtime: '20–50+ Std.',
     situation: 'Für lange Abende, den Zweitmonitor und alle, die „nur noch ein Upgrade“ sagen.',
     description:
-      'Mein Herzensprojekt (246 Commits!): Ressourcen sammeln, Abenteuer bestehen, Prestige-Ebenen freischalten. Läuft auch nebenbei weiter — im Browser und auf dem Handy.',
-    tags: ['Idle', 'Incremental', 'Prestige', 'Browser & Handy'],
+      '„Chroniken des vergessenen Weges“: ein textbasiertes Incremental-RPG in vier Kapiteln, mit NPCs, Quests, Kämpfen, Bedürfnissen, Skillbaum und Musik. Mein Herzensprojekt (über 340 Commits) — läuft im Browser und auf dem Handy und spielt nebenbei weiter.',
+    tags: ['Idle', 'Text-RPG', 'Quests', 'Browser & Handy'],
     featured: true,
     preview: shot('incremental-adventure'),
   },
@@ -316,8 +316,8 @@ export const GAMES: Game[] = [
     playtime: 'täglich im Einsatz',
     situation: 'Browser-Extension, kein Spiel: erleichtert den Browser-Alltag.',
     description:
-      'Meine Chrome-Extension-Sammlung (195 Commits über 4 Jahre) — Utilities, die ich selbst täglich nutze. Installation steht im Repo.',
-    tags: ['Extension', 'Produktivität', 'Repo'],
+      'Browser-Erweiterung für 15 Streaming- und Videoseiten (YouTube, Netflix, Crunchyroll, Twitch …): Intro überspringen, Geschwindigkeit von 0,2× bis 5×, automatisch anmelden, deutsche Synchros hervorheben. Seit 2022 täglich im Einsatz, Installation steht im Repo.',
+    tags: ['Extension', 'Streaming', 'Produktivität', 'Repo'],
     preview: shot('chrome-utilities'),
   },
 

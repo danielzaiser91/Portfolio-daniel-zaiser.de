@@ -8,10 +8,11 @@
   </header>
 
   @if (featured.length > 0 && !search() && activeCategory() === 'alle') {
-    <section class="featured">
-      <h2>⭐ Empfohlen</h2>
+    <section class="featured" aria-labelledby="featured-title">
+      <h2 id="featured-title">⭐ Empfohlen</h2>
+      <!-- Grid on desktop, swipeable carousel on phones (see .featured-grid in the SCSS). -->
       <div class="featured-grid">
-        @for (g of featured; track g.title) {
+        @for (g of featured; track g.title; let first = $first) {
           <a
             class="featured-card"
             [href]="g.url"
@@ -21,47 +22,71 @@
             (mouseenter)="showPreview(g, $event)"
             (mouseleave)="hidePreview()"
           >
-            <span class="femoji">{{ g.emoji }}</span>
+            @if (gamePreview(g); as src) {
+              <img
+                class="fshot"
+                [src]="src"
+                alt=""
+                width="800"
+                height="420"
+                decoding="async"
+                [attr.loading]="first ? 'eager' : 'lazy'"
+              />
+            }
             <div class="finfo">
-              <h3>{{ g.title }}</h3>
+              <h3><span aria-hidden="true">{{ g.emoji }}</span> {{ g.title }}</h3>
               <p>{{ g.situation }}</p>
               <div class="fmeta">
                 <span>👥 {{ g.players }}</span>
                 <span>⏱️ {{ g.playtime }}</span>
+                <span class="play-hint" aria-hidden="true">▶ Spielen</span>
               </div>
             </div>
-            <span class="play-hint">▶ Spielen</span>
           </a>
         }
       </div>
     </section>
   }
 
-  <section class="browse glass">
+  <section class="browse glass" aria-label="Spiele filtern">
     <input
       class="search"
       type="search"
+      enterkeyhint="search"
+      aria-label="Spiele durchsuchen"
       placeholder="🔍 Suchen … (z. B. „Party“, „Idle“, „malen“)"
       [value]="search()"
       (input)="search.set($any($event.target).value)"
     />
-    <div class="chips">
-      <button type="button" class="chip" [class.active]="activeCategory() === 'alle'" (click)="activeCategory.set('alle')">
+    <div class="chips" role="group" aria-label="Kategorie">
+      <button
+        type="button"
+        class="chip"
+        [class.active]="activeCategory() === 'alle'"
+        [attr.aria-pressed]="activeCategory() === 'alle'"
+        (click)="activeCategory.set('alle')"
+      >
         Alle
       </button>
       @for (cat of categories; track cat) {
-        <button type="button" class="chip" [class.active]="activeCategory() === cat" (click)="activeCategory.set(cat)">
+        <button
+          type="button"
+          class="chip"
+          [class.active]="activeCategory() === cat"
+          [attr.aria-pressed]="activeCategory() === cat"
+          (click)="activeCategory.set(cat)"
+        >
           {{ label(cat) }}
         </button>
       }
     </div>
   </section>
 
-  <p class="count muted">{{ resultCount() }} Treffer</p>
+  <p class="count muted" aria-live="polite">{{ resultCount() }} Treffer</p>
 
   @for (section of sections(); track section.id) {
-    <section class="lib-section" [class.wip-section]="section.id === 'wip'">
-      <h2>{{ section.title }}</h2>
+    <section class="lib-section" [class.wip-section]="section.id === 'wip'" [attr.aria-labelledby]="'lib-' + section.id">
+      <h2 [id]="'lib-' + section.id">{{ section.title }} <span class="sec-count">({{ section.items.length }})</span></h2>
       <p class="hint muted">{{ section.hint }}</p>
       <div class="library">
         @for (g of section.items; track g.title) {
@@ -71,9 +96,18 @@
             (mouseenter)="showPreview(g, $event)"
             (mouseleave)="hidePreview()"
           >
-            <a class="capsule" [href]="g.url" target="_blank" rel="noopener" [style.background]="capsuleStyle(g)">
-              @if (g.image) {
-                <img [src]="g.image" [alt]="g.title" loading="lazy" />
+            <!-- Decorative duplicate of the play button: hidden from keyboard and screen readers. -->
+            <a
+              class="capsule"
+              [href]="g.url"
+              target="_blank"
+              rel="noopener"
+              tabindex="-1"
+              aria-hidden="true"
+              [style.background]="capsuleStyle(g)"
+            >
+              @if (gamePreview(g); as src) {
+                <img [src]="src" alt="" loading="lazy" decoding="async" width="800" height="420" />
               } @else {
                 <span class="cemoji">{{ g.emoji }}</span>
               }
@@ -82,7 +116,7 @@
               }
             </a>
             <div class="body">
-              <h3>{{ g.emoji }} {{ g.title }}</h3>
+              <h3><span aria-hidden="true">{{ g.emoji }}</span> {{ g.title }}</h3>
               <div class="tags">
                 @for (t of g.tags; track t) {
                   <span class="tag">{{ t }}</span>
@@ -97,7 +131,7 @@
               <p class="situation">📍 {{ g.situation }}</p>
               <p class="desc muted">{{ g.description }}</p>
               <a class="btn play" [class.primary]="!g.wip" [href]="g.url" target="_blank" rel="noopener">
-                {{ buttonLabel(g) }}
+                {{ buttonLabel(g) }}<span class="sr-only"> – {{ g.title }} (öffnet in neuem Tab)</span>
               </a>
             </div>
           </article>
@@ -105,7 +139,10 @@
       </div>
     </section>
   } @empty {
-    <p class="empty muted">Nichts gefunden 😢 — probier einen anderen Begriff oder eine andere Kategorie.</p>
+    <div class="empty">
+      <p class="muted">Nichts gefunden 😢 — probier einen anderen Begriff oder eine andere Kategorie.</p>
+      <button type="button" class="btn" (click)="reset()">Filter zurücksetzen</button>
+    </div>
   }
 
   @if (hoveredGame(); as hg) {

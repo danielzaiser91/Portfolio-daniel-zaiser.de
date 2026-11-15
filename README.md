@@ -28,12 +28,13 @@ yarn test       # unit tests
 
 ## Hosting
 
-The build output in `dist/portfolio/browser/` is fully static. Deploy notes:
+The build output in `dist/portfolio/browser/` is fully static. The live site runs on
+**Cloudflare Pages** (setup: `docs/anleitung-cloudflare-pages.md`). Deploy notes:
 
-1. Copy the contents of `dist/portfolio/browser/` to the webroot.
-2. A `.htaccess` with `FallbackResource /index.html` ships in `public/` and is included in every
-   build — it makes direct URLs like `/projects` or `/arcade` work on Apache/Plesk hosting.
-   On nginx, use `try_files $uri $uri/ /index.html;` instead.
+1. Cloudflare Pages builds with `yarn build` and serves `dist/portfolio/browser/`.
+2. `public/_redirects` (`/* /index.html 200`) makes direct URLs like `/projects` work.
+   For classic hosting there is still a `.htaccess` with `FallbackResource /index.html`
+   (Apache); on nginx, use `try_files $uri $uri/ /index.html;`.
 3. The old-site archive is emitted to `/archive/` automatically during the build.
 
 ## Privacy
