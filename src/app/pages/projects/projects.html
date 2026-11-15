@@ -7,12 +7,13 @@
       <span class="num">{{ projectCount }}</span>
       <span class="lbl">{{ i18n.t('projects.summary.projects') }}</span>
     </div>
-    <div class="sum">
-      <span class="num">{{ totalCommits() }}</span>
+    <div class="sum" [title]="i18n.t('projects.commits.auto.tooltip')">
+      <span class="num">{{ formatNumber(totalManual()) }}</span>
       <span class="lbl">{{ i18n.t('projects.summary.commits') }}</span>
+      <span class="sub">+ {{ formatNumber(totalAuto()) }} {{ i18n.t('projects.summary.auto') }} = {{ formatNumber(totalCommits()) }} {{ i18n.t('projects.summary.total') }}</span>
     </div>
     <div class="sum">
-      <span class="num">~{{ totalHours }}</span>
+      <span class="num">~{{ formatNumber(totalHours) }}</span>
       <span class="lbl">{{ i18n.t('projects.summary.hours') }}</span>
     </div>
     <div class="sum">
@@ -24,109 +25,135 @@
     </div>
   </div>
 
-  @for (section of sections; track section.id) {
-    <section>
-      <h2 class="section-title">{{ section.icon }} {{ i18n.t(section.titleKey) }} <span class="count">({{ section.items.length }})</span></h2>
-      @if (section.hintKey) {
-        <p class="section-hint muted">{{ i18n.t(section.hintKey) }}</p>
-      }
-      <div class="grid">
-        @for (p of section.items; track p.name) {
-          <article
-            class="card project"
-            [class.highlight]="p.highlight"
-            [class.guides]="section.id === 'guides'"
-            [class.fun]="section.id === 'fun'"
-            [class.abandoned]="section.id === 'abandoned'"
-            (mouseenter)="showPreview(p, $event)"
-            (mouseleave)="hidePreview()"
-          >
+  <!-- "4.696 Commits (+5.044 von Bots)": hand-made first, automated ones only where they exist. -->
+  <ng-template #commitInfo let-p>
+    {{ formatNumber(manualOf(p)) }} {{ i18n.t('projects.commits') }}
+    @if (autoOf(p) > 0) {
+      <span class="auto" [title]="i18n.t('projects.commits.auto.tooltip')">(+{{ formatNumber(autoOf(p)) }} {{ i18n.t('projects.commits.auto') }})</span>
+    }
+  </ng-template>
+
+  <!-- ===== Tier 1: the strongest projects, big ===== -->
+  <section aria-labelledby="featured-title">
+    <h2 class="section-title" id="featured-title">⭐ {{ i18n.t('projects.featured') }}</h2>
+    <p class="section-hint muted">{{ i18n.t('projects.featured.hint') }}</p>
+
+    <div class="featured">
+      @for (p of featured; track p.name; let first = $first) {
+        <article class="feat glass" [class.lead]="first">
+          <div class="feat-media" [class.no-shot]="!p.preview" aria-hidden="true">
             @if (p.preview) {
-              <div class="card-preview" aria-hidden="true">
-                <img [src]="previewUrl(p)" alt="" loading="lazy" decoding="async" width="800" height="420" />
+              <img
+                [src]="previewUrl(p)"
+                alt=""
+                width="800"
+                height="420"
+                decoding="async"
+                [attr.loading]="first ? 'eager' : 'lazy'"
+                [attr.fetchpriority]="first ? 'high' : null"
+              />
+            } @else {
+              <div class="feat-ph">
+                <span class="ph-name">{{ p.name }}</span>
+                <span class="ph-metric">{{ i18n.pick(p.featured.metric) }}</span>
               </div>
             }
-            <header>
-              <h3>{{ p.name }}</h3>
-              <span class="lang" [title]="langOf(p)">
-                <span class="lang-dot" [style.background]="langColor(p)"></span>{{ langOf(p) }}
-              </span>
-            </header>
+          </div>
+
+          <div class="feat-body">
+            <p class="metric">{{ i18n.pick(p.featured.metric) }}</p>
+            <h3>{{ p.name }}</h3>
+            <p class="benefit">{{ i18n.pick(p.featured.benefit) }}</p>
             <p class="desc">{{ i18n.pick(p.description) }}</p>
+
             <div class="tech-tags">
-              @for (t of p.tech; track t) {
+              @for (t of p.tech.slice(0, 5); track t) {
                 <span class="tag">{{ t }}</span>
               }
             </div>
 
-            <div class="viz">
-              <div class="tl">
-                <div class="tl-track">
-                  @for (y of gridYears(); track y) {
-                    <span class="tl-tick" [style.left.%]="tickLeft(y)" [attr.data-year]="y"></span>
-                  }
-                  <div
-                    class="tl-seg"
-                    [class.fresh]="freshness(p) === 'fresh'"
-                    [style.left.%]="tlLeft(p)"
-                    [style.width.%]="tlWidth(p)"
-                  ></div>
-                </div>
-                <div class="tl-labels">
-                  <span>{{ tlMin() }}</span>
-                  <span class="tl-span">{{ span(p) }}</span>
-                  <span>{{ i18n.lang() === 'de' ? 'heute' : 'today' }}</span>
-                </div>
-              </div>
+            <details class="learned">
+              <summary>{{ i18n.t('projects.knowledge') }}</summary>
+              <p>{{ i18n.pick(p.knowledge) }}</p>
+            </details>
 
-              <div class="stats">
-                <div class="stat">
-                  <span class="s-label">{{ i18n.t('projects.commits') }}</span>
-                  <div class="bar">
-                    <div class="fill" [style.width.%]="commitPct(p)"></div>
-                  </div>
-                  <span class="s-val">{{ commitsOf(p) }}</span>
-                </div>
-
-                <div class="stat-row">
-                  <div class="stat donut-stat" [title]="i18n.t('projects.estTime')">
-                    <svg viewBox="0 0 36 36" class="donut" aria-hidden="true">
-                      <circle class="ring" cx="18" cy="18" r="15.9155" />
-                      <circle class="val" cx="18" cy="18" r="15.9155" [style.stroke-dasharray]="hoursPct(p) + ' 100'" />
-                    </svg>
-                    <div class="s-col">
-                      <span class="s-val">~{{ p.estHours }} {{ i18n.t('projects.hours') }}</span>
-                      <span class="s-label">{{ i18n.t('projects.estTime') }}</span>
-                    </div>
-                  </div>
-
-                  <div class="stat fresh-stat" [title]="i18n.t('projects.lastTouched')">
-                    <span class="fresh-dot" [class]="freshness(p)"></span>
-                    <div class="s-col">
-                      <span class="s-val">{{ month(lastTouchedOf(p)) }}</span>
-                      <span class="s-label">{{ i18n.t('projects.lastTouched') }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p class="knowledge"><strong>{{ i18n.t('projects.knowledge') }}:</strong> {{ i18n.pick(p.knowledge) }}</p>
             <footer>
-              @if (!p.repoPrivate || p.publicRepo) {
-                <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.repo') }} ↗</a>
+              @if (p.demo) {
+                <a class="btn primary" [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.cta.open') }} ↗</a>
+              }
+              @if (hasRepoLink(p)) {
+                <a class="btn" [class.primary]="!p.demo" [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.cta.code') }} ↗</a>
               } @else {
                 <span class="private-badge" [title]="i18n.t('projects.repo.private.tooltip')">🔒 {{ i18n.t('projects.repo.private') }}</span>
               }
-              @if (p.demo) {
-                <a [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.demo') }} ↗</a>
-              }
+              <span class="meta">
+                <span class="lang"><span class="lang-dot" [style.background]="langColor(p)"></span>{{ langOf(p) }}</span>
+                · <ng-container *ngTemplateOutlet="commitInfo; context: { $implicit: p }" /> · {{ span(p) }}
+              </span>
             </footer>
-          </article>
-        }
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- ===== Tier 2: everything else, compact ===== -->
+  <h2 class="section-title more-title">{{ i18n.t('projects.more') }}</h2>
+
+  <ng-template #item let-p>
+    <li class="item" (mouseenter)="showPreview(p, $event)" (mouseleave)="hidePreview()">
+      <div class="item-head">
+        <h4>{{ p.name }}</h4>
+        <span class="lang"><span class="lang-dot" [style.background]="langColor(p)"></span>{{ langOf(p) }}</span>
       </div>
-    </section>
+      <p class="item-desc">{{ i18n.pick(p.description) }}</p>
+      <div class="item-foot">
+        <span class="item-meta">
+          @if (isFresh(p)) {
+            <span class="fresh-dot" [title]="i18n.t('projects.fresh')"></span>
+          }
+          <ng-container *ngTemplateOutlet="commitInfo; context: { $implicit: p }" /> · {{ span(p) }}
+        </span>
+        <span class="item-links">
+          @if (p.demo) {
+            <a [href]="p.demo" target="_blank" rel="noopener">{{ i18n.t('projects.demo') }} ↗</a>
+          }
+          @if (hasRepoLink(p)) {
+            <a [href]="repoUrl(p)" target="_blank" rel="noopener">{{ i18n.t('projects.cta.code') }} ↗</a>
+          } @else {
+            <span class="private-badge" [title]="i18n.t('projects.repo.private.tooltip')">🔒 {{ i18n.t('projects.repo.privateShort') }}</span>
+          }
+        </span>
+      </div>
+    </li>
+  </ng-template>
+
+  @for (section of sections; track section.id) {
+    @if (section.items.length) {
+      <section class="compact-section" [attr.aria-labelledby]="'sec-' + section.id">
+        <h3 class="sub-title" [id]="'sec-' + section.id">
+          {{ section.icon }} {{ i18n.t(section.titleKey) }} <span class="count">({{ section.items.length }})</span>
+        </h3>
+        <ul class="list">
+          @for (p of section.items; track p.name) {
+            <ng-container [ngTemplateOutlet]="item" [ngTemplateOutletContext]="{ $implicit: p }" />
+          }
+        </ul>
+      </section>
+    }
   }
+
+  <details class="more-details compact-section">
+    <summary>
+      🚧 {{ i18n.t('projects.abandoned') }} <span class="count">({{ abandoned.length }})</span>
+    </summary>
+    <p class="section-hint muted">{{ i18n.t('projects.abandoned.hint') }}</p>
+    <ul class="list abandoned">
+      @for (p of abandoned; track p.name) {
+        <ng-container [ngTemplateOutlet]="item" [ngTemplateOutletContext]="{ $implicit: p }" />
+      }
+    </ul>
+  </details>
 
   @if (hoveredPreview(); as hp) {
     <aside class="rich-preview" [style.left.px]="previewPos().x" [style.top.px]="previewPos().y" aria-hidden="true">
@@ -136,11 +163,7 @@
           <span class="lang-dot" [style.background]="langColor(hp)"></span>{{ langOf(hp) }}
         </span>
       </header>
-      @if (hp.preview) {
-        <img [src]="previewUrl(hp)" alt="" decoding="async" width="800" height="420" />
-      } @else {
-        <div class="rp-ph">🔒<span>{{ i18n.t('projects.repo.private') }}</span></div>
-      }
+      <img [src]="previewUrl(hp)" alt="" decoding="async" width="800" height="420" />
       <footer class="rp-src">{{ i18n.t(hp.demo ? 'projects.demo' : 'projects.repo') }}</footer>
     </aside>
   }

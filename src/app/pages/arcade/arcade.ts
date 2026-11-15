@@ -92,6 +92,11 @@ export class Arcade {
     return `linear-gradient(135deg, hsl(${hash} 55% 28%), hsl(${(hash + 50) % 360} 65% 14%))`;
   }
 
+  protected reset(): void {
+    this.search.set('');
+    this.activeCategory.set('alle');
+  }
+
   protected label(cat: GameCategory): string {
     return CATEGORY_LABELS[cat];
   }

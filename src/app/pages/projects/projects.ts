@@ -1,13 +1,27 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { I18n } from '../../core/i18n';
 import { GithubLiveStats } from '../../core/github-live';
 import { HoverPreview } from '../../core/hover-preview';
 import { LANGUAGES, LANGUAGE_COLORS, PROJECTS, Project, previewUrl, repoUrl } from '../../data/projects';
 
+/**
+ * Order of the big "Ausgewählte Projekte" cards. Only projects with `featured` data in
+ * projects.ts may appear here; the order is by strength, not by date.
+ */
+const FEATURED_ORDER = [
+  'anime-kalender-de',
+  'chrome-utilities',
+  'obs-disk-replay-buffer',
+  'stardust-to-singularity',
+  'incremental-adventure',
+  'malazan-cyoa',
+];
+
 @Component({
   selector: 'app-projects',
-  imports: [RouterLink],
+  imports: [RouterLink, NgTemplateOutlet],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
   // The floating preview is anchored to fixed coordinates captured at mouseenter;
@@ -26,18 +40,36 @@ export class Projects {
     this.live.ensure(PROJECTS.map((p) => p.name));
   }
 
+  protected readonly featured = FEATURED_ORDER.map((n) => PROJECTS.find((p) => p.name === n)).filter(
+    (p): p is Project & { featured: NonNullable<Project['featured']> } => !!p?.featured,
+  );
+
+  private readonly rest = PROJECTS.filter((p) => !FEATURED_ORDER.includes(p.name));
+
+  /** Compact sections below the featured block; unfinished work goes behind a <details>. */
   protected readonly sections = [
-    { id: 'serious', icon: '💼', titleKey: 'projects.serious', hintKey: '', items: PROJECTS.filter((p) => p.category === 'serious') },
-    { id: 'guides', icon: '📘', titleKey: 'projects.guides', hintKey: '', items: PROJECTS.filter((p) => p.category === 'guides') },
-    { id: 'fun', icon: '🎮', titleKey: 'projects.fun', hintKey: '', items: PROJECTS.filter((p) => p.category === 'fun') },
-    { id: 'abandoned', icon: '🚧', titleKey: 'projects.abandoned', hintKey: 'projects.abandoned.hint', items: PROJECTS.filter((p) => p.category === 'abandoned') },
+    { id: 'serious', icon: '💼', titleKey: 'projects.serious', items: this.rest.filter((p) => p.category === 'serious') },
+    { id: 'guides', icon: '📘', titleKey: 'projects.guides', items: this.rest.filter((p) => p.category === 'guides') },
+    { id: 'fun', icon: '🎮', titleKey: 'projects.fun', items: this.rest.filter((p) => p.category === 'fun') },
   ];
+  protected readonly abandoned = this.rest.filter((p) => p.category === 'abandoned');
 
   // ===== Live-or-fallback field access =====
   // Commits/dates/language come live from GitHub when available (see GithubLiveStats),
   // falling back to the curated snapshot in data/projects.ts otherwise.
   protected commitsOf(p: Project): number {
     return this.live.stats()[p.name]?.commits ?? p.commits;
+  }
+
+  /** Commits made by hand; bot commits (see Project.manualCommits) are counted separately. */
+  protected manualOf(p: Project): number {
+    const total = this.commitsOf(p);
+    return Math.min(p.manualCommits ?? total, total);
+  }
+
+  /** Automated commits (data/version bots) = live total minus the hand-made snapshot. */
+  protected autoOf(p: Project): number {
+    return this.commitsOf(p) - this.manualOf(p);
   }
 
   protected startedOf(p: Project): string {
@@ -56,63 +88,26 @@ export class Projects {
     return LANGUAGE_COLORS[this.langOf(p)] ?? 'var(--text-2)';
   }
 
+  protected hasRepoLink(p: Project): boolean {
+    return !p.repoPrivate || !!p.publicRepo;
+  }
+
   // ===== Summary strip =====
   protected readonly projectCount = PROJECTS.length;
   protected readonly totalCommits = computed(() => PROJECTS.reduce((sum, p) => sum + this.commitsOf(p), 0));
+  protected readonly totalManual = computed(() => PROJECTS.reduce((sum, p) => sum + this.manualOf(p), 0));
+  protected readonly totalAuto = computed(() => this.totalCommits() - this.totalManual());
   protected readonly totalHours = PROJECTS.reduce((sum, p) => sum + p.estHours, 0);
-
-  // ===== Shared timeline axis: all cards use the same year scale =====
-  private readonly yearFraction = (ym: string): number => {
-    const [y, m] = ym.split('-').map(Number);
-    return y + (m - 1) / 12;
-  };
-
-  protected readonly tlMin = computed(() =>
-    Math.floor(Math.min(...PROJECTS.map((p) => this.yearFraction(this.startedOf(p))))),
+  protected readonly yearsActive = computed(
+    () => new Date().getFullYear() - Math.min(...PROJECTS.map((p) => +this.startedOf(p).slice(0, 4))),
   );
-  protected readonly tlMax = computed(
-    () => Math.ceil(Math.max(...PROJECTS.map((p) => this.yearFraction(this.lastTouchedOf(p))))) + 0.5,
-  );
-  protected readonly gridYears = computed(() => {
-    const min = this.tlMin();
-    const max = this.tlMax();
-    return Array.from({ length: Math.floor(max) - min - 1 }, (_, i) => min + i + 1);
-  });
-  protected readonly yearsActive = computed(() => Math.floor(this.tlMax()) - this.tlMin());
 
-  private readonly maxCommits = computed(() => Math.max(...PROJECTS.map((p) => this.commitsOf(p))));
-  private readonly maxHours = Math.max(...PROJECTS.map((p) => p.estHours));
-
-  protected tickLeft(year: number): number {
-    return ((year - this.tlMin()) / (this.tlMax() - this.tlMin())) * 100;
-  }
-
-  protected tlLeft(p: Project): number {
-    return this.tickLeft(this.yearFraction(this.startedOf(p)));
-  }
-
-  protected tlWidth(p: Project): number {
-    const min = this.tlMin();
-    const max = this.tlMax();
-    const raw = ((this.yearFraction(this.lastTouchedOf(p)) + 1 / 12 - this.yearFraction(this.startedOf(p))) / (max - min)) * 100;
-    return Math.max(raw, 2.5);
-  }
-
-  /** Log scale so 246 commits don't flatten everything else. */
-  protected commitPct(p: Project): number {
-    return (Math.log(this.commitsOf(p) + 1) / Math.log(this.maxCommits() + 1)) * 100;
-  }
-
-  protected hoursPct(p: Project): number {
-    return (Math.log(p.estHours + 1) / Math.log(this.maxHours + 1)) * 100;
-  }
-
-  /** Freshness of lastTouched relative to today: fresh <6 months, warm <18, else cold. */
-  protected freshness(p: Project): 'fresh' | 'warm' | 'cold' {
+  /** Fresh = touched within the last 6 months; drives the small green dot. */
+  protected isFresh(p: Project): boolean {
     const lastTouched = this.lastTouchedOf(p);
     const now = new Date();
     const months = (now.getFullYear() - +lastTouched.slice(0, 4)) * 12 + (now.getMonth() + 1 - +lastTouched.slice(5, 7));
-    return months < 6 ? 'fresh' : months < 18 ? 'warm' : 'cold';
+    return months < 6;
   }
 
   // ===== Rich hover preview (shared with the arcade page, see HoverPreview) =====
@@ -121,7 +116,9 @@ export class Projects {
   protected readonly previewPos = this.preview.pos;
 
   protected showPreview(p: Project, ev: MouseEvent): void {
-    this.preview.show(p, ev);
+    if (p.preview) {
+      this.preview.show(p, ev);
+    }
   }
 
   protected hidePreview(): void {
@@ -138,5 +135,9 @@ export class Projects {
     const from = this.month(this.startedOf(p));
     const to = this.month(this.lastTouchedOf(p));
     return from === to ? from : `${from} – ${to}`;
+  }
+
+  protected formatNumber(n: number): string {
+    return n.toLocaleString(this.i18n.lang() === 'de' ? 'de-DE' : 'en-US');
   }
 }

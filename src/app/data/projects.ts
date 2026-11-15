@@ -8,6 +8,13 @@ export interface Project {
   description: LText;
   knowledge: LText;
   commits: number;
+  /**
+   * Commits made by hand (me, or an AI agent on my behalf) — only set for repos where bots
+   * (GitHub Actions, data/version bots) also commit. Snapshot from 2026-11-15, counted by
+   * author on GitHub. The page derives "automated" as live total minus this, so ongoing bot
+   * commits never inflate the hand-made count.
+   */
+  manualCommits?: number;
   /** YYYY-MM of first commit / repo creation. */
   started: string;
   /** YYYY-MM of last push. */
@@ -19,6 +26,12 @@ export interface Project {
   /** Set when a hover-preview screenshot exists at public/images/previews/projects/<name>.webp. */
   preview?: boolean;
   highlight?: boolean;
+  /**
+   * Set for the few projects shown big under "Ausgewählte Projekte". Criteria: real use
+   * (live site or daily tool), technical depth, sustained work, and something a visitor can
+   * open right now. `metric` is one hard, checkable number; `benefit` says who gains what.
+   */
+  featured?: { metric: LText; benefit: LText };
   /** True when the repo is private — hide the (dead-for-visitors) repo link, show a badge instead. */
   repoPrivate?: boolean;
   /** Public companion repo (e.g. a build mirror) to link instead when the source repo is private. */
@@ -31,9 +44,12 @@ const PAGES = 'https://danielzaiser91.github.io';
 export const repoUrl = (p: Project) => `${GH}/${p.publicRepo ?? p.name}`;
 export const previewUrl = (p: Project) => `images/previews/projects/${p.name}.webp`;
 
-/** Primary GitHub language per repo (from the API, 2026-07-05). */
+/** Primary GitHub language per repo (from the API, 2026-11-15). */
 export const LANGUAGES: Record<string, string> = {
   'anime-kalender-de': 'TypeScript',
+  'anime-kalender-nativ': 'JavaScript',
+  'obs-disk-replay-buffer': 'Lua',
+  'geoguessr-clues': 'Markdown',
   'chrome-utilities': 'JavaScript',
   'homestream': 'Shell',
   'bubble-notifications': 'JavaScript',
@@ -49,7 +65,7 @@ export const LANGUAGES: Record<string, string> = {
   'ratespiel-wer-bin-ich': 'JavaScript',
   'anime-adventure': 'TypeScript',
   'cosmic-forge': 'GDScript',
-  'endless-arena': 'HTML',
+  'endless-arena': 'TypeScript',
   'revolution-idle-clone': 'JavaScript',
   'angular-clicker': 'TypeScript',
   'incremental_adventure__dirty': 'JavaScript',
@@ -72,11 +88,13 @@ export const LANGUAGE_COLORS: Record<string, string> = {
   Shell: '#89e051',
   GDScript: '#478cbf',
   Python: '#3572A5',
+  Lua: '#000080',
+  Markdown: '#083fa1',
 };
 
 /**
  * Curated project data. Commits/started/lastTouched/language below are a snapshot from
- * 2026-07-05 and serve as the fallback baseline — the projects page (see GithubLiveStats)
+ * 2026-11-15 and serve as the fallback baseline — the projects page (see GithubLiveStats)
  * fetches these live from the public GitHub API at runtime and overlays them reactively,
  * falling back to this snapshot only if the live fetch fails or a repo is unreachable
  * (e.g. private). Everything else (description, knowledge, category, estHours, tech tags)
@@ -97,31 +115,91 @@ export const PROJECTS: Project[] = [
       en: 'Building a dataset nobody publishes: German dub times exist only inside a JavaScript-rendered streaming calendar and one provider API that happens to expose a language code per episode. Everything derived is marked as derived, and a claimed date with no evidence in the scanned window gets dropped rather than shown. Also: hash routing cannot carry a link preview, so every release gets a real prerendered page — and the address bar rewrites itself to it.',
       de: 'Einen Datenbestand aufbauen, den niemand veröffentlicht: Deutsche Sendezeiten stehen nur in einem JS-gerenderten Streaming-Kalender und in einer Anbieter-Schnittstelle, die je Folge den Sprachcode ausweist. Abgeleitetes wird als abgeleitet gekennzeichnet, und ein behaupteter Termin ohne Beleg im abgesuchten Zeitraum fliegt raus, statt angezeigt zu werden. Außerdem: Hash-Routing kann keine Linkvorschau tragen — deshalb bekommt jedes Release eine echte vorgerenderte Seite, und die Adressleiste schreibt sich selbst darauf um.',
     },
-    commits: 28,
+    commits: 9740,
+    manualCommits: 4696,
     started: '2026-08',
-    lastTouched: '2026-08',
-    estHours: 40,
+    lastTouched: '2026-11',
+    estHours: 200,
     demo: 'https://anime-kalender.de',
+    preview: true,
     highlight: true,
+    featured: {
+      metric: { en: '2,900+ titles, updated daily', de: '2.900+ Titel, täglich aktualisiert' },
+      benefit: {
+        en: 'Anyone who watches anime in German sees at a glance what airs with a dub this week, and can subscribe to it in their own calendar.',
+        de: 'Wer Anime auf Deutsch schaut, sieht auf einen Blick, was diese Woche mit Synchro läuft, und kann es im eigenen Kalender abonnieren.',
+      },
+    },
+  },
+  {
+    name: 'anime-kalender-nativ',
+    category: 'serious',
+    tech: ['JavaScript', 'ES Modules', 'HTML', 'CSS', 'GitHub Pages'],
+    description: {
+      en: 'Lean twin of anime-kalender.de: the same German-dub data as week and month views with search, news, season and calendar feed, in plain HTML, CSS and ES modules. No dependencies, no server, no tracking.',
+      de: 'Schlanker Zwilling von anime-kalender.de: dieselben Synchro-Daten als Wochen- und Monatsansicht mit Suche, News, Saison und Kalender-Abo, in reinem HTML, CSS und ES-Modulen. Ohne Abhängigkeiten, ohne Server, ohne Tracking.',
+    },
+    knowledge: {
+      en: 'How much of a React app survives without a framework: the data comes hourly from the public main repo, so the twin needs no backend at all.',
+      de: 'Wie viel von einer React-App ohne Framework übrig bleibt: Die Daten kommen stündlich aus dem öffentlichen Haupt-Repo, der Zwilling braucht also gar kein Backend.',
+    },
+    commits: 9,
+    started: '2026-10',
+    lastTouched: '2026-11',
+    estHours: 15,
+    demo: `${PAGES}/anime-kalender-nativ/`,
+    preview: true,
+  },
+  {
+    name: 'obs-disk-replay-buffer',
+    category: 'serious',
+    tech: ['Lua', 'OBS Studio', 'ffmpeg', 'Windows'],
+    description: {
+      en: 'A 30-minute replay buffer for OBS that lives on disk instead of in RAM: OBS records all the time, keeps only the last 30 minutes in 1080p60, and Alt+F10 saves everything since the last save as one video. Windows, one-click setup.',
+      de: 'Ein 30-Minuten-Replay-Buffer für OBS, der auf der Festplatte statt im RAM liegt: OBS nimmt dauernd auf, behält nur die letzten 30 Minuten in 1080p60, und Alt+F10 speichert alles seit dem letzten Speichern als ein Video. Windows, Einrichtung mit einem Klick.',
+    },
+    knowledge: {
+      en: 'Scripting OBS from Lua, rewriting a recording profile safely, rolling segments that get joined with ffmpeg, and a placeholder file so a clip never looks finished before it is.',
+      de: 'OBS per Lua skripten, ein Aufnahmeprofil sicher umschreiben, rollierende Segmente, die ffmpeg zusammenfügt, und eine Platzhalter-Datei, damit ein Clip nie fertig aussieht, bevor er es ist.',
+    },
+    commits: 14,
+    started: '2026-10',
+    lastTouched: '2026-11',
+    estHours: 20,
+    featured: {
+      metric: { en: '9× less RAM, under 1 % CPU', de: '9× weniger RAM, unter 1 % CPU' },
+      benefit: {
+        en: 'Gamers keep the last 30 minutes as a clip without OBS eating gigabytes of memory.',
+        de: 'Wer spielt, behält die letzten 30 Minuten als Clip, ohne dass OBS Gigabytes an Arbeitsspeicher frisst.',
+      },
+    },
   },
   {
     name: 'chrome-utilities',
     category: 'serious',
     tech: ['JavaScript', 'Chrome Extension', 'Manifest V3'],
     description: {
-      en: 'A steadily growing collection of Chrome extensions and browser utilities I actually use every day — my longest-running side project.',
-      de: 'Eine stetig wachsende Sammlung von Chrome-Extensions und Browser-Utilities, die ich täglich selbst nutze — mein am längsten laufendes Nebenprojekt.',
+      en: 'A browser extension for 15 streaming and video sites (YouTube, Netflix, Disney+, Crunchyroll, Prime Video, Twitch and more): skips intros, sets playback speed from 0.2× to 5×, logs in automatically and highlights German dubs. In daily use since 2022, now at v1.16.',
+      de: 'Eine Browser-Erweiterung für 15 Streaming- und Videoseiten (YouTube, Netflix, Disney+, Crunchyroll, Prime Video, Twitch und mehr): überspringt Intros, stellt die Geschwindigkeit von 0,2× bis 5× ein, meldet automatisch an und hebt deutsche Synchros hervor. Seit 2022 täglich im Einsatz, inzwischen v1.16.',
     },
     knowledge: {
-      en: 'Chrome Extension APIs, Manifest V3 migration, content scripts, long-term maintenance of a personal toolset.',
-      de: 'Chrome-Extension-APIs, Manifest-V3-Migration, Content Scripts, Langzeitpflege eines eigenen Toolsets.',
+      en: 'Chrome Extension APIs, Manifest V3 migration, content scripts against 15 sites that change their markup without warning, long-term maintenance of a personal toolset.',
+      de: 'Chrome-Extension-APIs, Manifest-V3-Migration, Content Scripts gegen 15 Seiten, die ihr Markup ohne Vorwarnung ändern, Langzeitpflege eines eigenen Toolsets.',
     },
-    commits: 195,
+    commits: 474,
+    manualCommits: 456,
     started: '2022-09',
-    lastTouched: '2026-06',
-    estHours: 180,
+    lastTouched: '2026-11',
+    estHours: 250,
     preview: true,
     highlight: true,
+    featured: {
+      metric: { en: '15 sites, maintained since 2022', de: '15 Seiten, gepflegt seit 2022' },
+      benefit: {
+        en: 'Saves the same clicks on every episode: no intro, the right speed, already logged in.',
+        de: 'Spart bei jeder Folge dieselben Klicks: kein Intro, die richtige Geschwindigkeit, schon angemeldet.',
+      },
+    },
   },
   {
     name: 'homestream',
@@ -155,9 +233,9 @@ export const PROJECTS: Project[] = [
       en: 'API design for libraries, CSS animation performance, publishing reusable code.',
       de: 'API-Design für Libraries, Performance von CSS-Animationen, Veröffentlichen von wiederverwendbarem Code.',
     },
-    commits: 26,
+    commits: 35,
     started: '2021-02',
-    lastTouched: '2023-12',
+    lastTouched: '2026-08',
     estHours: 30,
     preview: true,
   },
@@ -228,9 +306,9 @@ export const PROJECTS: Project[] = [
       en: 'Scroll APIs, browser inconsistencies, progressive enhancement.',
       de: 'Scroll-APIs, Browser-Inkonsistenzen, Progressive Enhancement.',
     },
-    commits: 4,
+    commits: 5,
     started: '2023-03',
-    lastTouched: '2023-03',
+    lastTouched: '2026-08',
     estHours: 6,
     preview: true,
   },
@@ -246,10 +324,10 @@ export const PROJECTS: Project[] = [
       en: 'Working to someone else’s wishes, fast iteration on visual feedback.',
       de: 'Nach fremden Wünschen arbeiten, schnelle Iteration auf visuelles Feedback.',
     },
-    commits: 2,
+    commits: 86,
     started: '2021-02',
-    lastTouched: '2021-02',
-    estHours: 10,
+    lastTouched: '2026-10',
+    estHours: 35,
     preview: true,
   },
   {
@@ -282,9 +360,9 @@ export const PROJECTS: Project[] = [
       en: 'Modern Angular 21 in practice — and how to give a legacy site a dignified home inside its successor.',
       de: 'Modernes Angular 21 in der Praxis — und wie man einer alten Webseite ein würdiges Zuhause im Nachfolger gibt.',
     },
-    commits: 12,
+    commits: 61,
     started: '2021-02',
-    lastTouched: '2026-07',
+    lastTouched: '2026-09',
     estHours: 100,
     demo: 'https://daniel-zaiser.de',
     preview: true,
@@ -302,10 +380,10 @@ export const PROJECTS: Project[] = [
       en: 'Small data-pipeline design (per-country JSON → build script → static site feed), vendoring a 3D library for offline/CDN-free operation, respecting a CC BY-NC-SA source license in a derivative.',
       de: 'Kleines Datenpipeline-Design (JSON pro Land → Build-Skript → Datenfeed der Seite), eine 3D-Library vendored für Offline-/CDN-freien Betrieb, Umgang mit einer CC-BY-NC-SA-Quelllizenz in einem Derivat.',
     },
-    commits: 20,
+    commits: 178,
     started: '2026-07',
     lastTouched: '2026-07',
-    estHours: 18,
+    estHours: 30,
     demo: `${PAGES}/geoguessr-hints`,
     preview: true,
   },
@@ -327,6 +405,23 @@ export const PROJECTS: Project[] = [
     started: '2026-08',
     lastTouched: '2026-08',
     estHours: 5,
+  },
+  {
+    name: 'geoguessr-clues',
+    category: 'guides',
+    tech: ['Technical Writing', 'Research', 'GeoGuessr'],
+    description: {
+      en: 'A lexicon of clues that split lookalike countries in GeoGuessr (Hungary vs. Croatia, the Baltics, Scandinavia …) and pin regions inside big ones (US, Canadian, Australian, Indian states). One line per clue, the deciding country in bold, no prose.',
+      de: 'Ein Lexikon der Hinweise, die in GeoGuessr ähnliche Länder auseinanderhalten (Ungarn gegen Kroatien, das Baltikum, Skandinavien …) und Regionen in großen Ländern verorten (Bundesstaaten der USA, Kanadas, Australiens, Indiens). Eine Zeile pro Hinweis, das entscheidende Land fett, keine Prosa.',
+    },
+    knowledge: {
+      en: 'Writing for a glance instead of a read, and keeping a research log of dead ends so nothing gets looked up twice.',
+      de: 'Für einen Blick schreiben statt zum Durchlesen, und ein Recherche-Log der Sackgassen führen, damit nichts zweimal nachgeschlagen wird.',
+    },
+    commits: 49,
+    started: '2026-08',
+    lastTouched: '2026-08',
+    estHours: 15,
   },
 
   // ===== Fun =====
@@ -363,12 +458,19 @@ export const PROJECTS: Project[] = [
         + '\u00fcbersteht \u2014 und Bestandsschutz, damit eine bessere Formulierung nicht still jedes bereits '
         + 'bezahlte Bild entwertet.',
     },
-    commits: 31,
-    started: '2026-07',
+    commits: 53,
+    started: '2026-08',
     lastTouched: '2026-08',
-    estHours: 25,
+    estHours: 35,
     demo: `${PAGES}/malazan-cyoa/`,
     preview: true,
+    featured: {
+      metric: { en: 'An oil painting on every page, in DE and EN', de: 'Jede Seite ein eigenes Ölgemälde, auf DE und EN' },
+      benefit: {
+        en: 'Readers of the books play through Book 1 as an illustrated story, without ever being spoiled ahead of where they are.',
+        de: 'Wer die Bücher mag, spielt Band 1 als illustrierte Geschichte durch, ohne je über den eigenen Stand hinaus gespoilert zu werden.',
+      },
+    },
   },
   {
     name: 'incremental-adventure-rewritten',
@@ -402,9 +504,9 @@ export const PROJECTS: Project[] = [
       en: 'A pure core (game logic without DOM or audio) that the UI only reads; a visual language that avoids numbers entirely — every value is told through rings, orbiting orbs and fill levels; shipping a private source repo to public Pages through a build-only mirror repo.',
       de: 'Ein purer Core (Spiellogik ohne DOM und Audio), den die UI nur liest; eine visuelle Sprache ganz ohne Zahlen — jeder Wert wird über Ringe, kreisende Orbs und Füllstände erzählt; ein privates Quell-Repo über ein reines Build-Spiegel-Repo auf öffentliche Pages bringen.',
     },
-    commits: 167,
+    commits: 206,
     started: '2026-07',
-    lastTouched: '2026-07',
+    lastTouched: '2026-08',
     estHours: 70,
     demo: `${PAGES}/archmage-idle-live`,
     preview: true,
@@ -415,42 +517,58 @@ export const PROJECTS: Project[] = [
   {
     name: 'incremental-adventure',
     category: 'fun',
-    tech: ['JavaScript', 'Game Design', 'PWA'],
+    tech: ['JavaScript', 'HTML', 'CSS', 'Game Design'],
     description: {
-      en: 'My most persistent passion project: an incremental idle adventure game — third iteration, 246 commits and counting.',
-      de: 'Mein hartnäckigstes Herzensprojekt: ein Incremental-Idle-Adventure — dritte Iteration, 246 Commits und es geht weiter.',
+      en: '“Chronicles of the Forgotten Path”: a text-based incremental RPG in four chapters, with NPCs, quests, combat, needs, a skill tree and music. Plain HTML, CSS and JavaScript with no build step. My most persistent passion project, now in its third iteration.',
+      de: '„Chroniken des vergessenen Weges“: ein textbasiertes Incremental-RPG in vier Kapiteln, mit NPCs, Quests, Kämpfen, Bedürfnissen, Skillbaum und Musik. Reines HTML, CSS und JavaScript ohne Build-Schritt. Mein hartnäckigstes Herzensprojekt, inzwischen in der dritten Iteration.',
     },
     knowledge: {
-      en: 'Game loops, big-number math, save-game systems, balancing, keeping motivation over many iterations.',
-      de: 'Game Loops, Big-Number-Mathematik, Savegame-Systeme, Balancing, Motivation über viele Iterationen halten.',
+      en: 'Game loops, big-number math, save-game systems, balancing, and keeping motivation over many iterations.',
+      de: 'Game Loops, Big-Number-Mathematik, Savegame-Systeme, Balancing und Motivation über viele Iterationen halten.',
     },
-    commits: 246,
+    commits: 342,
+    manualCommits: 292,
     started: '2026-06',
-    lastTouched: '2026-06',
-    estHours: 120,
+    lastTouched: '2026-09',
+    estHours: 150,
     demo: `${PAGES}/incremental-adventure`,
     preview: true,
     highlight: true,
+    featured: {
+      metric: { en: '4 chapters, 290+ commits by hand', de: '4 Kapitel, 290+ Commits von Hand' },
+      benefit: {
+        en: 'Plays straight in the browser, no install, and keeps going while you are away.',
+        de: 'Läuft direkt im Browser, ohne Installation, und spielt weiter, während man weg ist.',
+      },
+    },
   },
   {
     name: 'stardust-to-singularity',
     category: 'fun',
-    tech: ['TypeScript', 'Three.js', 'WebGL'],
+    tech: ['TypeScript', 'Three.js', 'WebGL', 'PWA', 'break_eternity.js', 'Web Audio'],
     description: {
-      en: '3D incremental game: from a mote of dust to the singularity — 5 prestige layers, playable in browser and on mobile.',
-      de: '3D-Incremental-Game: vom Staubkorn zur Singularität — 5 Prestige-Ebenen, spielbar im Browser und mobil.',
+      en: '3D incremental game: from a mote of dust to the singularity. GPU particles, a black hole, 5 prestige layers, offline progress, procedural audio, English and German. Installable as a PWA and playable on mobile.',
+      de: '3D-Incremental-Game: vom Staubkorn zur Singularität. GPU-Partikel, ein Schwarzes Loch, 5 Prestige-Ebenen, Offline-Fortschritt, prozeduraler Sound, Deutsch und Englisch. Als PWA installierbar und mobil spielbar.',
     },
     knowledge: {
-      en: 'Three.js scenes and cameras, WebGL performance on mobile, prestige-layer game math.',
-      de: 'Three.js-Szenen und Kameras, WebGL-Performance auf Mobilgeräten, Spielmathematik mit Prestige-Ebenen.',
+      en: 'Three.js scenes and GPU particles, WebGL performance on mobile, prestige-layer game math, and a headless balance simulation that runs in CI.',
+      de: 'Three.js-Szenen und GPU-Partikel, WebGL-Performance auf Mobilgeräten, Spielmathematik mit Prestige-Ebenen und eine kopflose Balance-Simulation, die in der CI läuft.',
     },
-    commits: 21,
+    commits: 129,
+    manualCommits: 125,
     started: '2026-07',
-    lastTouched: '2026-07',
-    estHours: 15,
+    lastTouched: '2026-08',
+    estHours: 60,
     demo: `${PAGES}/stardust-to-singularity`,
     preview: true,
     highlight: true,
+    featured: {
+      metric: { en: '5 prestige layers, balance tested in CI', de: '5 Prestige-Ebenen, Balance in der CI getestet' },
+      benefit: {
+        en: 'A full 3D game in the browser that stays smooth on a phone, with no install.',
+        de: 'Ein komplettes 3D-Spiel im Browser, das auch auf dem Handy flüssig läuft, ohne Installation.',
+      },
+    },
   },
   {
     name: 'isekai-idle-mockups',
@@ -483,9 +601,10 @@ export const PROJECTS: Project[] = [
       en: 'PWA installability, device orientation APIs, designing for a room full of players.',
       de: 'PWA-Installierbarkeit, Device-Orientation-APIs, Design für einen Raum voller Mitspieler.',
     },
-    commits: 42,
+    commits: 60,
+    manualCommits: 58,
     started: '2026-06',
-    lastTouched: '2026-06',
+    lastTouched: '2026-08',
     estHours: 30,
     demo: `${PAGES}/ratespiel-wer-bin-ich`,
     preview: true,
@@ -502,9 +621,10 @@ export const PROJECTS: Project[] = [
       en: 'Story-driven game structure, TypeScript modelling of game content.',
       de: 'Story-getriebene Spielstruktur, TypeScript-Modellierung von Spielinhalten.',
     },
-    commits: 29,
+    commits: 35,
+    manualCommits: 28,
     started: '2026-06',
-    lastTouched: '2026-06',
+    lastTouched: '2026-08',
     estHours: 20,
     demo: `${PAGES}/anime-adventure`,
     preview: true,
@@ -521,9 +641,10 @@ export const PROJECTS: Project[] = [
       en: 'Godot engine, GDScript, scene composition, exporting a game engine project for the web.',
       de: 'Godot-Engine, GDScript, Szenen-Komposition, Web-Export eines Game-Engine-Projekts.',
     },
-    commits: 19,
+    commits: 20,
+    manualCommits: 18,
     started: '2026-06',
-    lastTouched: '2026-06',
+    lastTouched: '2026-08',
     estHours: 15,
     demo: `${PAGES}/cosmic-forge`,
     preview: true,
@@ -531,16 +652,16 @@ export const PROJECTS: Project[] = [
   {
     name: 'endless-arena',
     category: 'fun',
-    tech: ['JavaScript', '3D', 'Procedural Generation'],
+    tech: ['TypeScript', 'Vite', 'Three.js', 'Firebase', 'Procedural Generation'],
     description: {
-      en: 'Tiny grindy procedural infinite 3D auto-battler — no death, no walls, endless loot. Browser and mobile.',
-      de: 'Winziger, grindiger, prozeduraler 3D-Auto-Battler — kein Tod, keine Wände, endloser Loot. Browser und mobil.',
+      en: 'Tiny grindy procedural infinite 3D auto-battler — no death, no walls, endless loot, and a live leaderboard. English and German, browser and mobile.',
+      de: 'Winziger, grindiger, prozeduraler 3D-Auto-Battler — kein Tod, keine Wände, endloser Loot und eine Live-Bestenliste. Deutsch und Englisch, Browser und mobil.',
     },
     knowledge: {
-      en: 'Procedural generation, minimal-scope game design.',
-      de: 'Prozedurale Generierung, Game Design mit minimalem Scope.',
+      en: 'Procedural generation, minimal-scope game design, a live leaderboard on Firebase, and a headless simulation for balancing.',
+      de: 'Prozedurale Generierung, Game Design mit minimalem Scope, eine Live-Bestenliste auf Firebase und eine kopflose Simulation fürs Balancing.',
     },
-    commits: 1,
+    commits: 12,
     started: '2026-07',
     lastTouched: '2026-07',
     estHours: 5,
@@ -559,9 +680,9 @@ export const PROJECTS: Project[] = [
       en: 'Deconstructing game mechanics, rapid prototyping.',
       de: 'Spielmechaniken zerlegen, schnelles Prototyping.',
     },
-    commits: 1,
+    commits: 2,
     started: '2026-06',
-    lastTouched: '2026-06',
+    lastTouched: '2026-07',
     estHours: 5,
     demo: `${PAGES}/revolution-idle-clone`,
     preview: true,
@@ -601,6 +722,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2025-08',
     estHours: 15,
     preview: true,
+    repoPrivate: true,
   },
   {
     name: 'incremental_adventure',
@@ -619,6 +741,7 @@ export const PROJECTS: Project[] = [
     lastTouched: '2025-02',
     estHours: 10,
     preview: true,
+    repoPrivate: true,
   },
   {
     name: 'multiplayer-games',
@@ -650,9 +773,9 @@ export const PROJECTS: Project[] = [
       en: 'Translating a live-show format into an app concept; knowing when to park a side project.',
       de: 'Ein Live-Show-Format in ein App-Konzept übersetzen; erkennen, wann man ein Nebenprojekt ruhen lässt.',
     },
-    commits: 3,
+    commits: 4,
     started: '2024-03',
-    lastTouched: '2024-03',
+    lastTouched: '2026-07',
     estHours: 5,
     preview: true,
   },
