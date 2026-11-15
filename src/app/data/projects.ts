@@ -8,6 +8,13 @@ export interface Project {
   description: LText;
   knowledge: LText;
   commits: number;
+  /**
+   * Commits made by hand (me, or an AI agent on my behalf) — only set for repos where bots
+   * (GitHub Actions, data/version bots) also commit. Snapshot from 2026-11-15, counted by
+   * author on GitHub. The page derives "automated" as live total minus this, so ongoing bot
+   * commits never inflate the hand-made count.
+   */
+  manualCommits?: number;
   /** YYYY-MM of first commit / repo creation. */
   started: string;
   /** YYYY-MM of last push. */
@@ -108,7 +115,8 @@ export const PROJECTS: Project[] = [
       en: 'Building a dataset nobody publishes: German dub times exist only inside a JavaScript-rendered streaming calendar and one provider API that happens to expose a language code per episode. Everything derived is marked as derived, and a claimed date with no evidence in the scanned window gets dropped rather than shown. Also: hash routing cannot carry a link preview, so every release gets a real prerendered page — and the address bar rewrites itself to it.',
       de: 'Einen Datenbestand aufbauen, den niemand veröffentlicht: Deutsche Sendezeiten stehen nur in einem JS-gerenderten Streaming-Kalender und in einer Anbieter-Schnittstelle, die je Folge den Sprachcode ausweist. Abgeleitetes wird als abgeleitet gekennzeichnet, und ein behaupteter Termin ohne Beleg im abgesuchten Zeitraum fliegt raus, statt angezeigt zu werden. Außerdem: Hash-Routing kann keine Linkvorschau tragen — deshalb bekommt jedes Release eine echte vorgerenderte Seite, und die Adressleiste schreibt sich selbst darauf um.',
     },
-    commits: 9738,
+    commits: 9740,
+    manualCommits: 4696,
     started: '2026-08',
     lastTouched: '2026-11',
     estHours: 200,
@@ -179,6 +187,7 @@ export const PROJECTS: Project[] = [
       de: 'Chrome-Extension-APIs, Manifest-V3-Migration, Content Scripts gegen 15 Seiten, die ihr Markup ohne Vorwarnung ändern, Langzeitpflege eines eigenen Toolsets.',
     },
     commits: 474,
+    manualCommits: 456,
     started: '2022-09',
     lastTouched: '2026-11',
     estHours: 250,
@@ -518,6 +527,7 @@ export const PROJECTS: Project[] = [
       de: 'Game Loops, Big-Number-Mathematik, Savegame-Systeme, Balancing und Motivation über viele Iterationen halten.',
     },
     commits: 342,
+    manualCommits: 292,
     started: '2026-06',
     lastTouched: '2026-09',
     estHours: 150,
@@ -525,7 +535,7 @@ export const PROJECTS: Project[] = [
     preview: true,
     highlight: true,
     featured: {
-      metric: { en: '4 chapters, 342 commits', de: '4 Kapitel, 342 Commits' },
+      metric: { en: '4 chapters, 290+ commits by hand', de: '4 Kapitel, 290+ Commits von Hand' },
       benefit: {
         en: 'Plays straight in the browser, no install, and keeps going while you are away.',
         de: 'Läuft direkt im Browser, ohne Installation, und spielt weiter, während man weg ist.',
@@ -545,6 +555,7 @@ export const PROJECTS: Project[] = [
       de: 'Three.js-Szenen und GPU-Partikel, WebGL-Performance auf Mobilgeräten, Spielmathematik mit Prestige-Ebenen und eine kopflose Balance-Simulation, die in der CI läuft.',
     },
     commits: 129,
+    manualCommits: 125,
     started: '2026-07',
     lastTouched: '2026-08',
     estHours: 60,
@@ -591,6 +602,7 @@ export const PROJECTS: Project[] = [
       de: 'PWA-Installierbarkeit, Device-Orientation-APIs, Design für einen Raum voller Mitspieler.',
     },
     commits: 60,
+    manualCommits: 58,
     started: '2026-06',
     lastTouched: '2026-08',
     estHours: 30,
@@ -610,6 +622,7 @@ export const PROJECTS: Project[] = [
       de: 'Story-getriebene Spielstruktur, TypeScript-Modellierung von Spielinhalten.',
     },
     commits: 35,
+    manualCommits: 28,
     started: '2026-06',
     lastTouched: '2026-08',
     estHours: 20,
@@ -629,6 +642,7 @@ export const PROJECTS: Project[] = [
       de: 'Godot-Engine, GDScript, Szenen-Komposition, Web-Export eines Game-Engine-Projekts.',
     },
     commits: 20,
+    manualCommits: 18,
     started: '2026-06',
     lastTouched: '2026-08',
     estHours: 15,

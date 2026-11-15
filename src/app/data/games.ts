@@ -122,7 +122,7 @@ export const GAMES: Game[] = [
     playtime: '20–50+ Std.',
     situation: 'Für lange Abende, den Zweitmonitor und alle, die „nur noch ein Upgrade“ sagen.',
     description:
-      '„Chroniken des vergessenen Weges“: ein textbasiertes Incremental-RPG in vier Kapiteln, mit NPCs, Quests, Kämpfen, Bedürfnissen, Skillbaum und Musik. Mein Herzensprojekt (über 340 Commits) — läuft im Browser und auf dem Handy und spielt nebenbei weiter.',
+      '„Chroniken des vergessenen Weges“: ein textbasiertes Incremental-RPG in vier Kapiteln, mit NPCs, Quests, Kämpfen, Bedürfnissen, Skillbaum und Musik. Mein Herzensprojekt (fast 300 Commits) — läuft im Browser und auf dem Handy und spielt nebenbei weiter.',
     tags: ['Idle', 'Text-RPG', 'Quests', 'Browser & Handy'],
     featured: true,
     preview: shot('incremental-adventure'),
