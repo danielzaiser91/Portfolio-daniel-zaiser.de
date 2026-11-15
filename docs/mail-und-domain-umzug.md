@@ -61,7 +61,7 @@ Beide Dienste lassen sich automatisieren — **Migadu** vollständig:
   inkl. Auth-Code. Der vorhandene Unterbenutzer `dns-automation` hat Domain-/DNS-Rechte; für den
   Transfer ggf. einen Unterbenutzer mit Transfer-Recht nötig.
 
-**Was nur Daniel machen kann:** Migadu-Konto anlegen und bezahlen (Stripe/PayPal), den **API-Key**
+**Was nur Daniel machen kann:** Migadu-Konto anlegen und bezahlen, den **API-Key**
 erzeugen, den **Auth-Code** von TLDHost weitergeben, das **Postfach-Passwort** des alten
 TLDHost-Postfachs für die IMAP-Migration bereitstellen (liegt nicht in den Secrets), und kündigen
 (Vertragsinhaber).
@@ -128,7 +128,7 @@ ausgefallen. Website (200), MX/Purelymail, DKIM und DMARC sind nach dem Transfer
 ## Weiterleitung nach Gmail (30.09.2026, erledigt)
 
 Daniel liest die Adresse **nirgendwo** — gewünscht ist, dass **alles** an `daniel-zaiser.de` an
-`private Adresse (nicht öffentlich)` weitergeht (mit sichtbarem ursprünglichem Absender und der
+eine private Adresse (nicht öffentlich) weitergeht (mit sichtbarem ursprünglichem Absender und der
 `daniel-zaiser.de`-Empfängeradresse im Kopf).
 
 Purelymail-Routing (Catch-all greift für JEDE Adresse, auch für einen vorhandenen Benutzer; das
@@ -136,7 +136,7 @@ Postfach bleibt leer):
 
 | Adresse | Ziel |
 |---|---|
-| Catch-all `*@daniel-zaiser.de` | `private Adresse (nicht öffentlich)` |
+| Catch-all `*@daniel-zaiser.de` | private Adresse (nicht öffentlich) |
 | zusätzlich exakt: `daniel-zaiser`, `info`, `kontakt`, `business`, `danielzaiser`, `danielzaiser91`, `danielzeiser`, `daniel-zeiser` | dito |
 
 **Wichtig für den API-Weg:** Ein Catch-all entsteht nur mit

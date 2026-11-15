@@ -40,12 +40,12 @@ SOFORT ins Archiv. Sortierung: 1 · In Arbeit → 2 · Queue → 3 · Zu besprec
    **Offen:** Domain-Transfer zu INWX (**Auth-Code**) und danach TLDHost kündigen.
    Alte Mails sind migriert (18 Nachrichten), altes Postfach-Passwort dazu neu gesetzt.
    **Weiterleitung (Daniel, 30.09.2026):** Alles an `daniel-zaiser.de` geht per Routing-Regel/Catch-all
-   an `private Adresse (nicht öffentlich)` (das Purelymail-Postfach bleibt leer). Newsletter-`Reply-To`
+   an eine private Adresse (nicht öffentlich); das Purelymail-Postfach bleibt leer. Newsletter-`Reply-To`
    zeigt auf `info@daniel-zaiser.de`. Tote Resend-Einträge der Zone entfernt.
    **Domain-Transfer erledigt (30.09.2026):** `daniel-zaiser.de` liegt jetzt bei **INWX**
    (Kundennr. 258229, roId 5440205), Nameserver **weiterhin Cloudflare**, `AUTORENEW` aktiv,
    Inhaber bestätigt, `transferLock` an. Website 200, Mail unverändert, DKIM/DMARC intakt.
-   31.01.2027 (kann bei Bedarf früher beendet werden — die Domain hängt nicht mehr daran).
+   TLDHost-Kündigung steht auf 31.01.2027 (kann bei Bedarf früher beendet werden — die Domain hängt nicht mehr daran).
    Fahrplan: `docs/mail-und-domain-umzug.md`.
 
 ### 3 · Zu besprechen
