@@ -39,8 +39,8 @@ export interface Project {
   publicRepo?: string;
 }
 
-const GH = 'https://github.com/danielzaiser91';
-const PAGES = 'https://danielzaiser91.github.io';
+const GH = 'https://github.com/derNamenloseDaniel';
+const PAGES = 'https://dernamenlosedaniel.github.io';
 
 export const repoUrl = (p: Project) => `${GH}/${p.publicRepo ?? p.name}`;
 /** The content hash gives a replaced image a new URL, so it loads at once instead of from cache. */

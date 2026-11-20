@@ -50,8 +50,8 @@ export interface Game {
   featured?: boolean;
 }
 
-const PAGES = 'https://danielzaiser91.github.io';
-const GH = 'https://github.com/danielzaiser91';
+const PAGES = 'https://dernamenlosedaniel.github.io';
+const GH = 'https://github.com/derNamenloseDaniel';
 /** Screenshot of the projects page (same repo name) — no second capture needed. */
 const shot = previewPath;
 

@@ -3,7 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { I18n } from './core/i18n';
 
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/daniel-zaiser-12960b206/';
-export const GITHUB_URL = 'https://github.com/danielzaiser91';
+export const GITHUB_URL = 'https://github.com/derNamenloseDaniel';
 
 @Component({
   selector: 'app-root',

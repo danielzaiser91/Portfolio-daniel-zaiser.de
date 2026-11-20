@@ -17,7 +17,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const OWNER = 'danielzaiser91';
+const OWNER = 'derNamenloseDaniel';
 const DATA = path.join(__dirname, '..', 'src', 'app', 'data', 'projects.ts');
 
 const gh = (args) => execSync(`gh ${args}`, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();

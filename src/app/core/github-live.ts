@@ -9,7 +9,7 @@ export interface LiveRepoStats {
   language?: string;
 }
 
-const OWNER = 'danielzaiser91';
+const OWNER = 'derNamenloseDaniel';
 const API = 'https://api.github.com';
 const CACHE_KEY = 'dz-gh-live-stats-v1';
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
