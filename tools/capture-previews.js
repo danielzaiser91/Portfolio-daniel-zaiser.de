@@ -15,8 +15,8 @@ const fs = require('fs');
 const path = require('path');
 
 const CHROME = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const PAGES = 'https://danielzaiser91.github.io';
-const GH = 'https://github.com/danielzaiser91';
+const PAGES = 'https://dernamenlosedaniel.github.io';
+const GH = 'https://github.com/derNamenloseDaniel';
 const OUT = path.join(__dirname, '..', 'public', 'images', 'previews', 'projects');
 
 // name → { url, wait: extra ms after networkidle (games/3D need render time),
